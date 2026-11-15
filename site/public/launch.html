@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Isolate Client — Launching November 18, 2026</title>
+<link rel="icon" href="/favicon.ico">
+<script>
+  // Owner shortcut + auto-open the moment launch time passes.
+  var LAUNCH_MS = 1794996967000; // 2026-11-18 15:46:07 IST
+  try {
+    if (localStorage.getItem("iso_owner") === "1") { location.replace("/"); }
+  } catch (e) {}
+  if (Date.now() >= LAUNCH_MS) { location.replace("/"); }
+</script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    background: #0a0a0a;
+    color: #e8edf7;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    overflow-x: hidden;
+    /* starfield */
+    background-image:
+      radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,.55), transparent),
+      radial-gradient(1px 1px at 70% 20%, rgba(255,255,255,.4), transparent),
+      radial-gradient(1.5px 1.5px at 40% 70%, rgba(140,180,255,.5), transparent),
+      radial-gradient(1px 1px at 85% 65%, rgba(255,255,255,.35), transparent),
+      radial-gradient(1.5px 1.5px at 10% 80%, rgba(255,255,255,.4), transparent),
+      radial-gradient(1px 1px at 55% 45%, rgba(120,160,255,.45), transparent),
+      radial-gradient(ellipse 80% 60% at 50% -10%, rgba(59,130,246,.16), transparent);
+    background-repeat: no-repeat;
+  }
+  .card {
+    width: min(680px, 100%);
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.09);
+    border-radius: 20px;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    padding: 44px 40px 38px;
+    text-align: center;
+    box-shadow: 0 30px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.02) inset;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid rgba(59,130,246,.45);
+    background: rgba(59,130,246,.14);
+    color: #bfd6ff;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    padding: 7px 14px;
+    border-radius: 999px;
+    margin-bottom: 22px;
+  }
+  .badge .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #3b82f6;
+    box-shadow: 0 0 10px #3b82f6;
+    animation: pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes pulse { 50% { opacity: .35; transform: scale(.8); } }
+  h1 {
+    font-size: clamp(24px, 4.4vw, 34px);
+    font-weight:  800;
+    line-height: 1.25;
+    letter-spacing: -.02em;
+    color: #fff;
+    text-shadow: 0 0 26px rgba(120,165,255,.35);
+  }
+  h1 .hl { color: #7db1ff; }
+  .lead {
+    margin: 16px auto 0;
+    max-width: 560px;
+    color: #9aa7bd;
+    font-size: 15.5px;
+    line-height: 1.65;
+  }
+  .countdown {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin: 30px auto 6px;
+    max-width: 480px;
+  }
+  .cell {
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 14px;
+    padding: 16px 6px 12px;
+  }
+  .cell b {
+    display: block;
+    font-size: clamp(26px, 5vw, 36px);
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    color: #fff;
+    text-shadow: 0 0 18px rgba(125,177,255,.55);
+    line-height: 1.1;
+  }
+  .cell span {
+    display: block;
+    margin-top: 6px;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: #6d7a91;
+  }
+  .gear {
+    margin-top: 26px;
+    padding-top: 22px;
+    border-top: 1px solid rgba(255,255,255,.08);
+  }
+  .gear h2 {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: #8b97ad;
+    margin-bottom: 14px;
+  }
+  .links { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 46px;
+    padding: 0 22px;
+    border-radius: 12px;
+    font-size: 14.5px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .btn.primary {
+    background: #3b82f6;
+    color: #fff;
+    box-shadow: 0 8px 26px rgba(59,130,246,.35);
+  }
+  .btn.primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(59,130,246,.5); }
+  .btn.ghost {
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.12);
+    color: #dfe7f5;
+  }
+  .btn.ghost:hover { background: rgba(255,255,255,.09); transform: translateY(-2px); }
+  .server {
+    margin-top: 16px;
+    font-size: 13.5px;
+    color: #8b97ad;
+  }
+  .server code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    color: #cfe0ff;
+    background: rgba(59,130,246,.12);
+    border: 1px solid rgba(59,130,246,.3);
+    padding: 3px 9px;
+    border-radius: 7px;
+    font-size: 13px;
+  }
+  footer { margin-top: 22px; font-size: 12px; color: #55607a; }
+  @media (max-width: 520px) {
+    .card { padding: 32px 20px 28px; }
+    .countdown { gap: 8px; }
+    .cell { padding: 12px 4px 10px; }
+  }
+</style>
+<link rel="stylesheet" href="/assets/iso-override.css">
+</head>
+<body>
+  <main class="card">
+    <div class="badge"><span class="dot"></span> Launch countdown</div>
+    <h1>Isolate Client is officially launching on <span class="hl">November 18, 2026</span>, at <span class="hl">3:46:07 p.m. IST</span>!</h1>
+    <p class="lead">Talk about stellar timing — on that exact day and moment, Voyager 1 will also reach a historic milestone by hitting 1 light-day away from Earth! As humanity's farthest spacecraft breaks records, we're launching a new era of performance for your gameplay.</p>
+
+    <div class="countdown" id="cd" aria-live="off">
+      <div class="cell"><b id="d">--</b><span>days</span></div>
+      <div class="cell"><b id="h">--</b><span>hours</span></div>
+      <div class="cell"><b id="m">--</b><span>mins</span></div>
+      <div class="cell"><b id="s">--</b><span>secs</span></div>
+    </div>
+
+    <div class="gear">
+      <h2>Get your gear ready</h2>
+      <div class="links">
+        <a class="btn primary" href="https://isolateclient.vercel.app/">🌐 Website</a>
+        <a class="btn ghost" href="https://discord.gg/TV2ypJF6TF">💬 Discord</a>
+      </div>
+      <p class="server">🎮 Server: <code>play.isolateclient.in</code></p>
+    </div>
+
+    <footer>This page opens the site automatically at launch.</footer>
+  </main>
+
+<script>
+  (function () {
+    var LAUNCH_MS = 1794996967000;
+    var el = { d: document.getElementById("d"), h: document.getElementById("h"), m: document.getElementById("m"), s: document.getElementById("s") };
+    function pad(n) { return n < 10 ? "0" + n : String(n); }
+    function tick() {
+      var diff = LAUNCH_MS - Date.now();
+      if (diff <= 0) { location.replace("/"); return; }
+      var sec = Math.floor(diff / 1000);
+      el.d.textContent = String(Math.floor(sec / 86400));
+      el.h.textContent = pad(Math.floor((sec % 86400) / 3600));
+      el.m.textContent = pad(Math.floor((sec % 3600) / 60));
+      el.s.textContent = pad(sec % 60);
+    }
+    tick();
+    setInterval(tick, 1000);
+  })();
+</script>
+</body>
+</html>

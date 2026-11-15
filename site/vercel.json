@@ -18,6 +18,8 @@
     { "source": "/contact", "destination": "/contact.html" },
     { "source": "/store", "destination": "/store.html" },
     { "source": "/track", "destination": "/track.html" },
+    { "source": "/18nov", "destination": "/18nov/index.html" },
+    { "source": "/18nov/", "destination": "/18nov/index.html" },
     { "source": "/((?!api/).*)", "destination": "/index.html" }
   ]
 }
