@@ -49,6 +49,11 @@ jobs:
             libxdo-dev libssl-dev libayatana-appindicator3-dev \
             librsvg2-dev patchelf
 
+      # node_modules must exist: build-linux.sh shells out to
+      # `npx tauri` (@tauri-apps/cli) and `npm run build` (tsc).
+      - name: Install node deps
+        run: npm ci
+
       - name: Build
         run: chmod +x scripts/build-linux.sh && ./scripts/build-linux.sh
 
@@ -86,6 +91,10 @@ jobs:
         uses: Swatinem/rust-cache@v2
         with:
           workspaces: src-tauri
+
+      # Same as Linux: tsc + @tauri-apps/cli come from node_modules.
+      - name: Install node deps
+        run: npm ci
 
       - name: Build
         shell: pwsh
