@@ -96,3 +96,5 @@
 ## Done earlier
 - [x] Homepage redesign, Settings, Partnerships (login form removed, admin login moved to Accounts)
 - [x] Zoom/double-click fix, boot 15s timeout, keys audit, Firebase live (5 partners seeded)
+
+- **Launch gate (15 Nov 2026):** site locked until 2026-11-18 15:46:07 IST; `/18nov/` owner bypass via `localStorage.iso_owner`; gate.js + launch.html + 18nov/ live on prod, tests 13/13 + 22/22 + live 7/7. Step 7 Windows exe also attached to v0.1.0 (run 43708607051) — overhaul Steps 1–7 all ✅.
