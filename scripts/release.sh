@@ -44,7 +44,7 @@ for arg in "$@"; do
 done
 
 if [ -z "$VER" ]; then
-  VER="$(python3 -c "import json;print(json.load(open('src-tauri/tauri.conf.json'))['version'])")"
+  VER="$(python3 -c "import json;c=json.load(open('src-tauri/tauri.conf.json'));print(c.get('version') or c.get('package',{}).get('version') or c.get('app',{}).get('version'))")"
 fi
 TAG="v${VER#v}"
 VER="${TAG#v}"
