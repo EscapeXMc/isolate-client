@@ -5492,6 +5492,7 @@ fn complete_first_launch(app: tauri::State<AppState>) -> Value {
 fn show_notification(title: String, body: String) -> Value {
     #[cfg(target_os = "windows")]
     {
+        use std::os::windows::process::CommandExt;
         let _ = std::process::Command::new("powershell")
             .args([
                 "-Command",
@@ -5547,6 +5548,7 @@ fn play_notification_sound() -> Value {
     }
     #[cfg(target_os = "windows")]
     {
+        use std::os::windows::process::CommandExt;
         let _ = std::process::Command::new("powershell")
             .args(["-Command", "[console]::beep(880,120)"])
             .creation_flags(0x08000000)
