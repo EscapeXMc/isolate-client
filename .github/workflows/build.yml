@@ -1,0 +1,197 @@
+# ============================================================
+# Isolate Client — cross-platform release builds (Step 4)
+#
+# Builds the standalone Linux AppImage/.deb and the Windows NSIS/MSI
+# installers on every tag `v*`, then uploads them as workflow
+# artifacts. Step 7's release job attaches the same files to the
+# GitHub Release the website downloads from.
+#
+# Runner memory: the low-RAM knobs in scripts/build-*.sh|ps1 cap
+# Cargo jobs at 4 so the 7 GB hosted runners don't OOM during LTO.
+# ============================================================
+name: build
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  linux:
+    name: Linux (AppImage + deb)
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cargo cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+
+      # AppImage bundler needs these on the runner.
+      - name: System deps for Tauri
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libwebkit2gtk-4.0-dev build-essential curl wget file \
+            libxdo-dev libssl-dev libayatana-appindicator3-dev \
+            librsvg2-dev patchelf
+
+      - name: Build
+        run: chmod +x scripts/build-linux.sh && ./scripts/build-linux.sh
+
+      - name: Collect artifacts
+        run: |
+          mkdir -p out
+          find src-tauri/target/release/bundle -maxdepth 3 -type f \
+            \( -name '*.AppImage' -o -name '*.deb' \) -exec cp {} out/ \;
+          ls -lh out/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux-bundles
+          path: out/
+          if-no-files-found: error
+
+  windows:
+    name: Windows (exe + msi)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Rust (msvc)
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-pc-windows-msvc
+
+      - name: Cargo cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+
+      - name: Build
+        shell: pwsh
+        run: .\scripts\build-windows.ps1 -Portable
+
+      - name: Collect artifacts
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path out | Out-Null
+          Get-ChildItem -Path src-tauri\target\release\bundle -Recurse -Include *.exe,*.msi |
+            Copy-Item -Destination out
+          if (Test-Path dist-portable) { Copy-Item dist-portable\* out }
+          Get-ChildItem out | Format-Table Name,Length
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-bundles
+          path: out/
+          if-no-files-found: error
+
+  # ==========================================================
+  # Step 7 — attach the built bundles to the GitHub Release
+  # the website's download buttons resolve against. Runs for
+  # tag pushes AND manual workflow_dispatch runs (a dispatch
+  # attaches to the newest existing release — used when the
+  # workflow file lands after a release was already published).
+  # Renames assets to the canonical names the site matchers use:
+  #   IsolateClient_<ver>_windows64-setup.exe  (client "windows")
+  #   IsolateClient_<ver>_windows_universal.exe (installer alias)
+  # ==========================================================
+  release:
+    name: Attach to GitHub Release
+    needs: [linux, windows]
+    if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: incoming
+
+      - name: Resolve target release tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if [[ "$GITHUB_REF" == refs/tags/* ]]; then
+            TAG="$GITHUB_REF_NAME"
+          else
+            TAG="$(gh release list --repo "$GITHUB_REPOSITORY" --limit 1 --json tagName -q '.[0].tagName // empty')"
+          fi
+          echo "REL_TAG=$TAG" >> "$GITHUB_ENV"
+          echo "Target release tag: ${TAG:-<none — will skip>}"
+
+      - name: Normalise asset names
+        run: |
+          set -euo pipefail
+          [ -n "${REL_TAG:-}" ] || { echo "no target release — skipping"; exit 0; }
+          VER="${REL_TAG#v}"
+          mkdir -p out
+          # Linux: rename to the SAME canonical names scripts/release.sh uses
+          # so --clobber replaces the published assets instead of duplicating.
+          while IFS= read -r f; do
+            base="$(basename "$f")"
+            case "$base" in
+              *.AppImage) cp "$f" "out/IsolateClient_${VER}_amd64.AppImage" ;;
+              *.deb)      cp "$f" "out/isolate-client_${VER}_amd64.deb" ;;
+              *)          cp "$f" "out/$base" ;;
+            esac
+          done < <(find incoming/linux-bundles -type f 2>/dev/null)
+          # Windows: rename to the canonical website matcher names.
+          if [ -d incoming/windows-bundles ]; then
+            while IFS= read -r f; do
+              base="$(basename "$f")"
+              case "$base" in
+                *-setup.exe)
+                  cp "$f" "out/IsolateClient_${VER}_windows64-setup.exe"
+                  cp "$f" "out/IsolateClient_${VER}_windows_universal.exe"
+                  ;;
+                *.msi)
+                  cp "$f" "out/IsolateClient_${VER}_x64.msi"
+                  ;;
+                *windows-x64.zip)
+                  cp "$f" "out/IsolateClient_${VER}_windows-x64.zip"
+                  ;;
+                *)
+                  cp "$f" "out/$base"
+                  ;;
+              esac
+            done < <(find incoming/windows-bundles -type f)
+          fi
+          ls -lh out/
+
+      - name: Create or update the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          [ -n "${REL_TAG:-}" ] || exit 0
+          if gh release view "$REL_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "Release $REL_TAG exists — uploading assets"
+          else
+            gh release create "$REL_TAG" --repo "$GITHUB_REPOSITORY" \
+              --title "Isolate Client ${REL_TAG#v}" \
+              --generate-notes
+          fi
+          gh release upload "$REL_TAG" --repo "$GITHUB_REPOSITORY" out/* --clobber
