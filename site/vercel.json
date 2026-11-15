@@ -1,0 +1,23 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "true",
+  "outputDirectory": "public",
+  "rewrites": [
+    { "source": "/robots.txt", "destination": "/robots.txt" },
+    { "source": "/sitemap.xml", "destination": "/sitemap.xml" },
+    { "source": "/plans", "destination": "/plans/index.html" },
+    { "source": "/plans/", "destination": "/plans/index.html" },
+    { "source": "/uninstall", "destination": "/uninstall.html" },
+    { "source": "/preview", "destination": "/preview.html" },
+    { "source": "/privacy", "destination": "/privacy.html" },
+    { "source": "/privacy/", "destination": "/privacy.html" },
+    { "source": "/terms", "destination": "/terms.html" },
+    { "source": "/terms/", "destination": "/terms.html" },
+    { "source": "/faq", "destination": "/faq.html" },
+    { "source": "/download", "destination": "/download.html" },
+    { "source": "/contact", "destination": "/contact.html" },
+    { "source": "/store", "destination": "/store.html" },
+    { "source": "/track", "destination": "/track.html" },
+    { "source": "/((?!api/).*)", "destination": "/index.html" }
+  ]
+}

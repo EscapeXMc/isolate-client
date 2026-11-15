@@ -1,0 +1,61 @@
+[package]
+name = "isolate-client"
+version = "0.1.0"
+description = "Isolate Client — a lean Minecraft launcher"
+authors = ["Isolate"]
+edition = "2021"
+
+[lib]
+name = "isolate_lib"
+crate-type = ["lib", "cdylib"]
+
+[[bin]]
+name = "isolate-client"
+path = "src/main.rs"
+
+[build-dependencies]
+tauri-build = { version = "1.5", features = [] }
+
+[dependencies]
+serde_json = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+tauri = { version = "1.6", features = [ "window-unmaximize", "window-maximize", "window-start-dragging", "window-minimize", "window-close", "window-set-size", "window-set-cursor-grab", "window-set-title", "dialog-open", "shell-open", "protocol-asset"] }
+tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
+reqwest = { version = "0.11", features = ["json", "blocking", "gzip"] }
+chrono = { version = "0.4", features = ["serde"] }
+zip = { version = "0.6", default-features = false, features = ["deflate"] }
+tar = "0.4"
+flate2 = "1"
+tempfile = "3"
+dirs = "5"
+md-5 = "0.10"
+base64 = "0.21"
+sha2 = "0.10"          # PKCE S256 code challenge (Ely.by OAuth)
+sha1 = "0.10"          # Mojang asset/library integrity hashes (install diag tests)
+getrandom = "0.2"      # random PKCE code_verifier
+
+[features]
+default = ["custom-protocol"]
+custom-protocol = ["tauri/custom-protocol"]
+
+# ------------------------------------------------------------------
+# Build profiles — cross-platform release (Step 4).
+#   * `opt-level = "s"` + `lto = "thin"` → smaller binary, less RSS on
+#     the 4 GB machines this launcher targets.
+#   * `codegen-units = 1` → better inlining, ~10 % smaller than default.
+#   * `strip = true` → no debug symbols in the shipped .AppImage / .exe.
+#   * `debug = false` → faster CI builds, smaller artifacts.
+# `dev` stays fast: incremental + no LTO.
+# ------------------------------------------------------------------
+[profile.release]
+opt-level = "s"
+lto = "thin"
+codegen-units = 1
+strip = true
+debug = false
+incremental = false
+
+[profile.dev]
+opt-level = 0
+incremental = true
+debug = true

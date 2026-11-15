@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Isolate Client — 700 FPS Minecraft launcher</title>
+<meta name="description" content="Isolate Client is a performance-obsessed Minecraft launcher for Windows: 700+ FPS in vanilla, profiles, mods, server hosting and an in-client social system.">
+<meta property="og:title" content="Isolate Client: 700 FPS Minecraft launcher">
+<meta property="og:description" content="700+ FPS in vanilla. Profiles, mods, hosting and social. One launcher for Windows.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#090b0e">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23090b0e'/%3E%3Crect x='7' y='7' width='18' height='18' fill='%233b82f6'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+
+<div class="wrap hero">
+  <header class="top">
+    <a class="mark" href="/">ISOLATE&nbsp;CLIENT</a>
+    <nav aria-label="Primary">
+      <a href="#features">Features</a>
+      <a href="#how">How it works</a>
+      <a href="plans/">Plans</a>
+      <a href="https://discord.gg/TV2ypJF6TF" rel="noopener">Discord</a>
+    </nav>
+  </header>
+
+  <h1>
+    <span class="mask"><span class="l1">700 FPS.</span></span>
+    <span class="mask"><span class="l2">IN VANILLA.</span></span>
+  </h1>
+
+  <div class="hero-foot">
+    <p>A performance-obsessed Minecraft launcher for Windows: profiles, mods, hosting and social in one place.</p>
+    <a class="btn accent" href="https://github.com/IsolateClient/isolate-client/releases/latest" rel="noopener">Download for Windows</a>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <!-- FEATURES: giant command list -->
+  <section id="features" class="rise">
+    <h2 class="section-h">Everything the launcher does, in one list.</h2>
+    <div class="cmd" id="cmd">
+      <input type="search" id="cmdq" placeholder="Type to filter…" aria-label="Filter features">
+      <ul id="cmdlist">
+        <li>
+          <button type="button">700+ FPS in vanilla</button>
+          <div class="note">Tuned JVM defaults, memory presets and a stripped-down shell. Same instance, more frames.</div>
+        </li>
+        <li>
+          <button type="button">Profiles</button>
+          <div class="note">Separate accounts, versions, RAM and JVM flags per profile. Switch without reconfiguring.</div>
+        </li>
+        <li>
+          <button type="button">Mods</button>
+          <div class="note">Install, update and remove Fabric and Forge mods from inside the launcher.</div>
+        </li>
+        <li>
+          <button type="button">Server hosting</button>
+          <div class="note">Bring up a server, manage its players and keep it running next to the client.</div>
+        </li>
+        <li>
+          <button type="button">Partnerships</button>
+          <div class="note">A live, curated list of servers: sorted, tagged and one click away.</div>
+        </li>
+        <li>
+          <button type="button">Microsoft &amp; premium accounts</button>
+          <div class="note">Real Microsoft login, offline profiles and account switching that just works.</div>
+        </li>
+        <li>
+          <button type="button">Discord social</button>
+          <div class="note">Friends, servers, channels and voice chat built into the launcher. Coming next.</div>
+        </li>
+        <li>
+          <button type="button">Solute ranks</button>
+          <div class="note">Paid tiers add voice chat and more. <a href="plans/">See plans →</a></div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- SHOWCASE: two giant specimens -->
+  <section id="showcase" class="rise">
+    <div class="showcase-head">
+      <h2 class="section-h">Fast where it counts.</h2>
+      <p>Isolate is built around one number: frames per second. Everything else, from profiles to hosting, is designed to stay out of the way of that number.</p>
+    </div>
+    <div class="specimens">
+      <figure class="specimen">
+        <div class="word">700+</div>
+        <figcaption>Frames per second in vanilla, measured</figcaption>
+      </figure>
+      <figure class="specimen">
+        <div class="word">1&nbsp;MIN</div>
+        <figcaption>From install to first launch</figcaption>
+      </figure>
+    </div>
+  </section>
+
+</main>
+
+<!-- FULL-BLEED PICTURE -->
+<section class="band">
+  <figure>
+    <img class="drift" src="assets/shots/shot-home.jpg" alt="Isolate Client home screen: profile bar, LAUNCH GAME button and live server hub" width="1600" height="900">
+    <figcaption class="wrap">The home screen: profile, launch, hub.</figcaption>
+  </figure>
+</section>
+
+<main class="wrap">
+
+  <!-- HOW IT WORKS: call and response -->
+  <section id="how" class="rise">
+    <h2 class="section-h">How it works.</h2>
+    <div class="callres">
+      <div class="step">
+        <p>1. Install the launcher.</p>
+        <div class="call">
+          <div class="ui" data-ui>
+            <div class="uirow"><span style="opacity:.6">→</span> <span>isolate-setup.exe</span> <span style="margin-left:auto;opacity:.6">Windows 10/11</span></div>
+            <div class="uihint">Signed installer · ~40 MB · no bundled junk</div>
+          </div>
+        </div>
+        <div class="res">
+          <img src="assets/shots/shot-settings.jpg" alt="Isolate Client settings screen with RAM, JVM and account options" width="1600" height="900" loading="lazy">
+          <div class="cap">Settings are real: RAM, JVM flags, Java path, accounts.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <p>2. Pick a profile and launch.</p>
+        <div class="call">
+          <div class="ui" data-ui>
+            <div class="uirow">
+              <input value="Performance 1.21.4" readonly aria-label="Profile">
+              <span class="uibtn">LAUNCH GAME</span>
+            </div>
+            <div class="uigrid">
+              <span class="uichip on">4096 MB</span>
+              <span class="uichip">Fabric</span>
+              <span class="uichip">Microsoft</span>
+            </div>
+            <div class="uihint">Profiles keep their own mods, RAM and accounts.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <p>3. Join servers, bring your friends.</p>
+        <div class="call">
+          <div class="ui" data-ui>
+            <div class="uirow"><input value="play.isolateclient.in" readonly aria-label="Server address"><span class="uibtn">Join</span></div>
+            <div class="uigrid">
+              <span class="uichip">Lifesteal</span>
+              <span class="uichip on">67 online</span>
+              <span class="uichip">Java</span>
+            </div>
+            <div class="uihint">Live partnerships list, refreshed every 10 seconds.</div>
+          </div>
+        </div>
+        <div class="res breakout">
+          <img src="assets/shots/shot-partners.jpg" alt="Isolate Client partnerships screen listing partner Minecraft servers" width="1600" height="900" loading="lazy">
+          <div class="cap">Partnerships: a live list of servers, right inside the launcher.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <p>4. Ask the built-in AI.</p>
+        <div class="call">
+          <div class="ui" data-ui>
+            <div class="uirow"><input value="how do I add more RAM?" readonly aria-label="Question"></div>
+            <div class="uihint">In-client assistant for settings, mods and fixes.</div>
+          </div>
+        </div>
+        <div class="res breakout">
+          <img src="assets/shots/shot-ai3.jpg" alt="Isolate Client AI assistant answering a settings question" width="1600" height="900" loading="lazy">
+          <div class="cap">The assistant answers with your actual settings in mind.</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PROOF: names as one sentence -->
+  <section class="proof rise" aria-label="Servers running on Isolate">
+    <h2>Servers on Isolate.</h2>
+    <p>
+      <span class="lead">Running today:</span>
+      Isolate Empire, BananaSMP, BlueMC, FatalMC, OreoMC, PotionMC, plus
+      <span class="lit">your server</span> next.
+    </p>
+  </section>
+
+  <!-- PRICING: plans as a large table -->
+  <section class="tiers rise">
+    <h2 class="section-h">Solute ranks.</h2>
+    <table class="tier-table">
+      <thead>
+        <tr>
+          <th scope="col"><span class="plan">Solute</span><span class="price">Free</span></th>
+          <th scope="col"><span class="plan">Solute+</span><span class="price">₹191<span class="per">/mo</span></span></th>
+          <th scope="col"><span class="plan">Solute Pro</span><span class="price">₹299<span class="per">/mo</span></span></th>
+          <th scope="col"><span class="plan">Solute Elite</span><span class="price">₹599<span class="per">/mo</span></span></th>
+          <th scope="col"><span class="plan">Solute Ultra</span><span class="price">₹999<span class="per">/mo</span></span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="rowhead">Launcher, profiles, mods</td>
+          <td data-label="Solute">Yes</td><td data-label="Solute+">Yes</td><td data-label="Solute Pro">Yes</td><td data-label="Solute Elite">Yes</td><td data-label="Solute Ultra">Yes</td>
+        </tr>
+        <tr>
+          <td class="rowhead">Voice chat</td>
+          <td data-label="Solute">No</td><td data-label="Solute+">Yes</td><td data-label="Solute Pro">Yes</td><td data-label="Solute Elite">Yes</td><td data-label="Solute Ultra">Yes</td>
+        </tr>
+        <tr>
+          <td class="rowhead">Priority support</td>
+          <td data-label="Solute">No</td><td data-label="Solute+">:</td><td data-label="Solute Pro">Yes</td><td data-label="Solute Elite">Yes</td><td data-label="Solute Ultra">Yes</td>
+        </tr>
+        <tr>
+          <td class="rowhead">Pick a plan</td>
+          <td data-label="Solute"><a class="btn ghost" href="plans/">Start free</a></td>
+          <td data-label="Solute+" class="pick"><a class="btn" href="plans/">Buy ₹191</a></td>
+          <td data-label="Solute Pro"><a class="btn" href="plans/">Buy ₹299</a></td>
+          <td data-label="Solute Elite"><a class="btn" href="plans/">Buy ₹599</a></td>
+          <td data-label="Solute Ultra"><a class="btn" href="plans/">Buy ₹999</a></td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="tier-note">Prices in INR, per month. Outside India? <a href="https://discord.gg/TV2ypJF6TF" rel="noopener">Get a key on Discord →</a> Full breakdown on the <a href="plans/">plans page</a>.</p>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq rise">
+    <div class="faq-grid">
+      <h2>Questions, answered.</h2>
+      <dl>
+        <details>
+          <summary>Is Isolate Client free?</summary>
+          <div class="a">Yes. The launcher, profiles, mods, hosting and partnerships are free. Solute ranks are optional paid tiers that add extras like voice chat.</div>
+        </details>
+        <details>
+          <summary>Is it safe?</summary>
+          <div class="a">Isolate uses real Microsoft login for premium accounts. No game files are modified beyond what you install yourself.</div>
+        </details>
+        <details>
+          <summary>What does 700 FPS actually mean?</summary>
+          <div class="a">It is the number we target and routinely hit in vanilla scenes with the default performance profile. Your frames depend on hardware; the launcher gives you the settings to get there.</div>
+        </details>
+        <details>
+          <summary>How do I pay for a rank?</summary>
+          <div class="a">Razorpay on the <a href="plans/">plans page</a>: UPI, cards and netbanking. Outside India, open a ticket in <a href="https://discord.gg/TV2ypJF6TF" rel="noopener">Discord</a>.</div>
+        </details>
+        <details>
+          <summary>When does the social system arrive?</summary>
+          <div class="a">It is in active development: email login, friends, servers, DMs and voice chat, built into the launcher. Join <a href="https://discord.gg/TV2ypJF6TF" rel="noopener">Discord</a> for progress.</div>
+        </details>
+      </dl>
+    </div>
+  </section>
+
+</main>
+
+<!-- CTA: question at both edges -->
+<section class="cta">
+  <h2>Still reading?</h2>
+  <div class="mid">
+    <div class="pair">
+      <a class="btn accent" href="https://github.com/IsolateClient/isolate-client/releases/latest" rel="noopener">Download for Windows</a>
+      <span class="or">or</span>
+      <a class="btn ghost" href="https://discord.gg/TV2ypJF6TF" rel="noopener">Join Discord</a>
+    </div>
+    <div class="after">Free · Windows 10/11 · 700+ FPS in vanilla</div>
+  </div>
+  <h2 class="q2">Launch.</h2>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fcols">
+      <div>
+        <h3>Product</h3>
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#how">How it works</a></li>
+          <li><a href="plans/">Plans</a></li>
+          <li><a href="https://github.com/IsolateClient/isolate-client/releases/latest" rel="noopener">Download</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Community</h3>
+        <ul>
+          <li><a href="https://discord.gg/TV2ypJF6TF" rel="noopener">Discord</a></li>
+          <li><a href="https://isolateclient.in/server/" rel="noopener">Isolate Empire</a></li>
+          <li><span>play.isolateclient.in</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Plans</h3>
+        <ul>
+          <li><a href="plans/">Solute ranks</a></li>
+          <li><a href="plans/">Buy with Razorpay</a></li>
+          <li><a href="https://discord.gg/TV2ypJF6TF" rel="noopener">Keys for outside India</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Legal</h3>
+        <ul>
+          <li><span>Not affiliated with Mojang or Microsoft</span></li>
+          <li><span>Minecraft is a trademark of Mojang AB</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="fmark">ISOLATE</div>
+    <div class="flegal">
+      <span>© 2026 Isolate Client</span>
+      <span>Built for Windows · 700+ FPS in vanilla</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Command list: click to open a note, type to filter. No rAF, no loops.
+(function () {
+  var list = document.getElementById('cmdlist');
+  var q = document.getElementById('cmdq');
+  if (!list || !q) return;
+
+  list.addEventListener('click', function (e) {
+    var btn = e.target.closest('button');
+    if (!btn) return;
+    var li = btn.parentElement;
+    var open = li.classList.contains('sel');
+    list.querySelectorAll('li.sel').forEach(function (n) { n.classList.remove('sel'); });
+    if (!open) li.classList.add('sel');
+  });
+
+  q.addEventListener('input', function () {
+    var term = q.value.trim().toLowerCase();
+    list.querySelectorAll('li').forEach(function (li) {
+      var hit = !term || li.textContent.toLowerCase().indexOf(term) !== -1;
+      li.style.display = hit ? '' : 'none';
+      if (!hit) li.classList.remove('sel');
+    });
+  });
+})();
+
+// Reveal on scroll: IntersectionObserver, transform/opacity only.
+(function () {
+  var nodes = document.querySelectorAll('.rise, .mask');
+  if (!('IntersectionObserver' in window)) {
+    nodes.forEach(function (n) { n.classList.add('in'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+    });
+  }, { threshold: 0.15 });
+  nodes.forEach(function (n) { io.observe(n); });
+})();
+</script>
+</body>
+</html>

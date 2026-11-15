@@ -1,0 +1,198 @@
+{
+  "products": [
+    {
+      "id": "preview-cape-0",
+      "name": "Ember Cape",
+      "description": "A flowing cape lit from within.",
+      "imageUrl": null,
+      "price": null,
+      "available": false,
+      "cosmeticIds": [
+        "preview-cape-0"
+      ],
+      "cosmetics": [
+        {
+          "id": "preview-cape-0",
+          "displayName": "Ember Cape",
+          "description": "A flowing cape lit from within.",
+          "category": "cape",
+          "texture": null
+        }
+      ],
+      "media": []
+    },
+    {
+      "id": "preview-wings-1",
+      "name": "Solaris Wings",
+      "description": "Wings traced in warm light.",
+      "imageUrl": null,
+      "price": null,
+      "available": false,
+      "cosmeticIds": [
+        "preview-wings-1"
+      ],
+      "cosmetics": [
+        {
+          "id": "preview-wings-1",
+          "displayName": "Solaris Wings",
+          "description": "Wings traced in warm light.",
+          "category": "wings",
+          "texture": null
+        }
+      ],
+      "media": []
+    },
+    {
+      "id": "preview-face-2",
+      "name": "Hollow Mask",
+      "description": "A half-mask for late-night runs.",
+      "imageUrl": null,
+      "price": null,
+      "available": false,
+      "cosmeticIds": [
+        "preview-face-2"
+      ],
+      "cosmetics": [
+        {
+          "id": "preview-face-2",
+          "displayName": "Hollow Mask",
+          "description": "A half-mask for late-night runs.",
+          "category": "face",
+          "texture": null
+        }
+      ],
+      "media": []
+    },
+    {
+      "id": "preview-auras-3",
+      "name": "Ember Aura",
+      "description": "A soft aura that follows you.",
+      "imageUrl": null,
+      "price": null,
+      "available": false,
+      "cosmeticIds": [
+        "preview-auras-3"
+      ],
+      "cosmetics": [
+        {
+          "id": "preview-auras-3",
+          "displayName": "Ember Aura",
+          "description": "A soft aura that follows you.",
+          "category": "auras",
+          "texture": null
+        }
+      ],
+      "media": []
+    },
+    {
+      "id": "preview-boots-4",
+      "name": "Trailblazer Boots",
+      "description": "Boots that leave a faint trail.",
+      "imageUrl": null,
+      "price": null,
+      "available": false,
+      "cosmeticIds": [
+        "preview-boots-4"
+      ],
+      "cosmetics": [
+        {
+          "id": "preview-boots-4",
+          "displayName": "Trailblazer Boots",
+          "description": "Boots that leave a faint trail.",
+          "category": "boots",
+          "texture": null
+        }
+      ],
+      "media": []
+    },
+    {
+      "id": "preview-hats-5",
+      "name": "Signal Visor",
+      "description": "A visor with a built-in signal light.",
+      "imageUrl": null,
+      "price": null,
+      "available": false,
+      "cosmeticIds": [
+        "preview-hats-5"
+      ],
+      "cosmetics": [
+        {
+          "id": "preview-hats-5",
+          "displayName": "Signal Visor",
+          "description": "A visor with a built-in signal light.",
+          "category": "hats",
+          "texture": null
+        }
+      ],
+      "media": []
+    },
+    {
+      "id": "preview-shields-6",
+      "name": "Warden Shield",
+      "description": "A shield for the careful.",
+      "imageUrl": null,
+      "price": null,
+      "available": false,
+      "cosmeticIds": [
+        "preview-shields-6"
+      ],
+      "cosmetics": [
+        {
+          "id": "preview-shields-6",
+          "displayName": "Warden Shield",
+          "description": "A shield for the careful.",
+          "category": "shields",
+          "texture": null
+        }
+      ],
+      "media": []
+    },
+    {
+      "id": "preview-back-7",
+      "name": "Arc Pack",
+      "description": "A compact back for long sessions.",
+      "imageUrl": null,
+      "price": null,
+      "available": false,
+      "cosmeticIds": [
+        "preview-back-7"
+      ],
+      "cosmetics": [
+        {
+          "id": "preview-back-7",
+          "displayName": "Arc Pack",
+          "description": "A compact back for long sessions.",
+          "category": "back",
+          "texture": null
+        }
+      ],
+      "media": []
+    },
+    {
+      "id": "preview-arm-8",
+      "name": "Gauntlet Pair",
+      "description": "Gauntlets made for the arena.",
+      "imageUrl": null,
+      "price": null,
+      "available": false,
+      "cosmeticIds": [
+        "preview-arm-8"
+      ],
+      "cosmetics": [
+        {
+          "id": "preview-arm-8",
+          "displayName": "Gauntlet Pair",
+          "description": "Gauntlets made for the arena.",
+          "category": "arm",
+          "texture": null
+        }
+      ],
+      "media": []
+    }
+  ],
+  "status": {
+    "available": false,
+    "mode": "test",
+    "provider": "tebex"
+  }
+}

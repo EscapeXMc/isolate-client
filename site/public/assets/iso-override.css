@@ -1,0 +1,373 @@
+/* Isolate Client — FastClient-inspired overhaul
+   pure black #0a0a0a · glass panels · neon white/blue accents · custom cursors
+   loaded AFTER every page's own stylesheet (injected by page-fx.js) */
+
+/* ---------- 1 · custom cursors (white-fill / charcoal outline SVG suite) ---------- */
+:root,
+html,
+body,
+button,
+input,
+textarea,
+select,
+a,
+[role="button"],
+[role="tab"],
+summary,
+label[for],
+.cursor-pointer,
+.cursor-pointer * {
+  cursor:
+    url("/cursors/pointer.svg") 2 2,
+    auto !important;
+}
+:is(a, button, [role="button"], [role="tab"], summary, label[for], .btn, .nav a, .tab, .chip, .cat-chip, .os-chip, .badge, .magn) {
+  cursor:
+    url("/cursors/pointer-hand.svg") 10 6,
+    pointer !important;
+}
+:is(input:not([type="range"]), textarea, [contenteditable="true"], .search-shell input) {
+  cursor:
+    url("/cursors/text.svg") 16 16,
+    text !important;
+}
+:is([aria-disabled="true"], [disabled], .disabled, .disabled *, .skel-card, .skel-line, .spinner, .loading, .empty) {
+  cursor:
+    url("/cursors/not-allowed.svg") 16 16,
+    not-allowed !important;
+}
+:is(.loading *, .spinner, [data-busy="true"]) {
+  cursor:
+    url("/cursors/wait.svg") 16 16,
+    wait !important;
+}
+:is(input[type="range"], .bar, progress) {
+  cursor:
+    url("/cursors/progress.svg") 4 4,
+    progress !important;
+}
+:is(.magn, .search-shell, .qa .clear) {
+  cursor:
+    url("/cursors/crosshair.svg") 16 16,
+    crosshair !important;
+}
+
+/* ---------- 2 · pure black ground ---------- */
+html {
+  background: #0a0a0a !important;
+  color-scheme: dark !important;
+}
+html,
+body {
+  --background: #0a0a0a !important;
+  --foreground: #f2f4f8 !important;
+  --card: rgba(255, 255, 255, 0.045) !important;
+  --card-foreground: #f2f4f8 !important;
+  --popover: rgba(255, 255, 255, 0.06) !important;
+  --popover-foreground: #f2f4f8 !important;
+  --primary: #3b82f6 !important;
+  --primary-foreground: #ffffff !important;
+  --secondary: rgba(255, 255, 255, 0.08) !important;
+  --secondary-foreground: #eef2f8 !important;
+  --muted: rgba(255, 255, 255, 0.07) !important;
+  --muted-foreground: #9aa4b2 !important;
+  --accent: rgba(59, 130, 246, 0.18) !important;
+  --accent-foreground: #e8f0ff !important;
+  --border: rgba(255, 255, 255, 0.1) !important;
+  --input: rgba(255, 255, 255, 0.12) !important;
+  --ring: #60a5fa !important;
+  --brand-ink: #3b82f6 !important;
+  --brand-soft: rgba(59, 130, 246, 0.28) !important;
+}
+body {
+  background: #0a0a0a !important;
+  color: #eef2f8 !important;
+}
+
+/* pure-black ground even where Next inlines its own body rule */
+body {
+  background:
+    radial-gradient(1100px 480px at 50% -8%, rgba(59, 130, 246, 0.16), transparent 62%),
+    radial-gradient(760px 420px at 88% 108%, rgba(37, 99, 235, 0.1), transparent 60%),
+    #0a0a0a !important;
+  background-color: #0a0a0a !important;
+}
+
+/* ---------- 3 · glassmorphism panels ---------- */
+body :is(
+  .card, .panel, .glass, .glass-panel,
+  .dl-card, .qa, .stat, .foot, .hint,
+  [class*="card"], [class*="panel"],
+  article, aside
+) {
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.055),
+    rgba(255, 255, 255, 0.02) 46%,
+    rgba(255, 255, 255, 0.035)
+  ) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(150%) !important;
+  backdrop-filter: blur(18px) saturate(150%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.09) !important;
+  box-shadow:
+    0 14px 40px rgba(0, 0, 0, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07) !important;
+  border-radius: 16px !important;
+  transition:
+    transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.22s ease,
+    box-shadow 0.22s ease,
+    background 0.22s ease !important;
+}
+body :is(.card, .panel, [class*="card"], [class*="panel"], article):hover {
+  border-color: rgba(96, 165, 250, 0.4) !important;
+  box-shadow:
+    0 18px 48px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(96, 165, 250, 0.18),
+    0 0 32px rgba(59, 130, 246, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+  transform: translateY(-3px) !important;
+}
+
+/* ---------- 4 · neon / white high-contrast accents ---------- */
+body :is(h1, h2, h3, h4) {
+  color: #ffffff !important;
+  text-shadow: 0 0 26px rgba(96, 165, 250, 0.24) !important;
+}
+body :is(.eyebrow, .accent, .tag, .badge, .badge.green, .live, .stat .n, .count-chip) {
+  color: #dbeafe !important;
+  border-color: rgba(96, 165, 250, 0.45) !important;
+}
+body :is(.badge, .badge.green, .live, .os-chip) {
+  background: rgba(59, 130, 246, 0.16) !important;
+  box-shadow: 0 0 14px rgba(59, 130, 246, 0.28) !important;
+}
+body :is(.btn, .btn.primary, button.primary, .nav .active) {
+  box-shadow: 0 6px 22px rgba(37, 99, 235, 0.42), 0 0 0 1px rgba(147, 197, 253, 0.35) !important;
+}
+body :is(.btn, button):hover {
+  filter: brightness(1.14) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 10px 30px rgba(37, 99, 235, 0.55), 0 0 22px rgba(96, 165, 250, 0.35) !important;
+}
+body :is(.dim, .sub, .hint, .meta, p, li) {
+  color: #c3ccd9 !important;
+}
+body :is(.dim, .sub, .hint, .meta) {
+  color: #96a0b0 !important;
+}
+
+/* ---------- 5 · smooth micro-interactions ---------- */
+body :is(*):not(.spinner):not(.skel-card):not(.skel-line) {
+  transition-property: background-color, border-color, color, box-shadow, opacity, filter, transform !important;
+  transition-duration: 0.18s !important;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+body :is(a, button, .btn, .chip, .tab, .cat-chip, .os-chip, .badge, .nav a):active {
+  transform: scale(0.97) !important;
+}
+body :is(.hero, .top, .head) {
+  animation: iso-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both !important;
+}
+@keyframes iso-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+/* respect reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  body * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* ---------- 6 · white-fill / charcoal-outline icon pass ---------- */
+body :is(i[class*="fa-"], i[class*="fas"], i[class*="fab"], i[class*="fa-solid"], i[class*="fa-brands"], i[class*="fa-regular"]) {
+  color: #ffffff !important;
+  /* charcoal #1a1a1a outline around the white glyph */
+  -webkit-text-stroke: 1.2px #1a1a1a;
+  paint-order: stroke fill;
+  filter:
+    drop-shadow(0 1px 0 rgba(26, 26, 26, 0.9))
+    drop-shadow(0 2px 10px rgba(96, 165, 250, 0.32)) !important;
+}
+body svg:not(.logo):not([class*="cursor"]) {
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.45)) !important;
+}
+/* brand marks inside inline SVG use white fill + charcoal stroke */
+body svg [fill="#08060d"],
+body svg [fill="#000000"],
+body svg [fill="#111111"] {
+  fill: #ffffff !important;
+  stroke: #1a1a1a;
+  stroke-width: 0.6;
+}
+
+/* ---------- 7 · homepage cards (Next export has no .card/.panel classes) ---------- */
+/* splash wordmark ships white — the Tailwind `invert` class (light theme)
+   flips it to black on our black ground, so force it back */
+main img[src*="splash"], img[src*="splash"] {
+  filter: none !important;
+  -webkit-filter: none !important;
+}
+#features > div,
+#performance > div,
+#screenshots > div,
+#faq > div,
+main [class*="border border-neutral-800"] {
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.055),
+    rgba(255, 255, 255, 0.02) 46%,
+    rgba(255, 255, 255, 0.035)
+  ) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(150%) !important;
+  backdrop-filter: blur(18px) saturate(150%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.09) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.07) !important;
+  transition: transform 0.22s var(--ease-out-expo, cubic-bezier(0.22, 1, 0.36, 1)),
+    border-color 0.22s ease, box-shadow 0.22s ease !important;
+}
+#features > div:hover,
+#performance > div:hover,
+#screenshots > div:hover,
+#faq > div:hover {
+  border-color: rgba(96, 165, 250, 0.4) !important;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(96, 165, 250, 0.18),
+    0 0 32px rgba(59, 130, 246, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+  /* moving in arcs: lift + slight rotate = curved path, not a straight line */
+  transform: translateY(-4px) rotate(-0.4deg) perspective(800px) rotateX(1.5deg) !important;
+}
+#features > div, #performance > div { padding: 24px !important; }
+
+/* ---------- 8 · motion + cognitive UX principles ---------- */
+:root {
+  --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);  /* slow-in → settle */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1); /* follow-through overshoot */
+  --t-snappy: 140ms;   /* Doherty threshold: ack well under 400ms */
+  --t-standard: 220ms;
+}
+
+/* Fitts' law — bigger hit areas on discrete controls (not inline text links) */
+nav a, .btn, button, [role="button"], [role="tab"], .chip, .tab,
+.cat-chip, .os-chip, .magn, summary, .nav a, .badge {
+  min-height: 44px;
+}
+.btn, button, [role="button"], .chip, .tab, .cat-chip, .os-chip {
+  padding-inline: 18px;
+}
+
+/* Squash & stretch — press squashes wide (exaggerated, cartoon-honest) */
+.btn:active,
+button:active,
+[role="button"]:active,
+.cat-chip:active,
+.os-chip:active {
+  transform: scale(1.06, 0.93) !important;
+}
+
+/* Anticipation wind-up + follow-through on primary CTAs */
+@keyframes iso-cta {
+  0%   { transform: scale(1); }
+  38%  { transform: scale(0.965); }   /* wind-up */
+  72%  { transform: scale(1.05); }    /* release + overshoot */
+  100% { transform: scale(1.02); }    /* settle */
+}
+.btn.primary:hover, .btn.accent:hover, .magmad-download:hover,
+button.primary:hover {
+  animation: iso-cta 320ms var(--ease-out-expo) both !important;
+}
+
+/* Exaggerated feedback — active glow burst far bigger than the press */
+.btn:active, button:active, .magmad-download:active {
+  box-shadow: 0 0 44px rgba(96, 165, 250, 0.75), 0 0 12px rgba(255, 255, 255, 0.5) !important;
+  filter: brightness(1.2) !important;
+}
+
+/* Secondary action — icon/badge inside reacts when its card is hovered */
+#features > div:hover i, #performance > div:hover i,
+body :is(.card, .panel, .dl-card, article, [class*="card"]):hover :is(i, svg, .mk, .tag, .badge) {
+  transform: scale(1.14) rotate(-5deg);
+  filter: drop-shadow(0 0 12px rgba(96, 165, 250, 0.6)) !important;
+}
+#features i, #performance i, body :is(.card, .panel, .dl-card) :is(i, svg, .mk) {
+  transition: transform var(--t-standard) var(--ease-spring) !important;
+}
+
+/* Staging the focus — one-shot spotlight pulse on the hero's primary action */
+@keyframes iso-spot {
+  0%, 100% { box-shadow: 0 6px 22px rgba(37, 99, 235, 0.42), 0 0 0 0 rgba(96, 165, 250, 0.55); }
+  50%      { box-shadow: 0 6px 22px rgba(37, 99, 235, 0.42), 0 0 0 14px rgba(96, 165, 250, 0); }
+}
+main .btn.primary:first-of-type, main .magmad-download {
+  animation: iso-spot 2.6s var(--ease-out-expo) 0.7s 2 both;
+}
+
+/* Slow-in / slow-out — shared settle curve for every transform change */
+.btn, button, a, .chip, .tab, .cat-chip, .os-chip, .badge, summary {
+  transition-timing-function: var(--ease-out-expo) !important;
+}
+
+/* Pose-to-pose + staging: sections enter as poses (offset → overshoot → rest) */
+@keyframes iso-pose {
+  0%   { opacity: 0; transform: translateY(22px) scale(0.985); }
+  65%  { opacity: 1; transform: translateY(-5px) scale(1.008); } /* follow-through */
+  100% { opacity: 1; transform: none; }
+}
+main section.iso-enter > * { animation: iso-pose 0.62s var(--ease-out-expo) both; }
+main section.iso-enter > *:nth-child(2) { animation-delay: 80ms; }
+main section.iso-enter > *:nth-child(3) { animation-delay: 160ms; }
+main section.iso-enter > *:nth-child(4) { animation-delay: 240ms; }
+
+/* Jakob's law — familiar affordance: text links underline on hover */
+main p a:hover, .md a:hover, .fcols a:hover, li a:hover {
+  text-decoration: underline;
+}
+
+/* Postel's law — tolerant inputs: generous, forgiving, never punishing */
+main input, main textarea, .search-shell input, .cmd input {
+  border-radius: 12px !important;
+  padding: 14px 18px !important;
+  transition: border-color var(--t-snappy) ease, box-shadow var(--t-snappy) ease !important;
+}
+main input:focus, main textarea:focus, .search-shell input:focus {
+  border-color: rgba(96, 165, 250, 0.55) !important;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.16) !important;
+}
+
+/* Miller's law — chunk body copy to a readable measure (≈72ch) */
+main p, main li, .md p { max-width: 72ch; }
+
+/* Frequency of use — the action people take most is the biggest target */
+.magmad-download, main .btn.primary, main .btn.accent {
+  min-height: 52px !important;
+  padding-inline: 30px !important;
+  font-size: 1.04em;
+}
+
+/* Hicks law — one dominant choice per view: quiet the secondaries */
+main .btn.ghost, main .btn:not(.primary):not(.accent):not(.magmad-download) {
+  opacity: 0.78;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14) !important;
+}
+main .btn.ghost:hover, main .btn:not(.primary):not(.accent):not(.magmad-download):hover {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  main section.iso-enter > *,
+  .btn.primary:hover, .magmad-download:hover,
+  main .btn.primary:first-of-type {
+    animation: none !important;
+  }
+}

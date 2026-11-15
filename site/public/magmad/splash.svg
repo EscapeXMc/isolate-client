@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 320" width="1200" height="320">
+  <defs>
+    <!-- Custom stylized geometric paths matching the exact 'splash.png' font -->
+    <g id="char-I">
+      <rect x="0" y="0" width="22" height="100" />
+    </g>
+    <g id="char-S">
+      <path d="M 68,22 L 68,18 C 68,6 56,0 38,0 L 30,0 C 12,0 2,7 2,22 L 2,34 C 2,48 12,55 30,55 L 42,55 C 50,55 52,58 52,64 L 52,72 C 52,78 48,80 38,80 L 28,80 C 18,80 14,77 14,70 L 14,66 L 0,66 L 0,76 C 0,92 10,100 30,100 L 40,100 C 60,100 72,92 72,74 L 72,60 C 72,45 62,38 42,38 L 30,38 C 22,38 20,35 20,29 L 20,24 C 20,19 24,18 32,18 L 42,18 C 48,18 52,20 52,25 L 52,28 L 68,28 Z" />
+    </g>
+    <g id="char-O">
+      <path fill-rule="evenodd" d="M 38,0 C 14,0 0,14 0,40 L 0,60 C 0,86 14,100 38,100 L 42,100 C 66,100 80,86 80,60 L 80,40 C 80,14 66,0 42,0 Z M 38,20 L 42,20 C 53,20 58,27 58,42 L 58,58 C 58,73 53,80 42,80 L 38,80 C 27,80 22,73 22,58 L 22,42 C 22,27 27,20 38,20 Z" />
+    </g>
+    <g id="char-L">
+      <path d="M 0,0 L 22,0 L 22,80 L 66,80 L 66,100 L 0,100 Z" />
+    </g>
+    <g id="char-A">
+      <path fill-rule="evenodd" d="M 32,0 L 50,0 L 82,100 L 59,100 L 53,80 L 29,80 L 23,100 L 0,100 Z M 41,24 L 34,60 L 48,60 Z" />
+    </g>
+    <g id="char-T">
+      <path d="M 0,0 L 74,0 L 74,20 L 48,20 L 48,100 L 26,100 L 26,20 L 0,20 Z" />
+    </g>
+    <g id="char-E">
+      <!-- Distinctive rounded-left 'E' from splash.png -->
+      <path d="M 70,0 L 24,0 C 8,0 2,10 2,24 C 2,36 8,44 18,48 C 8,52 2,60 2,74 C 2,90 10,100 26,100 L 70,100 L 70,80 L 28,80 C 22,80 20,76 20,70 C 20,62 24,58 32,58 L 62,58 L 62,40 L 32,40 C 24,40 20,36 20,28 C 20,22 22,20 28,20 L 70,20 Z" />
+    </g>
+    <g id="char-D">
+      <path fill-rule="evenodd" d="M 0,0 L 40,0 C 64,0 78,14 78,40 L 78,60 C 78,86 64,100 40,100 L 0,100 Z M 22,20 L 22,80 L 38,80 C 50,80 56,72 56,58 L 56,42 C 56,28 50,20 38,20 Z" />
+    </g>
+    <g id="char-C">
+      <path d="M 74,32 L 74,24 C 74,8 60,0 40,0 L 36,0 C 12,0 0,14 0,40 L 0,60 C 0,86 12,100 36,100 L 40,100 C 60,100 74,92 74,74 L 74,66 L 52,66 L 52,72 C 52,78 46,80 38,80 L 36,80 C 26,80 22,72 22,58 L 22,42 C 22,28 26,20 36,20 L 38,20 C 46,20 52,22 52,28 L 52,32 Z" />
+    </g>
+    <g id="char-N">
+      <!-- Distinctive arch-top 'N' from splash.png -->
+      <path d="M 0,100 L 0,36 C 0,12 14,0 38,0 C 62,0 76,12 76,36 L 76,100 L 54,100 L 54,38 C 54,25 48,20 38,20 C 28,20 22,25 22,38 L 22,100 Z" />
+    </g>
+    <g id="char-M">
+      <path d="M 0,100 L 0,0 L 24,0 L 44,48 L 64,0 L 88,0 L 88,100 L 66,100 L 66,38 L 48,80 L 40,80 L 22,38 L 22,100 Z" />
+    </g>
+    <g id="char-R">
+      <path fill-rule="evenodd" d="M 0,0 L 44,0 C 64,0 74,10 74,28 L 74,34 C 74,47 67,56 55,60 L 76,100 L 51,100 L 33,62 L 22,62 L 22,100 L 0,100 Z M 22,20 L 22,44 L 42,44 C 49,44 52,40 52,33 L 52,30 C 52,23 49,20 42,20 Z" />
+    </g>
+    <g id="char-F">
+      <path d="M 0,0 L 68,0 L 68,20 L 22,20 L 22,42 L 60,42 L 60,62 L 22,62 L 22,100 L 0,100 Z" />
+    </g>
+    <g id="char-U">
+      <path d="M 0,0 L 22,0 L 22,62 C 22,74 28,80 38,80 C 48,80 54,74 54,62 L 54,0 L 76,0 L 76,62 C 76,86 62,100 38,100 C 14,100 0,86 0,62 Z" />
+    </g>
+    <g id="char-H">
+      <path d="M 0,0 L 22,0 L 22,40 L 54,40 L 54,0 L 76,0 L 76,100 L 54,100 L 54,60 L 22,60 L 22,100 L 0,100 Z" />
+    </g>
+  </defs>
+
+  <!-- Main Title: ISOLATED CLIENT -->
+  <g fill="#FFFFFF" transform="translate(56, 55) scale(0.92)">
+    <!-- I -->
+    <use href="#char-I" x="0" y="0" />
+    <!-- S -->
+    <use href="#char-S" x="38" y="0" />
+    <!-- O -->
+    <use href="#char-O" x="124" y="0" />
+    <!-- L -->
+    <use href="#char-L" x="220" y="0" />
+    <!-- A -->
+    <use href="#char-A" x="296" y="0" />
+    <!-- T -->
+    <use href="#char-T" x="384" y="0" />
+    <!-- E -->
+    <use href="#char-E" x="470" y="0" />
+    <!-- D -->
+    <use href="#char-D" x="556" y="0" />
+
+    <!-- Space + C -->
+    <use href="#char-C" x="692" y="0" />
+    <!-- L -->
+    <use href="#char-L" x="782" y="0" />
+    <!-- I -->
+    <use href="#char-I" x="862" y="0" />
+    <!-- E -->
+    <use href="#char-E" x="900" y="0" />
+    <!-- N -->
+    <use href="#char-N" x="986" y="0" />
+    <!-- T -->
+    <use href="#char-T" x="1076" y="0" />
+  </g>
+
+  <!-- Subtitle: MINECRAFT LAUNCHER -->
+  <g fill="#FFFFFF" transform="translate(232, 195) scale(0.46)">
+    <!-- M -->
+    <use href="#char-M" x="0" y="0" />
+    <!-- I -->
+    <use href="#char-I" x="106" y="0" />
+    <!-- N -->
+    <use href="#char-N" x="146" y="0" />
+    <!-- E -->
+    <use href="#char-E" x="238" y="0" />
+    <!-- C -->
+    <use href="#char-C" x="324" y="0" />
+    <!-- R -->
+    <use href="#char-R" x="414" y="0" />
+    <!-- A -->
+    <use href="#char-A" x="502" y="0" />
+    <!-- F -->
+    <use href="#char-F" x="596" y="0" />
+    <!-- T -->
+    <use href="#char-T" x="674" y="0" />
+
+    <!-- Space + L -->
+    <use href="#char-L" x="814" y="0" />
+    <!-- A -->
+    <use href="#char-A" x="892" y="0" />
+    <!-- U -->
+    <use href="#char-U" x="986" y="0" />
+    <!-- N -->
+    <use href="#char-N" x="1080" y="0" />
+    <!-- C -->
+    <use href="#char-C" x="1174" y="0" />
+    <!-- H -->
+    <use href="#char-H" x="1264" y="0" />
+    <!-- E -->
+    <use href="#char-E" x="1358" y="0" />
+    <!-- R -->
+    <use href="#char-R" x="1444" y="0" />
+  </g>
+</svg>

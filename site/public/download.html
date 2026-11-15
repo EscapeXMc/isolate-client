@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="dark">
+<head>
+<script src="/page-fx.js"></script>
+<link rel="stylesheet" href="/fontawesome/v7.2.0/css/all.css"/>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Download Isolate Client — Minecraft Launcher · Releases &amp; Changelog</title>
+<meta name="description" content="Download Isolate Client, the fastest free Minecraft launcher. Live GitHub releases, every version, every platform — Windows and Linux (AppImage, .deb, .rpm, Arch)."/>
+<meta name="keywords" content="Isolate Client, download, Minecraft launcher, releases, Windows, Linux, AppImage, .deb, GitHub"/>
+<meta name="theme-color" content="#0a0a0a"/>
+    <meta property="og:url" content="https://isolateclient.vercel.app/download"/>
+    <meta name="twitter:image" content="https://isolateclient.vercel.app/og-image.png"/>
+    <meta name="twitter:title" content="Download Isolate Client — Minecraft Launcher · Releases &amp; Changelog"/>
+    <meta name="twitter:description" content="Download Isolate Client, the fastest free Minecraft launcher. Live GitHub releases, every version, every platform — Windows and Linux (AppImage, .deb, .rpm, Arch)."/>
+    <meta property="og:type" content="website"/>
+<meta property="og:title" content="Download Isolate Client — Minecraft Launcher"/>
+<meta property="og:description" content="Live GitHub releases, every version, every platform."/>
+<meta property="og:image" content="https://isolateclient.vercel.app/og-image.png"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="icon" href="/favicon-16.png" sizes="16x16" type="image/png"/>
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180"/>
+<link rel="mask-icon" href="/favicon.svg" color="#3b82f6"/>
+<link rel="manifest" href="/manifest.json"/>
+<link rel="canonical" href="https://isolateclient.vercel.app/download.html"/>
+
+<style>
+:root{
+  --bg:#0a0a0a; --bg-soft:#111113; --card:#131316; --line:#1f1f24;
+  --line-soft:#26262c; --text:#f4f4f5; --muted:#a1a1aa; --dim:#71717a;
+  --brand:#3b82f6; --brand-soft:#60a5fa; --brand-dim:#172554;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--text);
+  font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  -webkit-font-smoothing:antialiased; line-height:1.6;
+}
+a{color:var(--brand-soft); text-decoration:none}
+a:hover{color:#93c5fd}
+.wrap{max-width:1080px; margin:0 auto; padding:0 24px}
+header.top{
+  border-bottom:1px solid var(--line); position:sticky; top:0; z-index:50;
+  background:rgba(10,10,10,.88); backdrop-filter:blur(12px);
+}
+nav.bar{display:flex; align-items:center; gap:16px; height:68px}
+.brand{display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; font-size:15px; color:var(--text)}
+.brand img{width:30px; height:30px; display:block; border-radius:8px}
+nav.bar a{color:var(--muted); font-size:12px; font-weight:700; letter-spacing:.12em; text-transform:uppercase}
+nav.bar a.active{color:var(--text)}
+nav.bar a:hover{color:var(--text)}
+.hero{padding:72px 0 40px; text-align:center; position:relative; overflow:hidden}
+.hero::before{
+  content:""; position:absolute; inset:-40% -20% auto -20%; height:420px;
+  background:radial-gradient(600px 220px at 50% 0, rgba(59,130,246,.18), transparent 70%);
+  pointer-events:none;
+}
+.eyebrow{
+  display:inline-flex; align-items:center; gap:8px; border:1px solid var(--line-soft);
+  background:var(--bg-soft); padding:6px 14px; border-radius:999px;
+  font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); font-weight:700;
+}
+.eyebrow .live{width:7px; height:7px; border-radius:50%; background:#22c55e; box-shadow:0 0 10px #22c55e}
+h1{
+  font-size:clamp(34px,6vw,58px); line-height:1.05; margin:18px 0 12px;
+  font-weight:900; letter-spacing:.04em; text-transform:uppercase;
+}
+h1 .accent{color:var(--brand)}
+.sub{color:var(--muted); max-width:560px; margin:0 auto; font-size:15px}
+.os-row{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin:26px 0 8px}
+.os-chip{
+  display:inline-flex; align-items:center; gap:8px; border:1px solid var(--line-soft);
+  padding:9px 16px; border-radius:12px; color:var(--text); background:var(--card);
+  font-size:13px; font-weight:700; letter-spacing:.02em;
+}
+.os-chip .mark{width:16px; height:16px; display:grid; place-items:center}
+.os-chip .mark i{font-size:14px; line-height:1}
+.chip-muted{color:var(--muted)}
+.stats{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:12px;
+  margin:34px auto 0; max-width:760px;
+}
+.stat{border:1px solid var(--line); background:var(--card); border-radius:14px; padding:14px}
+.stat .n{font-size:20px; font-weight:800; color:var(--brand-soft)}
+.stat .t{font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--dim); font-weight:700; margin-top:2px}
+.warn{
+  margin:26px auto 0; max-width:760px; text-align:left;
+  border:1px solid rgba(250,204,21,.22); background:rgba(250,204,21,.06);
+  color:#fde68a; border-radius:12px; padding:12px 16px; font-size:13px; display:none;
+}
+.warn.show{display:block}
+.sec-head{
+  display:flex; align-items:baseline; justify-content:space-between; gap:12px;
+  margin:64px 0 18px; padding-bottom:10px; border-bottom:1px solid var(--line);
+}
+h2.sec{font-size:13px; font-weight:800; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); margin:0}
+.release{
+  border:1px solid var(--line); background:
+    linear-gradient(180deg, rgba(59,130,246,.05), transparent 240px), var(--card);
+  border-radius:20px; padding:28px; margin-bottom:18px; position:relative; overflow:hidden;
+}
+.release.latest{border-color:rgba(59,130,246,.35); box-shadow:0 0 0 1px rgba(59,130,246,.08), 0 24px 70px -30px rgba(59,130,246,.25)}
+.release .head{display:flex; flex-wrap:wrap; gap:12px; align-items:center}
+.tag{
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  background:var(--brand); color:#1a1008; font-weight:800; padding:4px 12px;
+  border-radius:8px; font-size:13px;
+}
+.badge{font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); border:1px solid var(--line-soft); border-radius:999px; padding:4px 10px; font-weight:700}
+.badge.green{color:#4ade80; border-color:rgba(74,222,128,.3)}
+.badge.dim{color:var(--dim)}
+.release h3{margin:10px 0 4px; font-size:20px; font-weight:800; letter-spacing:.06em; text-transform:uppercase}
+.release time{color:var(--dim); font-size:12px; font-weight:600; letter-spacing:.08em; text-transform:uppercase}
+.md{margin-top:18px; color:#d4d4d8; font-size:14px; overflow-wrap:anywhere}
+.md h1,.md h2,.md h3{color:var(--text); letter-spacing:.04em; margin:20px 0 8px; text-transform:uppercase; font-size:14px}
+.md h1{font-size:18px}
+.md h2{font-size:15px}
+.md p{margin:10px 0}
+.md ul,.md ol{margin:10px 0; padding-left:22px}
+.md li{margin:4px 0}
+.md code{background:#202024; border:1px solid var(--line-soft); padding:1px 6px; border-radius:6px; font-family:ui-monospace,Menlo,Consolas,monospace; font-size:12.5px; color:#fbbf24}
+.md pre{background:#161618; border:1px solid var(--line); border-radius:12px; padding:14px; overflow:auto}
+.md pre code{background:none; border:none; padding:0; color:#e4e4e7}
+.md a{color:var(--brand-soft); text-decoration:underline; text-underline-offset:3px}
+.md blockquote{border-left:3px solid var(--brand-dim); margin:10px 0; padding:2px 12px; color:var(--muted)}
+.md img{max-width:100%; border-radius:10px; border:1px solid var(--line)}
+.md hr{border:none; border-top:1px solid var(--line); margin:18px 0}
+.downloads{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; margin-top:22px}
+.dl-card{
+  border:1px solid var(--line-soft); background:var(--bg-soft); border-radius:14px; padding:16px;
+  display:flex; flex-direction:column; gap:10px;
+}
+.dl-card .top{display:flex; align-items:center; gap:10px}
+.dl-card .mk{width:20px; height:20px; display:grid; place-items:center; color:var(--brand-soft)}
+.dl-card .mk i{font-size:18px; line-height:1}
+.dl-card .name{font-weight:800; font-size:13px; letter-spacing:.1em; text-transform:uppercase}
+.dl-card .meta{color:var(--dim); font-size:11px; letter-spacing:.04em}
+.dl-card>a.btn{
+  margin-top:auto; display:flex; align-items:center; justify-content:center; gap:8px;
+  border:1px solid var(--brand-dim); color:#dbeafe; background:linear-gradient(180deg,#3b82f6,#1d4ed8);
+  padding:9px 14px; border-radius:10px; font-weight:800; font-size:12px; letter-spacing:.1em; text-transform:uppercase;
+}
+.dl-card>a.btn:hover{filter:brightness(1.08); color:#fff}
+.sk{display:inline-block; background:linear-gradient(90deg,#1b1b1f,#24242a,#1b1b1f); background-size:200% 100%; animation:sh 1.2s linear infinite; border-radius:6px; color:transparent; user-select:none}
+@keyframes sh{to{background-position:-200% 0}}
+.error-box{border:1px solid rgba(248,113,113,.3); background:rgba(248,113,113,.07); color:#fca5a5; border-radius:12px; padding:16px; font-size:13px; margin-top:20px}
+.skel-card{border:1px solid var(--line); background:var(--card); border-radius:20px; padding:28px; margin-bottom:18px}
+.skel-line{height:14px; border-radius:7px; margin:10px 0; background:linear-gradient(90deg,#1b1b1f,#24242a,#1b1b1f); background-size:200% 100%; animation:sh 1.2s linear infinite}
+footer.foot{border-top:1px solid var(--line); margin-top:80px; padding:30px 0 44px; color:var(--dim); font-size:12px; display:flex; flex-wrap:wrap; gap:12px; justify-content:space-between}
+@media(max-width:640px){
+  .release{padding:20px}
+  nav.bar{height:60px}
+}
+</style>
+<script src="/theme-boot.js"></script>
+<script src="/isolate-downloads.js" defer></script>
+<script src="theme-boot.js"></script></head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <nav class="bar" aria-label="Main navigation">
+      <a class="brand" href="/"><img src="/favicon.svg" alt="" width="30" height="30" aria-hidden="true"/> Isolate Client</a>
+      <span style="flex:1"></span>
+      <a href="/">Home</a>
+      <a href="/store.html">Store</a>
+      <a href="/index.html#features">Features</a>
+      <a href="/faq.html">FAQ</a>
+      <a class="active" href="/download.html" aria-current="page">Download</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <span class="eyebrow"><span class="live" aria-hidden="true"></span> Live from GitHub Releases</span>
+    <h1>Download <span class="accent">Isolate Client</span></h1>
+    <p class="sub">Every release, every platform, straight from GitHub. No trackers, no mirrors, no waiting.</p>
+
+        <div class="os-row" aria-hidden="true">
+      <span class="os-chip"><span class="mark"><i class="fa-brands fa-windows"></i></span>Windows</span>
+      <span class="os-chip"><span class="mark"><i class="fa-brands fa-linux"></i></span>Linux</span>
+      <span class="os-chip chip-muted"><span class="mark"><i class="fa-solid fa-globe"></i></span>Windows · Linux · everywhere</span>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="n" id="stat-version"><span class="sk">&nbsp;…&nbsp;</span></div><div class="t">Latest version</div></div>
+      <div class="stat"><div class="n" id="stat-size">—</div><div class="t">Windows download</div></div>
+      <div class="stat"><div class="n" id="stat-count">—</div><div class="t">Releases published</div></div>
+      <div class="stat"><div class="n" id="stat-date">—</div><div class="t">Last update</div></div>
+    </div>
+
+    <div class="warn" id="rate-warn">
+      GitHub rate-limited this page. The releases below are cached — try again in a minute for the very latest.
+    </div>
+  </section>
+
+  <div id="feed">
+    <div class="skel-card" aria-hidden="true"><div class="skel-line" style="width:160px"></div><div class="skel-line" style="width:70%"></div><div class="skel-line" style="width:95%"></div><div class="skel-line" style="width:88%"></div></div>
+    <div class="skel-card" aria-hidden="true"><div class="skel-line" style="width:140px"></div><div class="skel-line" style="width:80%"></div></div>
+  </div>
+</main>
+
+<footer class="foot"><div class="wrap">
+  <span>© Isolate Client — free forever, open builds.</span>
+  <span><a href="https://github.com/EscapeXMc/isolate-client/releases" target="_blank" rel="noopener noreferrer">GitHub Releases</a> · <a href="/faq.html">FAQ</a> · <a href="/contact.html">Contact</a> · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a></span>
+</div></footer>
+
+<script>
+(function () {
+  "use strict";
+  var FEED = document.getElementById("feed");
+  var WARN = document.getElementById("rate-warn");
+
+  function esc(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+  }
+
+  /* ---------------------------------------------------------------
+     A tiny, self-contained markdown renderer.
+     Escapes first, then formats — so nothing from a release note
+     can ever inject HTML into this page.
+  --------------------------------------------------------------- */
+  function md(src) {
+    var t = esc(String(src || "\u2014 no release notes \u2014"));
+    // Isolate Client supports Windows and Linux only — drop any macOS lines and
+    // table rows that older release notes may still carry.
+    t = t.split(/\r?\n/).filter(function (l) {
+      return !/macos|\.dmg\b|\.icns\b/i.test(l);
+    }).join("\n");
+    var blocks = t.split(/\r?\n\r?\n+/), out = [];
+    for (var bi = 0; bi < blocks.length; bi++) {
+      var b = blocks[bi], lines = b.split(/\r?\n/), i, line;
+      if (/^### /.test(b))      { out.push("<h3>"+inline(b.slice(4))+"</h3>"); continue; }
+      if (/^## /.test(b))       { out.push("<h2>"+inline(b.slice(3))+"</h2>"); continue; }
+      if (/^# /.test(b))        { out.push("<h1>"+inline(b.slice(2))+"</h1>"); continue; }
+      if (/^-{3,}$/.test(b))    { out.push("<hr>"); continue; }
+      if (/^&gt; /.test(b))     { out.push("<blockquote>"+inline(b.replace(/^&gt; ?/mg,""))+"</blockquote>"); continue; }
+      if (/^```/.test(b))       { out.push("<pre><code>"+inline(b.replace(/^```.*\n?/,"").replace(/```$/,""))+"</code></pre>"); continue; }
+      var ul = [], ol = [];
+      for (i = 0; i < lines.length; i++) {
+        line = lines[i];
+        if (/^\s*[-*] +/.test(line)) ul.push("<li>"+inline(line.replace(/^\s*[-*] +/,""))+"</li>");
+        else if (ul.length) { out.push("<ul>"+ul.join("")+"</ul>"); ul = []; }
+        if (/^\s*\d+\. +/.test(line)) ol.push("<li>"+inline(line.replace(/^\s*\d+\. +/,""))+"</li>");
+        else if (ol.length) { out.push("<ol>"+ol.join("")+"</ol>"); ol = []; }
+        if (!/^\s*[-*+]\s/.test(line) && !/^\s*\d+\.\s/.test(line) && line.trim()) {
+          out.push("<p>"+inline(line.trim())+"</p>");
+        }
+      }
+      if (ul.length) out.push("<ul>"+ul.join("")+"</ul>");
+      if (ol.length) out.push("<ol>"+ol.join("")+"</ol>");
+    }
+    return out.join("");
+  }
+
+  function inline(s) {
+    return s
+      .replace(/^###?\s*/,"")
+      .replace(/`([^`]+)`/g, "<code>$1</code>")
+      .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+      .replace(/(^|[^*])\*([^*]+)\*(?!\*)/g, "$1<em>$2</em>")
+      .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, function (_, a, u) { return "<img src=\""+u+"\" alt=\""+a+"\" loading=\"lazy\">"; })
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, function (_, t, u) {
+        var href = u;
+        if (/^https?:\/\//.test(u)) href = u;
+        else if (/^\//.test(u))     href = u;
+        return "<a href=\""+href+"\""+(/https?:/.test(u)?" target=\"_blank\" rel=\"noopener noreferrer\"":"")+">"+t+"</a>";
+      })
+      .replace(/&lt;https?:\/\/[^&]+&gt;/g, function (m) {
+        var u = m.slice(8, -4);
+        return "<a href=\""+u+"\" target=\"_blank\" rel=\"noopener noreferrer\">"+u+"</a>";
+      })
+      .replace(/\n/g, "<br>");
+  }
+
+  /* Which downloaded asset belongs on which card */
+  function assetKind(n) {
+    var s = n.toLowerCase();
+    if (/\.exe$/.test(s))          return "win";
+    if (/\.appimage$/.test(s))     return "appimage";
+    if (/\.deb$/.test(s))          return "deb";
+    if (/\.rpm$/.test(s))          return "rpm";
+    if (/\.pkg\.tar\.zst$/.test(s))return "arch";
+    return null;
+  }
+
+  function sizeTxt(b) {
+    if (!b) return "";
+    if (b > 1048576) return (b/1048576).toFixed(1) + " MB";
+    if (b > 1024)    return (b/1024).toFixed(0) + " KB";
+    return b + " B";
+  }
+
+  function fmtDate(iso) {
+    if (!iso) return "";
+    try { return new Date(iso).toLocaleDateString(undefined, {year:"numeric", month:"short", day:"numeric"}); }
+    catch (e) { return ""; }
+  }
+
+  var KIND_META = {
+    win:      { label: "Windows",        icon: "win",      note: "Installer · Windows 10/11" },
+    appimage: { label: "AppImage",       icon: "linux",    note: "Most distributions" },
+    deb:      { label: ".deb",           icon: "linux",    note: "Debian · Ubuntu · Mint" },
+    rpm:      { label: ".rpm",           icon: "linux",    note: "Fedora · openSUSE" },
+    arch:     { label: "Arch package",   icon: "linux",    note: "Arch · SteamOS" },
+  };
+
+  function markSvg(kind) {
+    if (kind === "win") return '<i class="fa-brands fa-windows" aria-hidden="true"></i>';
+    return '<i class="fa-brands fa-linux" aria-hidden="true"></i>';
+  }
+
+  function assetCard(a, latestTag) {
+    var kind = assetKind(a.name);
+    var md = KIND_META[kind] || { label: a.name, icon: "generic", note: "" };
+    var disabled = !kind;
+    var url = a.browser_download_url;
+    var size = sizeTxt(a.size);
+    var card = '<div class="dl-card">';
+    card += '<div class="top"><span class="mk">'+markSvg(md.icon)+'</span>';
+    card += '<div><div class="name">'+esc(md.label)+'</div>';
+    card += '<div class="meta">'+esc(size ? size + " · " : "")+esc(md.note)+'</div></div></div>';
+    if (disabled) {
+      card += '<button class="btn" disabled style="opacity:.45;cursor:not-allowed">Soon</button>';
+    } else {
+      card += '<a class="btn" href="'+esc(url)+'" download>Download</a>';
+    }
+    card += '</div>';
+    return card;
+  }
+
+  var GENERIC_ICON = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
+
+  function releaseCard(r, i) {
+    var card = '<article class="release'+(i===0?' latest':'')+'" id="r-'+esc(r.tag_name)+'">';
+    card += '<div class="head">';
+    card += '<span class="tag">'+esc(r.tag_name)+'</span>';
+    if (i === 0) card += '<span class="badge green">Latest release</span>';
+    else         card += '<span class="badge dim">Previous</span>';
+    card += '<span class="badge">'+esc(fmtDate(r.published_at))+'</span>';
+    card += '</div>';
+    card += '<h3>' + esc(r.name || r.tag_name) + '</h3>';
+    card += '<div class="md">'+md(r.body)+'</div>';
+
+    var kinds = {};
+    var extra = [];
+    (r.assets || []).forEach(function (a) {
+      var k = assetKind(a.name);
+      if (k) kinds[k] = a; else extra.push(a);
+    });
+    var order = ["win","appimage","deb","rpm","arch"];
+    var cards = [];
+    order.forEach(function (k) { if (kinds[k]) cards.push(assetCard(kinds[k])); });
+    extra.slice(0, 4).forEach(function (a) { cards.push(assetCard(a)); });
+    if (cards.length) card += '<div class="downloads">'+cards.join("")+'</div>';
+    else card += '<p class="dim" style="color:var(--dim);font-size:13px;margin-top:14px">No installers attached to this release — check the full build on GitHub.</p>';
+    card += '<p style="margin-top:14px"><a href="'+esc((r.html_url)||( "https://github.com/EscapeXMc/isolate-client/releases/tag/"+r.tag_name))+'" target="_blank" rel="noopener noreferrer" style="font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:700">View on GitHub ↗</a></p>';
+    card += '</article>';
+    return card;
+  }
+
+  function rateLimit(r) {
+    if (!r) return false;
+    if (r.status === 403) {
+      var rem = r.headers.get && r.headers.get("x-ratelimit-remaining");
+      return rem === "0";
+    }
+    return false;
+  }
+
+  fetch("https://api.github.com/repos/EscapeXMc/isolate-client/releases?per_page=10", {
+    headers: { Accept: "application/vnd.github+json" }
+  }).then(function (res) {
+    if (rateLimit(res)) {
+      WARN.classList.add("show");
+      throw new Error("rate-limited");
+    }
+    if (!res.ok) throw new Error("GitHub API " + res.status);
+    return res.json();
+  }).then(function (list) {
+    if (!Array.isArray(list) || !list.length) throw new Error("no releases");
+    // GitHub's list is not always newest-first — a re-published older tag
+    // (e.g. 6.0.0.9) can land above a later release. Sort by publish date so
+    // the genuinely newest release carries the "Latest release" badge.
+    list.sort(function (a, b) {
+      return new Date(b.published_at).getTime() - new Date(a.published_at).getTime();
+    });
+    var top = list[0];
+    document.getElementById("stat-version").textContent = top.tag_name;
+    document.getElementById("stat-count").textContent = list.length + "+";
+    if (top.assets && top.assets.length) {
+      var win = top.assets.find(function(a){ return assetKind(a.name) === "win"; });
+      document.getElementById("stat-size").textContent = win ? sizeTxt(win.size) : sizeTxt(top.assets[0].size);
+    }
+    document.getElementById("stat-date").textContent = fmtDate(top.published_at) || "recent";
+    FEED.innerHTML = list.map(releaseCard).join("");
+    document.title = "Download Isolate Client " + top.tag_name + " — Minecraft Launcher";
+  }).catch(function (e) {
+    if (String(e.message) === "rate-limited") return; /* warn already shown */
+    FEED.innerHTML =
+      '<div class="error-box"><strong>Could not load releases.</strong><br>' +
+      esc(e.message) + '<br><br>' +
+      'You can always get the latest build directly from ' +
+      '<a href="https://github.com/EscapeXMc/isolate-client/releases/latest" target="_blank" rel="noopener noreferrer">GitHub Releases ↗</a>' +
+      ', or use the quick download buttons on the <a href="/">home page</a>.</div>';
+    document.getElementById("stat-version").textContent = "—";
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- Dark-by-design declaration: keeps browser forced/auto dark mode from
+     inverting the preview UI for dark-theme users. -->
+<meta name="color-scheme" content="dark">
+<title>Isolate Client — Launcher Preview</title>
+  <meta property="og:type" content="website"/>
+    <meta property="og:title" content="Isolate Client — Launcher Preview"/>
+    <meta property="og:description" content="Download Isolate Client, the free lightweight Minecraft launcher with built-in performance mods, FPS boost and easy mod installation."/>
+    <meta property="og:url" content="https://isolateclient.vercel.app/xryloth-client-preview/"/>
+    <meta property="og:site_name" content="Isolate Client"/>
+    <meta property="og:image" content="https://isolateclient.vercel.app/og-image.png"/>
+    <meta property="og:image:width" content="1200"/>
+    <meta property="og:image:height" content="630"/>
+    <meta property="og:image:alt" content="The Isolate Client Minecraft launcher"/>
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:title" content="Isolate Client — Launcher Preview"/>
+    <meta name="twitter:description" content="Download Isolate Client, the free lightweight Minecraft launcher with built-in performance mods, FPS boost and easy mod installation."/>
+    <meta name="twitter:image" content="https://isolateclient.vercel.app/og-image.png"/>
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="splash"><img src="logo.png" alt="Isolate Client" width="72" height="72"><div class="spin"></div></div>
+<div id="win">
+  <div id="titlebar" data-drag>
+    <div class="tb-left" data-drag><img class="tb-logo-img" src="logo.png" alt="Isolate Client" width="20" height="20"><span class="tb-ver">Isolate Client v5.9.4</span></div>
+    <div class="tb-btns">
+      <button class="tb-btn" data-act="native" title="Theme"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 2v12M2 8h12"/></svg></button>
+      <button class="tb-btn" data-act="native" title="Minimize"><svg viewBox="0 0 16 16" width="12" height="12" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10"/></svg></button>
+      <button class="tb-btn" data-act="native" title="Maximize"><svg viewBox="0 0 16 16" width="10" height="10" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="10" height="10" rx="1"/></svg></button>
+      <button class="tb-btn close" data-act="native" title="Close"><svg viewBox="0 0 16 16" width="11" height="11" stroke="currentColor" stroke-width="1.8"><path d="M3 3l10 10M13 3L3 13"/></svg></button>
+    </div>
+  </div>
+  <div id="body">
+    <div id="bg"><div class="orb o1"></div><div class="orb o2"></div></div>
+    <aside id="sidebar">
+      <button class="brand" data-page="home" title="Isolate Client home"><img src="logo.png" alt="X" width="28" height="28"></button>
+      <div class="sep"></div>
+      <div class="sec"><p class="sec-t">Launcher</p>
+        <button data-page="home" class="active"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 11l9-8 9 8v9a1 1 0 01-1 1h-5v-6h-6v6H4a1 1 0 01-1-1z"/></svg><span>home</span></button>
+        <button data-page="xai" class="feat"><i class="xlogo">X</i><span>ai</span></button>
+        <button data-page="accounts"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg><span>login</span></button>
+        <button data-page="settings"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 00-.1-1.2l2-1.5-2-3.4-2.3 1a7 7 0 00-2-1.2L14.2 3h-4l-.4 2.5a7 7 0 00-2 1.2l-2.3-1-2 3.4 2 1.5a7 7 0 000 2.4l-2 1.5 2 3.4 2.3-1a7 7 0 002 1.2l.4 2.5h4l.4-2.5a7 7 0 002-1.2l2.3 1 2-3.4-2-1.5c.06-.4.1-.8.1-1.2z"/></svg><span>settings</span></button>
+      </div>
+      <div class="sep"></div>
+      <div class="sec"><p class="sec-t">Library</p>
+        <button data-page="instances"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2l9 5-9 5-9-5z"/><path d="M3 12l9 5 9-5M3 17l9 5 9-5"/></svg><span>profiles</span></button>
+        <button data-page="servers"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="6" rx="1"/><rect x="3" y="14" width="18" height="6" rx="1"/><circle cx="7" cy="7" r="1" fill="currentColor"/><circle cx="7" cy="17" r="1" fill="currentColor"/></svg><span>servers</span></button>
+        <button data-page="mods"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9 3h6v4h4v6h-4v4H9v-4H5V7z"/></svg><span>mods</span></button>
+        <button data-page="modpacks"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 8l-9-5-9 5v8l9 5 9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/></svg><span>modpacks</span></button>
+        <button data-page="packs"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 8l-9-5-9 5 9 5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg><span>packs</span></button>
+      </div>
+      <div class="sep"></div>
+      <div class="sec"><p class="sec-t">More</p>
+        <button data-page="chat"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 12a8 8 0 01-8 8H4l2-3a8 8 0 1115-5z"/></svg><span>chat</span></button>
+        <button data-page="templates"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><span>templates</span></button>
+        <button data-page="themes"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><circle cx="8" cy="10" r="1" fill="currentColor"/><circle cx="12" cy="7" r="1" fill="currentColor"/><circle cx="16" cy="10" r="1" fill="currentColor"/></svg><span>themes</span></button>
+        <button data-page="logs"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span>logs</span></button>
+      </div>
+      <div class="flex"></div>
+      <div class="livever">V5.9.4</div>
+    </aside>
+    <div id="content">
+      <div id="notice"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18.5v.5"/></svg><span><b>Preview build</b> — many features won't work in a browser and aren't listed here. <a href="/downloads" target="_blank" rel="noopener">Download the full client</a> to view everything.</span><button id="notice-x" title="Dismiss">✕</button></div>
+      <div id="crumb"><button data-page="home">Isolate Client</button><span id="crumb-cur-wrap"><i>›</i><button id="crumb-cur">Home</button></span></div>
+      <main id="page"></main>
+    </div>
+  </div>
+  <div id="preview-bar">browser preview — launching, installs, files & java are disabled · some lists are shortened · <a href="/downloads" target="_blank" rel="noopener">install client for full access</a></div>
+</div>
+<div id="modal" hidden><div class="modal-card"><p class="tinycaps m-t">something went wrong</p><p id="modal-msg"></p><div class="row"><button class="btn-p" id="m-go">Get Isolate Client</button><button class="btn-s" id="m-close">Stay in preview</button></div></div></div>
+<script src="app.js" defer></script>
+</body>
+</html>
