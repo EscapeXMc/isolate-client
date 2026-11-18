@@ -31,7 +31,7 @@
   --bg:#0a0a0a; --bg-soft:#111113; --card:#131316; --deep:#0B1220;
   --line:#1f1f24; --line-2:#26262c;
   --text:#f4f4f5; --muted:#a1a1aa; --dim:#a1a1aa; --dim-deco:#71717a;
-  --brand:#3b82f6; --brand-bright:#60a5fa; --accent:#F43F5E;
+  --brand:#3b82f6; --brand-bright:#60a5fa; --accent:#A3FF12;
   --radius:6px;
   --font-display:"Russo One",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --font-body:"Chakra Petch",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
@@ -74,7 +74,7 @@ nav.bar a.nav:hover{color:var(--text)}
 nav.bar a.nav.active{color:var(--text)}
 nav.bar a.nav.active::after{
   content:""; position:absolute; left:0; right:0; bottom:0; height:2px;
-  background:#F43F5E;
+  background:#A3FF12;
 }
 /* ================= HERO ================= */
 .hero{
@@ -82,7 +82,7 @@ nav.bar a.nav.active::after{
   border-bottom:1px solid var(--line);
   background:
     radial-gradient(900px 420px at 82% -10%, rgba(59,130,246,.22), transparent 60%),
-    radial-gradient(700px 380px at 8% 110%, rgba(244,63,94,.10), transparent 65%),
+    radial-gradient(700px 380px at 8% 110%, rgba(163,255,18,.10), transparent 65%),
     var(--deep);
 }
 .hero .wrap{padding-top:72px; padding-bottom:64px; position:relative; z-index:2}
@@ -92,19 +92,19 @@ nav.bar a.nav.active::after{
   color:var(--brand-bright); border:1px solid rgba(96,165,250,.35);
   background:rgba(59,130,246,.08); border-radius:999px; padding:8px 16px;
 }
-.kicker::before{content:""; width:8px; height:8px; background:#F43F5E; border-radius:50%;
-  box-shadow:0 0 10px rgba(244,63,94,.8)}
+.kicker::before{content:""; width:8px; height:8px; background:#A3FF12; border-radius:50%;
+  box-shadow:0 0 10px rgba(163,255,18,.8)}
 h1{
   font-family:var(--font-display); font-weight:400;
   font-size:clamp(34px,6.4vw,72px); line-height:1.04;
   margin:22px 0 18px; letter-spacing:.01em; text-transform:uppercase;
   color:var(--text); max-width:16ch;
 }
-h1 .rose{color:#F43F5E; text-shadow:0 0 34px rgba(244,63,94,.35)}
+h1 .neon{color:#A3FF12; text-shadow:0 0 34px rgba(163,255,18,.35)}
 .hero .sub{color:#a1a1aa; max-width:620px; margin:0; font-size:16.5px; line-height:1.75}
 .hero-rule{
   height:3px; width:180px; margin-top:30px;
-  background:linear-gradient(90deg,#F43F5E,var(--brand),transparent);
+  background:linear-gradient(90deg,#A3FF12,var(--brand),transparent);
   transform-origin:left center;
 }
 .hero-meta{
@@ -124,8 +124,8 @@ h1 .rose{color:#F43F5E; text-shadow:0 0 34px rgba(244,63,94,.35)}
 .ch-num{
   font-family:var(--font-display); font-weight:400;
   font-size:clamp(56px,9vw,116px); line-height:.9; color:transparent;
-  -webkit-text-stroke:2px rgba(244,63,94,.75);
-  text-stroke:2px rgba(244,63,94,.75);
+  -webkit-text-stroke:2px rgba(163,255,18,.75);
+  text-stroke:2px rgba(163,255,18,.75);
   user-select:none;
 }
 .chapter h2{
@@ -133,7 +133,7 @@ h1 .rose{color:#F43F5E; text-shadow:0 0 34px rgba(244,63,94,.35)}
   font-size:clamp(21px,3vw,30px); letter-spacing:.04em; text-transform:uppercase; color:var(--text);
   padding-bottom:14px; border-bottom:1px solid var(--line-2);
 }
-.chapter h2 .tick{color:#F43F5E; margin-right:10px}
+.chapter h2 .tick{color:#A3FF12; margin-right:10px}
 .chapter p{margin:14px 0 0; color:#a1a1aa; font-size:16px; max-width:66ch}
 .chapter p strong{color:var(--text); font-weight:600}
 /* ================= MARQUEE ================= */
@@ -149,7 +149,7 @@ h1 .rose{color:#F43F5E; text-shadow:0 0 34px rgba(244,63,94,.35)}
   text-transform:uppercase; color:var(--dim);
 }
 .marquee-track span b{color:var(--brand-bright); font-weight:400}
-.marquee-track span i{color:#F43F5E; font-style:normal}
+.marquee-track span i{color:#A3FF12; font-style:normal}
 @keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 /* ================= CREATORS ================= */
 .creators-sec{padding:66px 0 10px; border-bottom:1px solid var(--line)}
@@ -172,7 +172,7 @@ body p.sec-label{
   content:""; position:absolute; inset:0 auto auto 0; width:100%; height:3px;
   background:linear-gradient(90deg,var(--brand),transparent);
 }
-.creator.alt::before{background:linear-gradient(90deg,#F43F5E,transparent)}
+.creator.alt::before{background:linear-gradient(90deg,#A3FF12,transparent)}
 .creator h3{
   font-family:var(--font-display); font-weight:400; margin:0 0 6px;
   font-size:clamp(24px,3vw,32px); letter-spacing:.02em; color:var(--text);
@@ -181,7 +181,7 @@ body p.sec-label{
   display:block; font-size:11px; font-weight:600; letter-spacing:.18em;
   text-transform:uppercase; color:var(--brand-bright); margin-bottom:14px;
 }
-.creator.alt .role{color:#F43F5E}
+.creator.alt .role{color:#A3FF12}
 .creator p{color:#a1a1aa; font-size:14.5px; margin:10px 0 0}
 .creator p strong{color:var(--text); font-weight:600}
 .nosocial{
@@ -306,7 +306,7 @@ footer.foot a:hover{color:var(--text)}
   <section class="hero">
     <div class="wrap">
       <span class="kicker rv">The story behind Isolate Client</span>
-      <h1 class="rv d1">Built by Shayan &amp; <span class="rose">Raghuwinder</span></h1>
+      <h1 class="rv d1">Built by Shayan &amp; <span class="neon">Raghuwinder</span></h1>
       <p class="sub rv d2">An isolated client by Shayan &amp; Raghuwinder, built for performance — this is how it started, why we built it, and how we put it together.</p>
       <div class="hero-rule rv d3" aria-hidden="true"></div>
       <div class="hero-meta rv d3">
