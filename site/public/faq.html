@@ -166,18 +166,41 @@ footer.foot{border-top:1px solid var(--line); margin-top:70px; padding:30px 0 44
 }
 </style>
 <script src="/theme-boot.js"></script>
-<script src="theme-boot.js"></script></head>
+<script src="theme-boot.js"></script><style id="nav-hamburger">
+nav.bar{position:relative}
+nav.bar .links{display:flex;align-items:center;gap:18px;min-width:0}
+nav.bar .menu-btn{display:none;align-items:center;justify-content:center;width:44px;height:44px;border-radius:10px;border:1px solid var(--line-2,#26262b);background:#131316;color:var(--text);font-size:18px;line-height:1;cursor:pointer;flex:0 0 auto}
+nav.bar .menu-btn:hover{border-color:var(--brand,#3b82f6)}
+@media(max-width:760px){
+  nav.bar{height:60px;gap:10px;flex-wrap:nowrap}
+  nav.bar .brand{font-size:13px;letter-spacing:.08em}
+  nav.bar .brand img{width:26px;height:26px}
+  nav.bar .menu-btn{display:inline-flex}
+  nav.bar .links{display:none;position:absolute;left:0;right:0;top:100%;flex-direction:column;align-items:stretch;gap:2px;padding:10px;border:1px solid var(--line,#1f1f24);border-radius:10px;background:#101012;backdrop-filter:blur(12px);box-shadow:0 18px 40px rgba(0,0,0,.55);z-index:70}
+  nav.bar.open .links{display:flex}
+  nav.bar .links a{display:flex;align-items:center;min-height:44px;padding:13px 14px;border-radius:8px;font-size:13px;letter-spacing:.1em}
+  nav.bar .links a:hover{background:var(--bg-soft,#16161a)}
+  nav.bar .links a.active{color:var(--text);background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.4)}
+  nav.bar .links a.active::after{display:none}
+}
+</style>
+</head>
 <body>
 <header class="top">
   <div class="wrap">
     <nav class="bar" aria-label="Main navigation">
       <a class="brand" href="/"><img src="/favicon.svg" alt="" width="30" height="30" aria-hidden="true"/> Isolate Client</a>
       <span style="flex:1"></span>
-      <a class="nav" href="/">Home</a>
-      <a class="nav" href="/store.html">Store</a>
-      <a class="nav" href="/index.html#features">Features</a>
-      <a class="nav active" href="/faq.html" aria-current="page">FAQ</a>
-      <a class="nav" href="/download.html">Download</a>
+      <div class="links" id="nav-links">
+        <a class="nav" href="/">Home</a>
+        <a class="nav" href="/store.html">Store</a>
+        <a class="nav" href="/index.html#features">Features</a>
+        <a class="nav active" href="/faq.html" aria-current="page">FAQ</a>
+        <a class="nav" href="/team.html">Team</a>
+        <a class="nav" href="/plans">Plans</a>
+        <a class="nav" href="/download.html">Download</a>
+      </div>
+      <button class="menu-btn" id="menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">&#9776;</button>
     </nav>
   </div>
 </header>
@@ -446,6 +469,24 @@ footer.foot{border-top:1px solid var(--line); margin-top:70px; padding:30px 0 44
         + '<div class="hint">Check that <code>/faq-data.json</code> is reachable, then reload.</div></div>';
       chipEl.textContent = "Knowledge base unavailable";
     });
+})();
+</script>
+
+<script>
+(function(){
+  var nav=document.querySelector("nav.bar"), btn=document.getElementById("menu-btn");
+  if(nav&&btn){
+    function set(open){
+      nav.classList.toggle("open",open);
+      btn.setAttribute("aria-expanded",open?"true":"false");
+      btn.setAttribute("aria-label",open?"Close menu":"Open menu");
+      btn.innerHTML=open?"&#10005;":"&#9776;";
+    }
+    btn.addEventListener("click",function(e){e.stopPropagation();set(!nav.classList.contains("open"));});
+    nav.querySelectorAll(".links a").forEach(function(a){a.addEventListener("click",function(){set(false);});});
+    document.addEventListener("click",function(e){if(!nav.contains(e.target))set(false);});
+    document.addEventListener("keydown",function(e){if(e.key==="Escape")set(false);});
+  }
 })();
 </script>
 </body>

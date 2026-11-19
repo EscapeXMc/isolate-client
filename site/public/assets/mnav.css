@@ -1,0 +1,46 @@
+/* Isolate Client — static mobile nav panel for shadcn pages.
+   The Xryloth/Next build never hydrates React (see TODOS.md), so the
+   server-rendered burger button has no handler. This CSS + mobile-nav.js
+   give every shadcn page a working mobile menu with the full link set. */
+#public-mobile-navigation {
+  display: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  z-index: 70;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 16px 18px;
+  background: color-mix(in srgb, var(--background, #0a0a0a) 96%, transparent);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border, #26262b);
+}
+#public-mobile-navigation.open {
+  display: flex;
+}
+#public-mobile-navigation a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 6px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-foreground, #a1a1aa);
+  text-decoration: none;
+}
+#public-mobile-navigation a:hover {
+  color: var(--foreground, #e0e0e0);
+  text-decoration: underline;
+}
+#public-mobile-navigation a[aria-current] {
+  color: var(--foreground, #e0e0e0);
+}
+/* Desktop keeps the React-intended experience: burger is lg:hidden anyway. */
+@media (min-width: 1024px) {
+  #public-mobile-navigation {
+    display: none !important;
+  }
+}
