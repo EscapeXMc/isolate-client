@@ -34,7 +34,7 @@
   .plans-hero .sub { font-size: var(--fs-lead); max-width: 52ch; color: var(--ink); margin-top: 24px; }
   .rank-grid {
     margin-top: clamp(56px, 9vw, 110px);
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px;
   }
   .rank-grid .rank { transition-delay: 0s; }
   .rank-grid .rank:nth-child(2) { transition-delay: .08s; }
@@ -46,14 +46,18 @@
     display: flex; flex-direction: column; gap: 14px;
     border-top: 4px solid var(--bg-3);
   }
-  .rank.hot { border-top-color: var(--accent); }
+  .rank.hot {
+    border-top-color: var(--accent);
+    box-shadow: inset 0 0 0 1px var(--accent);
+    background: linear-gradient(180deg, rgba(37,99,235,.12), rgba(37,99,235,0) 45%), var(--bg-2);
+  }
   .rank .name { font-size: clamp(22px, 2vw, 28px); font-weight: 700; color: var(--ink); letter-spacing: -.02em; }
   .rank .name .note { display: block; font-size: 13px; font-weight: 600; color: var(--accent-2); letter-spacing: 0; margin-top: 4px; }
   .rank .price { font-size: clamp(34px, 3.4vw, 48px); font-weight: 800; color: var(--ink); letter-spacing: -.03em; line-height: 1; }
   .rank .price small { font-size: 15px; font-weight: 400; color: var(--ink-3); letter-spacing: 0; }
   .rank ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; flex: 1; }
   .rank li { font-size: 15px; color: var(--ink-2); padding-left: 20px; position: relative; }
-  .rank li::before { content: "•"; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+  .rank li::before { content: "•"; position: absolute; left: 0; color: #A3FF12; font-weight: 700; }
   .rank li.no::before { content: "×"; color: var(--ink-3); }
   .rank .btn { width: 100%; }
   .rank .tag {
@@ -100,9 +104,13 @@
   .shot-row figcaption { font-size: 16px; color: var(--ink-3); margin-top: 8px; }
   @media (max-width: 980px) {
     .hero-grid { grid-template-columns: 1fr; }
-    .rank-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (min-width: 561px) and (max-width: 980px) {
+    .rank-grid .rank:last-child { grid-column: 1 / -1; }
   }
   @media (max-width: 560px) { .rank-grid { grid-template-columns: 1fr; } }
+  @media (min-width: 981px) { .rank-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (min-width: 1200px) { .rank-grid { grid-template-columns: repeat(5, 1fr); } }
 </style>
 <style>.top nav a{display:inline-flex;align-items:center;min-height:44px}</style>
 </head>
@@ -153,8 +161,9 @@
     </div>
 
     <div class="rank hot">
+      <span class="tag">Most popular</span>
       <div class="name">Solute+</div>
-      <div class="price">₹191 <small>/ month · most popular</small></div>
+      <div class="price">₹191 <small>/ month</small></div>
       <ul>
         <li>Everything in Solute</li>
         <li>Voice chat</li>
@@ -171,7 +180,7 @@
         <li>Priority support</li>
         <li>Pro badge in social</li>
       </ul>
-      <button class="btn" data-plan="solute-pro" data-amount="29900" data-label="Solute Pro · ₹299/mo">Buy with Razorpay</button>
+      <button class="btn ghost" data-plan="solute-pro" data-amount="29900" data-label="Solute Pro · ₹299/mo">Buy with Razorpay</button>
     </div>
 
     <div class="rank">
@@ -182,7 +191,7 @@
         <li>Higher voice quality</li>
         <li>Early feature access</li>
       </ul>
-      <button class="btn" data-plan="solute-elite" data-amount="59900" data-label="Solute Elite · ₹599/mo">Buy with Razorpay</button>
+      <button class="btn ghost" data-plan="solute-elite" data-amount="59900" data-label="Solute Elite · ₹599/mo">Buy with Razorpay</button>
     </div>
 
     <div class="rank">
@@ -193,7 +202,7 @@
         <li>Direct support line</li>
         <li>Founder badge</li>
       </ul>
-      <button class="btn" data-plan="solute-ultra" data-amount="99900" data-label="Solute Ultra · ₹999/mo">Buy with Razorpay</button>
+      <button class="btn ghost" data-plan="solute-ultra" data-amount="99900" data-label="Solute Ultra · ₹999/mo">Buy with Razorpay</button>
     </div>
   </div>
 
