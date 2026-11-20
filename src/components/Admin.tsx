@@ -743,7 +743,7 @@ export default function Admin() {
               <input
                 type="text"
                 spellCheck={false}
-                placeholder="https://isolateclient.vercel.app"
+                placeholder="https://isolateclient.in"
                 value={cfg.website ?? ""}
                 onChange={(e) => setCfg({ ...cfg, website: e.target.value })}
               />

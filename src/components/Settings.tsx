@@ -513,6 +513,12 @@ export default function Settings() {
               Open
             </button>
           </div>
+          <div className="row between" style={{ marginBottom: 10 }}>
+            <span className="muted">Support</span>
+            <a href="mailto:support@isolateclient.in" className="mono">
+              support@isolateclient.in
+            </a>
+          </div>
           <div className="divider" />
           <div className="faint">
             Isolate Client — a lean Minecraft launcher. No overlays, no telemetry, no

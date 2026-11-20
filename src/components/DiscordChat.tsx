@@ -213,7 +213,7 @@ export default function DiscordChat() {
       return;
     }
     notify("err", "Voice chat needs a paid rank — opening plans page");
-    void api.openUrl("https://isolateclient.vercel.app/plans/");
+    void api.openUrl("https://isolateclient.in/plans/");
   };
 
   // poll messages while a channel is open (real-time-ish)
