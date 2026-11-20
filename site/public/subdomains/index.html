@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="dark">
+<head>
+<script src="/gate.js"></script><script src="/page-fx.js"></script>
+<link rel="stylesheet" href="/fontawesome/v7.2.0/css/all.css"/>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Free Minecraft Server Subdomains | Isolate Client</title>
+<meta name="description" content="Claim a free subdomain for your Minecraft server, like firemc.elixir.host. It expires after 30 days, so you can create a new one anytime."/>
+<meta name="keywords" content="Isolate Client, Minecraft subdomain, free subdomain, server IP, elixir.host, Minecraft Java server address"/>
+<meta name="theme-color" content="#0a0a0a"/>
+<meta property="og:url" content="https://isolateclient.in/subdomains"/>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="Free Minecraft Server Subdomains | Isolate Client"/>
+<meta property="og:description" content="Claim a free subdomain for your Minecraft server, like firemc.elixir.host. Expires after 30 days, create a new one anytime."/>
+<meta property="og:image" content="https://isolateclient.in/og-image.png"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Free Minecraft Server Subdomains | Isolate Client"/>
+<meta name="twitter:description" content="Claim a free subdomain for your Minecraft server. Free, expires after 30 days."/>
+<meta name="twitter:image" content="https://isolateclient.in/og-image.png"/>
+<link rel="canonical" href="https://isolateclient.in/subdomains"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="icon" href="/favicon-16.png" sizes="16x16" type="image/png"/>
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180"/>
+<link rel="mask-icon" href="/favicon.svg" color="#3b82f6"/>
+<link rel="manifest" href="/manifest.json"/>
+<style>
+:root{
+  --bg:#0a0a0a; --bg-soft:#111113; --card:#131316; --line:#1f1f24;
+  --line-soft:#26262c; --text:#f4f4f5; --muted:#a1a1aa; --dim:#71717a;
+  --brand:#3b82f6; --brand-soft:#60a5fa; --green:#A3FF12; --err:#f87171;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--text);
+  font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  -webkit-font-smoothing:antialiased; line-height:1.6;
+}
+a{color:var(--brand-soft); text-decoration:none}
+a:hover{color:#93c5fd}
+.wrap{max-width:1080px; margin:0 auto; padding:0 24px}
+header.top{
+  border-bottom:1px solid var(--line); position:sticky; top:0; z-index:50;
+  background:rgba(10,10,10,.88); backdrop-filter:blur(12px);
+}
+nav.bar{display:flex; align-items:center; gap:16px; height:68px}
+.brand{display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; font-size:15px; color:var(--text)}
+.brand img{width:30px; height:30px; display:block; border-radius:8px}
+nav.bar .nav{color:var(--muted); font-size:12px; font-weight:700; letter-spacing:.12em; text-transform:uppercase}
+nav.bar .nav:hover{color:var(--text)}
+.hero{padding:64px 0 8px; text-align:center}
+h1{
+  font-family:"Russo One",ui-sans-serif,system-ui,sans-serif;
+  font-size:clamp(30px,5vw,48px); line-height:1.08; margin:14px 0 12px;
+  font-weight:400; letter-spacing:.02em; text-wrap:balance;
+}
+h1 .accent{color:var(--brand-soft)}
+.sub{color:var(--muted); max-width:640px; margin:0 auto; font-size:16px; text-wrap:pretty}
+.issuer{display:inline-block; margin-top:16px; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--dim); font-weight:700}
+.card{
+  background:var(--card); border:1px solid var(--line); border-radius:16px;
+  padding:28px; max-width:720px; margin:32px auto 0; text-align:left;
+}
+.grid2{display:grid; gap:18px; grid-template-columns:1fr}
+@media(min-width:640px){.grid2{grid-template-columns:1fr 1fr}}
+.field{display:flex; flex-direction:column; gap:7px}
+.field.full{grid-column:1/-1}
+label{font-size:12px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--muted)}
+input,select{
+  width:100%; padding:13px 14px; font-size:16px; color:var(--text);
+  background:#0e0e10; border:1px solid var(--line-soft); border-radius:10px;
+  outline:none; transition:border-color .15s, box-shadow .15s; min-height:48px;
+  font-family:inherit;
+}
+input::placeholder{color:#5b5b63}
+input:focus,select:focus{border-color:var(--brand); box-shadow:0 0 0 3px rgba(59,130,246,.22)}
+input[readonly]{background:#0b0b0d; color:var(--muted); cursor:default}
+.hint{font-size:13px; color:var(--dim)}
+.suffix-row{display:flex; align-items:stretch; gap:0}
+.suffix-row input{border-top-right-radius:0; border-bottom-right-radius:0}
+.suffix{
+  display:flex; align-items:center; padding:0 14px; font-size:15px; font-weight:600;
+  background:#0e0e10; border:1px solid var(--line-soft); border-left:none;
+  border-top-right-radius:10px; border-bottom-right-radius:10px; color:var(--brand-soft);
+  white-space:nowrap;
+}
+.err{font-size:13px; color:var(--err); min-height:18px; margin-top:2px}
+button.primary{
+  width:100%; margin-top:20px; padding:15px 20px; min-height:52px;
+  font-size:15px; font-weight:800; letter-spacing:.08em; text-transform:uppercase;
+  color:#0b1220; background:var(--green); border:none; border-radius:10px; cursor:pointer;
+  transition:filter .15s, transform .15s;
+}
+button.primary:hover{filter:brightness(1.08)}
+button.primary:active{transform:translateY(1px)}
+button.primary:disabled{opacity:.45; cursor:not-allowed; filter:none}
+.expiry{
+  margin-top:16px; padding:12px 14px; font-size:13px; color:var(--muted);
+  background:rgba(59,130,246,.07); border:1px solid rgba(59,130,246,.28); border-radius:10px;
+}
+.expiry strong{color:var(--text); font-weight:600}
+/* ad gate */
+.gate-head{text-align:center; margin-bottom:6px}
+.gate-head h2{
+  font-family:"Russo One",ui-sans-serif,system-ui,sans-serif; font-weight:400;
+  font-size:clamp(22px,4vw,30px); margin:0 0 8px; letter-spacing:.02em;
+}
+.timer{
+  font-family:"Russo One",ui-sans-serif,system-ui,sans-serif; font-size:44px;
+  color:var(--green); letter-spacing:.06em; margin:10px 0 4px;
+}
+.timer.done{color:var(--brand-soft)}
+.adbar{height:8px; background:#0e0e10; border:1px solid var(--line-soft); border-radius:99px; overflow:hidden; margin:12px auto 22px; max-width:420px}
+.adbar i{display:block; height:100%; width:0%; background:linear-gradient(90deg,var(--brand),var(--green)); transition:width 1s linear}
+.ads{display:grid; gap:16px; grid-template-columns:1fr; justify-items:center; margin-top:6px}
+@media(min-width:700px){.ads{grid-template-columns:1fr 1fr}}
+.ad-slot{
+  width:100%; min-height:250px; display:flex; align-items:center; justify-content:center;
+  background:#0e0e10; border:1px dashed var(--line-soft); border-radius:10px;
+  color:var(--dim); font-size:12px; letter-spacing:.08em; text-transform:uppercase;
+  text-align:center; padding:12px; overflow:hidden;
+}
+.ad-slot.wide{grid-column:1/-1; min-height:90px}
+.ad-note{font-size:12px; color:var(--dim); text-align:center; margin-top:14px; letter-spacing:.06em; text-transform:uppercase}
+/* success */
+.done-box{text-align:center}
+.done-box .host{
+  font-family:"Russo One",ui-sans-serif,system-ui,sans-serif; font-size:clamp(22px,4.5vw,34px);
+  color:var(--green); word-break:break-all; margin:14px 0 6px; letter-spacing:.02em;
+}
+.done-box p{color:var(--muted); font-size:15px; max-width:520px; margin:6px auto 0}
+.btn-row{display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-top:22px}
+.btn-copy{
+  padding:14px 26px; min-height:48px; font-size:14px; font-weight:800; letter-spacing:.08em;
+  text-transform:uppercase; color:#0b1220; background:var(--green); border:none;
+  border-radius:10px; cursor:pointer;
+}
+.btn-home{
+  padding:14px 26px; min-height:48px; font-size:14px; font-weight:700; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--text); background:transparent;
+  border:1px solid var(--line-soft); border-radius:10px; cursor:pointer; text-decoration:none;
+  display:inline-flex; align-items:center;
+}
+.btn-home:hover{border-color:var(--brand); color:var(--text)}
+.steps{display:grid; gap:14px; grid-template-columns:1fr; max-width:720px; margin:44px auto 0; text-align:left}
+@media(min-width:640px){.steps{grid-template-columns:repeat(3,1fr)}}
+.step{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px}
+.step b{display:block; font-size:13px; letter-spacing:.1em; text-transform:uppercase; color:var(--brand-soft); margin-bottom:6px}
+.step span{font-size:14px; color:var(--muted)}
+[hidden]{display:none !important}
+footer.foot{border-top:1px solid var(--line); margin-top:64px; padding:28px 0 40px}
+.foot-meta{display:block; font-size:13px; color:var(--dim); margin-bottom:10px}
+.foot-links{display:block; font-size:13px; color:var(--dim); line-height:2}
+.foot-links a{color:var(--muted)}
+.foot-links a:hover{color:var(--text)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(prefers-reduced-motion:reduce){
+  *{transition:none !important; animation:none !important}
+}
+</style>
+<script src="/theme-boot.js"></script>
+<script src="theme-boot.js"></script>
+<style id="nav-hamburger">
+nav.bar{position:relative}
+nav.bar .links{display:flex; align-items:center; gap:18px; min-width:0}
+nav.bar .menu-btn{display:none; align-items:center; justify-content:center; width:44px; height:44px; border-radius:10px; border:1px solid var(--line-2,#26262b); background:#131316; color:var(--text); font-size:18px; line-height:1; cursor:pointer; flex:0 0 auto}
+nav.bar .menu-btn:hover{border-color:var(--brand,#3b82f6)}
+@media(max-width:760px){
+  nav.bar{height:60px; gap:10px; flex-wrap:nowrap}
+  nav.bar .brand{font-size:13px; letter-spacing:.08em}
+  nav.bar .brand img{width:26px; height:26px}
+  nav.bar .menu-btn{display:inline-flex}
+  nav.bar .links{display:none; position:absolute; left:0; right:0; top:100%; flex-direction:column; align-items:stretch; gap:2px; padding:10px; border:1px solid var(--line,#1f1f24); border-radius:10px; background:#101012; backdrop-filter:blur(12px); box-shadow:0 18px 40px rgba(0,0,0,.55); z-index:70}
+  nav.bar.open .links{display:flex}
+  nav.bar .links a{display:flex; align-items:center; min-height:44px; padding:13px 14px; border-radius:8px; font-size:13px; letter-spacing:.1em}
+  nav.bar .links a:hover{background:var(--bg-soft,#16161a)}
+}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Chakra+Petch:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <nav class="bar" aria-label="Main navigation">
+      <a class="brand" href="/">
+<img src="/favicon.svg" alt="" width="30" height="30" aria-hidden="true"/> Isolate Client</a>
+      <span style="flex:1">
+</span>
+      <div class="links" id="nav-links">
+        <a class="nav" href="/">Home</a>
+        <a class="nav" href="/store.html">Store</a>
+        <a class="nav" href="/index.html#features">Features</a>
+        <a class="nav" href="/faq.html">FAQ</a>
+        <a class="nav" href="/team.html">Team</a>
+        <a class="nav" href="/plans">Plans</a>
+        <a class="nav" href="/download.html">Download</a>
+      </div>
+      <button class="menu-btn" id="menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">&#9776;</button>
+    </nav>
+  </div>
+</header>
+<main class="wrap" id="main-content">
+
+  <!-- ============ VIEW 1: form ============ -->
+  <section id="view-form">
+    <div class="hero">
+      <span class="issuer">Minecraft Java Edition &middot; free forever</span>
+      <h1>Give your server a <span class="accent">free subdomain</span></h1>
+      <p class="sub">Players type a short address like <strong style="color:#f4f4f5">firemc.elixir.host</strong> instead of a string of numbers. Fill the form, watch a couple of ads, and your subdomain is yours.</p>
+    </div>
+
+    <form class="card" id="sub-form" novalidate>
+      <div class="grid2">
+        <div class="field full">
+          <label for="svc">Service Type</label>
+          <select id="svc" name="svc">
+            <option>Minecraft Java Edition</option>
+          </select>
+        </div>
+        <div class="field full">
+          <label for="ip">Server IP Address</label>
+          <input id="ip" name="ip" type="text" inputmode="url" autocomplete="off" placeholder="Server's IP address e.g 123.45.67.89" required/>
+          <span class="err" id="err-ip"></span>
+        </div>
+        <div class="field">
+          <label for="port">Server Port</label>
+          <input id="port" name="port" type="text" inputmode="numeric" value="25565" autocomplete="off" required/>
+          <span class="err" id="err-port"></span>
+        </div>
+        <div class="field">
+          <label for="email">Email Address</label>
+          <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required/>
+          <span class="err" id="err-email"></span>
+        </div>
+        <div class="field full">
+          <label for="sub">Subdomain Name</label>
+          <div class="suffix-row">
+            <input id="sub" name="sub" type="text" autocomplete="off" spellcheck="false" placeholder="firemc" required/>
+            <span class="suffix" id="suffix" aria-hidden="true">.elixir.host</span>
+          </div>
+          <span class="hint">Only letters, numbers and dashes. We will email you before your subdomain expires.</span>
+          <span class="err" id="err-sub"></span>
+        </div>
+      </div>
+      <div class="expiry"><strong>Subdomains expire after 30 days</strong> &mdash; create a new one for free anytime.</div>
+      <button class="primary" type="submit">Continue</button>
+    </form>
+
+    <div class="steps" aria-label="How it works">
+      <div class="step"><b>1 &middot; Fill the form</b><span>Your server address, port, email and the name you want.</span></div>
+      <div class="step"><b>2 &middot; Two minutes of ads</b><span>Ads keep this tool free for everyone.</span></div>
+      <div class="step"><b>3 &middot; Get your subdomain</b><span>Yourname.elixir.host, ready to share with players.</span></div>
+    </div>
+  </section>
+
+  <!-- ============ VIEW 2: ad gate ============ -->
+  <section id="view-gate" hidden>
+    <div class="hero">
+      <h1>Your subdomain is <span class="accent">almost ready</span></h1>
+      <div class="gate-head">
+        <div class="timer" id="timer" role="timer" aria-live="off">2:00</div>
+        <p class="sub" id="gate-msg">Unlocking your subdomain when the timer ends. Ads keep this tool free.</p>
+        <div class="adbar"><i id="bar-fill"></i></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ads">
+        <div class="ad-slot wide" id="ad1">Ad slot 1 &middot; 728&times;90</div>
+        <div class="ad-slot" id="ad2">Ad slot 2 &middot; 300&times;250</div>
+        <div class="ad-slot" id="ad3">Ad slot 3 &middot; 300&times;600</div>
+      </div>
+      <p class="ad-note">Advertisement &middot; thanks for keeping Isolate free</p>
+      <button class="primary" id="unlock-btn" type="button" disabled>Get your subdomain</button>
+    </div>
+  </section>
+
+  <!-- ============ VIEW 3: success ============ -->
+  <section id="view-done" hidden>
+    <div class="hero">
+      <h1>Your subdomain is <span class="accent">ready</span></h1>
+    </div>
+    <div class="card done-box">
+      <p class="sub" style="margin:0 auto">Share this address with your players:</p>
+      <div class="host" id="done-host">firemc.elixir.host</div>
+      <p>Point your server IP and port from the form at this address. <strong style="color:#f4f4f5">It expires in 30 days</strong> &mdash; create a new one for free anytime, and we will email you before it expires.</p>
+      <div class="btn-row">
+        <button class="btn-copy" id="copy-btn" type="button">Copy address</button>
+        <a class="btn-home" href="/">Back to home</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+<footer class="foot">
+  <div class="wrap">
+    <span class="foot-meta">&copy; Isolate Client &mdash; free forever, open builds. &middot; An isolated client by Shayan &amp; <a href="/team.html">Raghuwinder</a>, built for performance. &middot; Not affiliated with Mojang or Microsoft.</span>
+    <span class="foot-links"><a href="/">Home</a> &middot; <a href="/store.html">Store</a> &middot; <a href="/index.html#features">Features</a> &middot; <a href="/index.html#performance">Performance</a> &middot; <a href="/index.html#screenshots">Screenshots</a> &middot; <a href="/faq.html">FAQ</a> &middot; <a href="/team.html">Team</a> &middot; <a href="/plans">Plans</a> &middot; <a href="/download.html">Download</a> &middot; <a href="/contact.html">Contact</a> &middot; <a href="/track.html">Track</a> &middot; <a href="/uninstall.html">Uninstall</a> &middot; <a href="/privacy.html">Privacy</a> &middot; <a href="/terms.html">Terms</a> &middot; <a href="https://isolateclient.in/account">My account</a> &middot; <a href="https://discord.gg/TV2ypJF6TF" target="_blank" rel="noopener noreferrer">Discord</a> &middot; <a href="https://www.instagram.com/oyeraghuwinder/" target="_blank" rel="noopener noreferrer">Instagram</a> &middot; <a href="https://www.youtube.com/@oyeraghuwinder" target="_blank" rel="noopener noreferrer">YouTube</a> &middot; <a href="https://github.com/EscapeXMc/isolate-client" target="_blank" rel="noopener noreferrer">GitHub</a></span>
+  </div>
+</footer>
+<script>
+/* ============================================================
+   Subdomains page controller
+   Adsterra: paste your real ad unit keys into AD_KEYS below.
+   Keys starting with PASTE_ are placeholders: the slot shows a
+   dashed box instead of an ad, and the flow still works.
+   ============================================================ */
+var AD_KEYS = {
+  ad1: "PASTE_ADSTERRA_KEY_1",   // 728x90
+  ad2: "PASTE_ADSTERRA_KEY_2",   // 300x250
+  ad3: "PASTE_ADSTERRA_KEY_3"    // 300x600
+};
+var AD_SIZE = { ad1:[728,90], ad2:[300,250], ad3:[300,600] };
+var WAIT_SECONDS = 120; // 2 minute ad wait
+
+(function () {
+  "use strict";
+
+  /* ---- hamburger (site standard) ---- */
+  var nav = document.querySelector("nav.bar"), btn = document.getElementById("menu-btn");
+  if (nav && btn) {
+    function set(open) {
+      nav.classList.toggle("open", open);
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+      btn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      btn.innerHTML = open ? "&#10005;" : "&#9776;";
+    }
+    btn.addEventListener("click", function (e) { e.stopPropagation(); set(!nav.classList.contains("open")); });
+    nav.querySelectorAll(".links a").forEach(function (a) { a.addEventListener("click", function () { set(false); }); });
+    document.addEventListener("click", function (e) { if (!nav.contains(e.target)) set(false); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") set(false); });
+  }
+
+  /* ---- views ---- */
+  var vForm = document.getElementById("view-form");
+  var vGate = document.getElementById("view-gate");
+  var vDone = document.getElementById("view-done");
+  function show(el) {
+    [vForm, vGate, vDone].forEach(function (v) { if (v) v.hidden = (v !== el); });
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }
+
+  /* ---- validation ---- */
+  var f = document.getElementById("sub-form");
+  function setErr(id, msg) {
+    var el = document.getElementById("err-" + id);
+    if (el) el.textContent = msg || "";
+    var input = document.getElementById(id);
+    if (input) input.style.borderColor = msg ? "var(--err)" : "";
+    return !msg;
+  }
+  function validIp(v) {
+    v = v.trim();
+    if (!v || v.length > 253 || /\s/.test(v)) return false;
+    var m = v.match(/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/);
+    if (m) return m.slice(1).every(function (n) { return +n <= 255; });
+    return /^[a-z0-9]([a-z0-9.-]*[a-z0-9])?$/i.test(v); // hostname fallback
+  }
+  function validPort(v) { return /^\d{1,5}$/.test(v.trim()) && +v >= 1 && +v <= 65535; }
+  function validEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()); }
+  function validSub(v) { return /^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$/.test(v); }
+
+  var subInput = document.getElementById("sub");
+  subInput.addEventListener("input", function () {
+    var lower = subInput.value.toLowerCase().replace(/[^a-z0-9-]/g, "");
+    if (lower !== subInput.value) subInput.value = lower;
+    setErr("sub", "");
+  });
+
+  f.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var ip = document.getElementById("ip").value;
+    var port = document.getElementById("port").value;
+    var email = document.getElementById("email").value;
+    var sub = subInput.value;
+    var ok = true;
+    ok = setErr("ip", validIp(ip) ? "" : "Enter a valid server IP address.") && ok;
+    ok = setErr("port", validPort(port) ? "" : "Enter a port between 1 and 65535.") && ok;
+    ok = setErr("email", validEmail(email) ? "" : "Enter a valid email address.") && ok;
+    ok = setErr("sub", validSub(sub) ? "" : "Use letters, numbers and dashes only (3+ characters).") && ok;
+    if (!ok) return;
+    startGate(sub);
+  });
+
+  /* ---- ad gate ---- */
+  function injectAd(slotId) {
+    var key = AD_KEYS[slotId];
+    var box = document.getElementById(slotId);
+    if (!box || !key || key.indexOf("PASTE_") === 0) return; // placeholder: keep dashed box
+    var size = AD_SIZE[slotId] || [300, 250];
+    box.innerHTML = "";
+    box.style.border = "none";
+    box.style.padding = "0";
+    var conf = document.createElement("script");
+    conf.type = "text/javascript";
+    conf.text = "atOptions = { 'key' : '" + key + "', 'format' : 'iframe', 'height' : " + size[1] + ", 'width' : " + size[0] + ", 'params' : {} };";
+    var inv = document.createElement("script");
+    inv.type = "text/javascript";
+    inv.src = "//www.highperformanceformat.com/" + key + "/invoke.js";
+    box.appendChild(conf);
+    box.appendChild(inv);
+  }
+
+  var timerEl = document.getElementById("timer");
+  var barEl = document.getElementById("bar-lock") || document.getElementById("bar-fill");
+  var unlockBtn = document.getElementById("unlock-btn");
+  var gateMsg = document.getElementById("gate-msg");
+  var remaining = WAIT_SECONDS;
+  var tick = null;
+  var pendingSub = "";
+
+  function fmt(s) {
+    var m = Math.floor(s / 60), r = s % 60;
+    return m + ":" + (r < 10 ? "0" : "") + r;
+  }
+
+  function startGate(sub) {
+    pendingSub = sub;
+    show(vGate);
+    injectAd("ad1"); injectAd("ad2"); injectAd("ad3");
+    remaining = WAIT_SECONDS;
+    timerEl.textContent = fmt(remaining);
+    timerEl.classList.remove("done");
+    unlockBtn.disabled = true;
+    gateMsg.textContent = "Unlocking your subdomain when the timer ends. Ads keep this tool free.";
+    if (barEl) barEl.style.width = "0%";
+    if (tick) clearInterval(tick);
+    tick = setInterval(function () {
+      remaining--;
+      if (remaining <= 0) {
+        remaining = 0;
+        clearInterval(tick); tick = null;
+        timerEl.textContent = "0:00";
+        timerEl.classList.add("done");
+        if (barEl) barEl.style.width = "100%";
+        gateMsg.textContent = "All done. Your subdomain is ready.";
+        unlockBtn.disabled = false;
+        unlockBtn.focus();
+        return;
+      }
+      timerEl.textContent = fmt(remaining);
+      if (barEl) barEl.style.width = ((WAIT_SECONDS - remaining) / WAIT_SECONDS * 100).toFixed(1) + "%";
+    }, 1000);
+  }
+
+  unlockBtn.addEventListener("click", function () {
+    if (unlockBtn.disabled) return;
+    document.getElementById("done-host").textContent = pendingSub + ".elixir.host";
+    show(vDone);
+  });
+
+  /* ---- copy ---- */
+  var copyBtn = document.getElementById("copy-btn");
+  copyBtn.addEventListener("click", function () {
+    var text = document.getElementById("done-host").textContent;
+    function done() { copyBtn.textContent = "Copied"; setTimeout(function () { copyBtn.textContent = "Copy address"; }, 1600); }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, done);
+    } else {
+      var ta = document.createElement("textarea");
+      ta.value = text; document.body.appendChild(ta); ta.select();
+      try { document.execCommand("copy"); } catch (e) {}
+      document.body.removeChild(ta); done();
+    }
+  });
+})();
+</script>
+</body>
+</html>

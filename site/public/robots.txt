@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
-Sitemap: https://isolateclient.vercel.app/sitemap.xml
+
+Sitemap: https://isolateclient.in/sitemap.xml
