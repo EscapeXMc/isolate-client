@@ -858,7 +858,6 @@ button.primary {
 }
 .btn.accent,
 .btn.primary,
-.magmad-download,
 button.primary {
   background: var(--brand-bright) !important;
   color: #0b1220 !important;
@@ -867,12 +866,27 @@ button.primary {
 }
 .btn.accent:hover,
 .btn.primary:hover,
-.magmad-download:hover,
 button.primary:hover {
   background: #93c5fd !important;
   color: #000 !important;
   transform: translateY(-2px);
   box-shadow: 0 10px 30px rgba(37, 99, 235, 0.55), 0 0 22px rgba(96, 165, 250, 0.35) !important;
+}
+/* the one neon CTA — "Download for" on the index pages only */
+.magmad-download {
+  background: #a3ff12 !important;
+  color: #0b1220 !important;
+  border-color: #a3ff12 !important;
+  box-shadow: 0 6px 22px rgba(163, 255, 18, 0.24) !important;
+}
+.magmad-download:hover {
+  background: #c4ff5c !important;
+  color: #0b1220 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(163, 255, 18, 0.32), 0 0 22px rgba(163, 255, 18, 0.4) !important;
+}
+.magmad-download:active {
+  background: #8fe60e !important;
 }
 .btn.ghost {
   background: transparent !important;
@@ -1249,8 +1263,30 @@ main .rank:hover {
   transform: translateY(-3px) !important;
   box-shadow: 0 14px 34px rgba(0, 0, 0, 0.4) !important;
 }
+main .rank.hot {
+  border-top-color: #a3ff12 !important;
+  background: linear-gradient(180deg, rgba(163, 255, 18, 0.07), rgba(163, 255, 18, 0) 45%), #131316 !important;
+  box-shadow: inset 0 0 0 1px rgba(163, 255, 18, 0.55) !important;
+}
 main .rank.hot:hover {
-  box-shadow: inset 0 0 0 1px #3b82f6, 0 14px 34px rgba(0, 0, 0, 0.4) !important;
+  border-top-color: #a3ff12 !important;
+  box-shadow: inset 0 0 0 1px #a3ff12, 0 14px 34px rgba(0, 0, 0, 0.4) !important;
+}
+/* plans — the buy moment is neon lime; blue stays structure, Discord and focus */
+main .btn.buy-neon,
+.checkout .btn.buy-neon {
+  background: #a3ff12 !important;
+  color: #0b1220 !important;
+  border-color: #a3ff12 !important;
+  box-shadow: 0 6px 22px rgba(163, 255, 18, 0.24) !important;
+}
+main .btn.buy-neon:hover,
+.checkout .btn.buy-neon:hover {
+  background: #c4ff5c !important;
+  color: #0b1220 !important;
+  border-color: #c4ff5c !important;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(163, 255, 18, 0.32), 0 0 22px rgba(163, 255, 18, 0.4) !important;
 }
 main .rank .name,
 main .rank .price {
