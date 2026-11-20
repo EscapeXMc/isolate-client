@@ -404,7 +404,7 @@ footer { background: var(--bg); padding-top: 80px; }
 .btn:active { transform: scale(.97); }
 a, button, [role="button"] { transition: color .18s ease, transform .18s cubic-bezier(.22,1,.36,1), box-shadow .22s ease, filter .18s ease; }
 a:active { transform: scale(.97); }
-.badge, .mark, .eyebrow, .tag {
+.badge, .eyebrow, .tag {
   background: rgba(59,130,246,.16);
   border: 1px solid rgba(96,165,250,.45);
   box-shadow: 0 0 14px rgba(59,130,246,.28);

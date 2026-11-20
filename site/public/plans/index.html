@@ -113,23 +113,32 @@
   @media (min-width: 1200px) { .rank-grid { grid-template-columns: repeat(5, 1fr); } }
 </style>
 <style>.top nav a{display:inline-flex;align-items:center;min-height:44px}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Chakra+Petch:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/assets/iso-override.css"/>
 </head>
 <body>
 
 <div class="wrap plans-hero">
   <header class="top">
     <a class="mark" href="../">ISOLATE&nbsp;CLIENT</a>
-    <nav aria-label="Primary">
-      <a href="../">Home</a>
-      <a href="../store.html">Store</a>
-      <a href="../#features">Features</a>
-      <a href="../faq.html">FAQ</a>
-      <a href="../team.html">Team</a>
-      <a href="./" aria-current="page">Plans</a>
-      <a href="../download.html">Download</a>
-      <a href="https://discord.gg/TV2ypJF6TF" rel="noopener">Discord</a>
+    <nav class="bar" aria-label="Primary">
+      <div class="links" id="nav-links">
+        <a class="nav" href="../">Home</a>
+        <a class="nav" href="../store.html">Store</a>
+        <a class="nav" href="../#features">Features</a>
+        <a class="nav" href="../faq.html">FAQ</a>
+        <a class="nav" href="../team.html">Team</a>
+        <a class="nav active" href="./" aria-current="page">Plans</a>
+        <a class="nav" href="../download.html">Download</a>
+        <a class="nav" href="https://discord.gg/TV2ypJF6TF" rel="noopener">Discord</a>
+      </div>
+      <button class="menu-btn" id="menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">&#9776;</button>
     </nav>
   </header>
+
+  <main>
 
   <div class="hero-grid">
    <div class="hero-copy">
@@ -237,6 +246,7 @@
     Payment is processed by Razorpay; card and bank details never touch our servers.
     Not affiliated with Mojang or Microsoft. Minecraft is a trademark of Mojang AB.
   </p>
+  </main>
 </div>
 
 <!-- checkout dialog -->
@@ -255,12 +265,10 @@
   </div>
 </div>
 
-<footer>
+<footer class="foot">
   <div class="wrap">
-    <div class="flegal" style="padding-top:0">
-      <span><a href="../">← Back to isolateclient.vercel.app</a></span>
-      <span>© 2026 Isolate Client</span>
-    </div>
+    <span class="foot-meta">&copy; Isolate Client &mdash; free forever, open builds. &middot; An isolated client by Shayan &amp; <a href="/team.html">Raghuwinder</a>, built for performance. &middot; Not affiliated with Mojang or Microsoft.</span>
+    <span class="foot-links"><a href="/">Home</a> &middot; <a href="/store.html">Store</a> &middot; <a href="/index.html#features">Features</a> &middot; <a href="/index.html#performance">Performance</a> &middot; <a href="/index.html#screenshots">Screenshots</a> &middot; <a href="/faq.html">FAQ</a> &middot; <a href="/team.html">Team</a> &middot; <a href="/plans">Plans</a> &middot; <a href="/download.html">Download</a> &middot; <a href="/contact.html">Contact</a> &middot; <a href="/track.html">Track</a> &middot; <a href="/uninstall.html">Uninstall</a> &middot; <a href="/privacy.html">Privacy</a> &middot; <a href="/terms.html">Terms</a> &middot; <a href="https://isolateclient.vercel.app/account">My account</a> &middot; <a href="https://discord.gg/TV2ypJF6TF" target="_blank" rel="noopener noreferrer">Discord</a> &middot; <a href="https://www.instagram.com/oyeraghuwinder/" target="_blank" rel="noopener noreferrer">Instagram</a> &middot; <a href="https://www.youtube.com/@oyeraghuwinder" target="_blank" rel="noopener noreferrer">YouTube</a> &middot; <a href="https://github.com/EscapeXMc/isolate-client" target="_blank" rel="noopener noreferrer">GitHub</a></span>
   </div>
 </footer>
 
@@ -361,6 +369,22 @@
   }, { threshold: 0.15 });
   nodes.forEach(function (n) { io.observe(n); });
 })();
+</script>
+<script>
+  (function () {
+    var nav = document.querySelector("nav.bar"), btn = document.getElementById("menu-btn");
+    if (!nav || !btn) return;
+    function set(open) {
+      nav.classList.toggle("open", open);
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+      btn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      btn.innerHTML = open ? "&#10005;" : "&#9776;";
+    }
+    btn.addEventListener("click", function (e) { e.stopPropagation(); set(!nav.classList.contains("open")); });
+    nav.querySelectorAll(".links a").forEach(function (a) { a.addEventListener("click", function () { set(false); }); });
+    document.addEventListener("click", function (e) { if (!nav.contains(e.target)) set(false); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") set(false); });
+  })();
 </script>
 </body>
 </html>
