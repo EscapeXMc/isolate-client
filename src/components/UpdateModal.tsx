@@ -14,7 +14,14 @@ import { useEffect, useRef, useState } from "react";
 import { api, onEvent } from "../lib/tauri";
 import type { UpdateInfo } from "../lib/types";
 
-type Phase = "intro" | "downloading" | "downloaded" | "installing" | "error";
+type Phase =
+  | "intro"
+  | "downloading"
+  | "verifying"
+  | "downloaded"
+  | "installing"
+  | "restarting"
+  | "error";
 
 const fmtMB = (bytes: number) =>
   bytes > 0 ? `${(bytes / 1_048_576).toFixed(1)} MB` : "?";
@@ -57,6 +64,12 @@ export default function UpdateModal({
       onEvent<string>("update-log", (m) =>
         setLog((l) => [...l.slice(-30), String(m)]),
       ),
+      // Backend stage flips (verifying after download, restarting at exit).
+      onEvent<{ stage: string }>("update-stage", (p) => {
+        if (p.stage === "verifying") setPhase("verifying");
+        else if (p.stage === "restarting") setPhase("restarting");
+        else if (p.stage === "installing") setPhase("installing");
+      }),
     ])
       .then((fns) => {
         un = fns;
@@ -84,6 +97,7 @@ export default function UpdateModal({
       const r = (await api.downloadUpdate(
         info.download_url,
         info.download_name ?? "",
+        info.sha256,
       )) as { error?: string; path?: string };
       if (r.error) throw new Error(r.error);
       setDlPath(String(r.path ?? ""));
@@ -117,10 +131,19 @@ export default function UpdateModal({
     onClose();
   };
 
-  const busy = phase === "downloading" || phase === "installing";
+  const busy =
+    phase === "downloading" ||
+    phase === "verifying" ||
+    phase === "installing" ||
+    phase === "restarting";
+  // forceUpdate / minSupportedVersion breach — no escape hatch.
+  const force = !!info.force_update;
 
   return (
-    <div className="overlay upd-overlay" onClick={busy ? undefined : onClose}>
+    <div
+      className="overlay upd-overlay"
+      onClick={busy || force ? undefined : onClose}
+    >
       <div
         className="modal upd-modal"
         onClick={(e) => e.stopPropagation()}
@@ -134,14 +157,19 @@ export default function UpdateModal({
           </div>
           <div>
             <h2 style={{ margin: 0 }}>
-              {phase === "installing" ? "Installing update" : "Update available"}
+              {phase === "installing" || phase === "restarting"
+                ? "Installing update"
+                : force
+                  ? "Update required"
+                  : "Update available"}
             </h2>
             <div className="faint" style={{ fontSize: 12, marginTop: 3 }}>
               {info.current_version} → <strong style={{ color: "var(--accent-2)" }}>{version}</strong>
               {info.download_size ? ` · ${fmtMB(info.download_size)}` : ""}
+              {info.sha256 ? ` · sha256 ${info.sha256.slice(0, 12)}…` : ""}
             </div>
           </div>
-          {!busy && (
+          {!busy && !force && (
             <button className="btn sm ghost upd-x" onClick={onClose} aria-label="Close">
               ✕
             </button>
@@ -150,16 +178,24 @@ export default function UpdateModal({
 
         <div className="body upd-body">
           {/* animated progress — exaggerated feedback while busy */}
-          {(phase === "downloading" || phase === "installing") && (
+          {busy && (
             <div className="upd-progress">
               <div className="upd-track">
                 <i
-                  className={`upd-fill${phase === "installing" ? " upd-fill-indeterminate" : ""}`}
+                  className={`upd-fill${
+                    phase === "installing" || phase === "verifying" || phase === "restarting"
+                      ? " upd-fill-indeterminate"
+                      : ""
+                  }`}
                   style={phase === "downloading" ? { width: `${Math.max(2, pct)}%` } : undefined}
                 />
               </div>
               <div className="upd-meta mono">
-                {phase === "installing" ? (
+                {phase === "verifying" ? (
+                  <span>Verifying checksum…</span>
+                ) : phase === "restarting" ? (
+                  <span>Restarting…</span>
+                ) : phase === "installing" ? (
                   <span>Replacing files…</span>
                 ) : (
                   <>
@@ -205,17 +241,29 @@ export default function UpdateModal({
         <div className="upd-actions">
           {phase === "intro" && (
             <>
-              <button className="btn ghost" onClick={later}>
-                Later
-              </button>
+              {!force && (
+                <button className="btn ghost" onClick={later}>
+                  Later
+                </button>
+              )}
               <button className="btn primary upd-cta" onClick={() => void startDownload()}>
-                Download update
+                Update Now
               </button>
             </>
           )}
-          {(phase === "downloading" || phase === "installing") && (
+          {(phase === "downloading" ||
+            phase === "verifying" ||
+            phase === "installing" ||
+            phase === "restarting") && (
             <button className="btn" disabled>
-              <span className="spin" /> {phase === "downloading" ? "Downloading…" : "Installing…"}
+              <span className="spin" />{" "}
+              {phase === "downloading"
+                ? "Downloading…"
+                : phase === "verifying"
+                  ? "Verifying…"
+                  : phase === "restarting"
+                    ? "Restarting…"
+                    : "Installing…"}
             </button>
           )}
           {phase === "downloaded" && (

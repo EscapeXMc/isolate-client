@@ -422,11 +422,14 @@ export const api = {
   checkLauncherUpdate: () => invoke<UpdateInfo | Json>("check_launcher_update"),
   checkUpdates: () => invoke<UpdateInfo | Json>("check_updates"),
   getLatestReleaseTag: () => invoke<Json>("get_latest_release_tag"),
-  downloadUpdate: (url: string, filename: string) =>
-    invoke<Json>("download_update", { url, filename }),
+  downloadUpdate: (url: string, filename: string, sha256?: string) =>
+    invoke<Json>("download_update", { url, filename, sha256 }),
   installUpdate: (path: string) => invoke<Json>("install_update", { path }),
   // Auto-check on boot (anti-loop filtered) + guard bookkeeping.
   startupUpdateCheck: () => invoke<UpdateInfo | Json>("startup_update_check"),
+  // Live release state (GitHub ⊕ Firebase RTDB) + real-time listener.
+  checkReleaseLive: () => invoke<UpdateInfo | Json>("check_release_live"),
+  startReleaseListener: () => invoke<Json>("start_release_listener"),
   markUpdateAttempt: (version: string) =>
     invoke<Json>("mark_update_attempt", { version }),
   dismissUpdate: (version: string) => invoke<Json>("dismiss_update", { version }),

@@ -5,6 +5,7 @@ import { fbEmail, fbEnsureToken, fbFetchConfig, fbFetchPartners, fbFetchRank, fb
 import { fetchBan, sendTelemetry, type BanState } from "../lib/telemetry";
 import { convertFileSrc } from "@tauri-apps/api/tauri";
 import type {
+  Announcement,
   AppInfo,
   Instance,
   InstallProgress,
@@ -72,6 +73,8 @@ interface AppStore {
   // Step 5 — pending auto-update (set by the boot-time startup check).
   updateInfo: UpdateInfo | null;
   setUpdateInfo: (u: UpdateInfo | null) => void;
+  announcement: Announcement | null;
+  setAnnouncement: (a: Announcement | null) => void;
   msStart: () => Promise<void>;
   msReset: () => void;
 }
@@ -111,6 +114,8 @@ export const useApp = create<AppStore>((set, get) => ({
   banner: null,
   updateInfo: null,
   setUpdateInfo: (u) => set({ updateInfo: u }),
+  announcement: null,
+  setAnnouncement: (a) => set({ announcement: a }),
   partners: [],
   partnersLive: false,
   config: {},

@@ -1,0 +1,80 @@
+# Push new GitHub releases to the Firebase RTDB so running clients
+# pick up updates/announcements live (see docs/RELEASE.md).
+name: release-notify
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version without v (e.g. 0.2.0)"
+        required: true
+
+jobs:
+  push-firebase:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Resolve version + asset
+        id: meta
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          INPUT_VERSION: ${{ inputs.version }}
+        run: |
+          set -e
+          if [ -n "$INPUT_VERSION" ]; then
+            VER="$INPUT_VERSION"
+          else
+            VER="${GITHUB_REF_NAME#v}"
+          fi
+          ASSET_URL=$(gh api "repos/${GITHUB_REPOSITORY}/releases/tags/v${VER}" \
+            --jq '.assets[] | select(.name | test("setup\\.exe$")) | .browser_download_url' | head -1)
+          if [ -z "$ASSET_URL" ]; then
+            ASSET_URL=$(gh api "repos/${GITHUB_REPOSITORY}/releases" \
+              --jq '.[0].assets[] | select(.name | test("setup\\.exe$")) | .browser_download_url' | head -1)
+          fi
+          echo "version=$VER" >> "$GITHUB_OUTPUT"
+          echo "asset=$ASSET_URL" >> "$GITHUB_OUTPUT"
+
+      - name: Download asset + checksum
+        id: sum
+        run: |
+          set -e
+          curl -4 -sL -o /tmp/rel-setup.exe "${{ steps.meta.outputs.asset }}"
+          SIZE=$(stat -c%s /tmp/rel-setup.exe)
+          SHA=$(sha256sum /tmp/rel-setup.exe | cut -d' ' -f1)
+          echo "size=$SIZE" >> "$GITHUB_OUTPUT"
+          echo "sha=$SHA" >> "$GITHUB_OUTPUT"
+
+      - name: Push releases/latest to Firebase RTDB
+        env:
+          FIREBASE_DB_URL: ${{ secrets.FIREBASE_DB_URL }}
+          FIREBASE_AUTH: ${{ secrets.FIREBASE_AUTH }}
+          VER: ${{ steps.meta.outputs.version }}
+          URL: ${{ steps.meta.outputs.asset }}
+          SHA: ${{ steps.sum.outputs.sha }}
+          SIZE: ${{ steps.sum.outputs.size }}
+        run: |
+          if [ -z "$FIREBASE_DB_URL" ] || [ -z "$FIREBASE_AUTH" ]; then
+            echo "Secrets FIREBASE_DB_URL / FIREBASE_AUTH not set — skipping (see docs/RELEASE.md)."
+            exit 0
+          fi
+          node -e '
+            const body = {
+              latestVersion: process.env.VER,
+              minSupportedVersion: "0.1.0",
+              forceUpdate: false,
+              downloadUrl: process.env.URL,
+              sha256: process.env.SHA,
+              size: Number(process.env.SIZE),
+              updatedAt: Date.now(),
+            };
+            fetch(`${process.env.FIREBASE_DB_URL}/releases/latest.json?auth=${encodeURIComponent(process.env.FIREBASE_AUTH)}`, {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(body),
+            }).then(async (r) => {
+              if (!r.ok) throw new Error(`${r.status} ${await r.text()}`);
+              console.log("✓ releases/latest pushed:", JSON.stringify(body));
+            }).catch((e) => { console.error(e); process.exit(1); });
+          '

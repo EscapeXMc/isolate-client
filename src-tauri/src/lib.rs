@@ -2003,13 +2003,41 @@ async fn install_instance(handle: tauri::AppHandle, name: String) -> Value {
     json!({ "status": "started" })
 }
 
+/// Append a timestamped line to `~/.isolate/install.log`. Unlike `log_msg`
+/// (in-memory only — dies with the process), this survives an app close so
+/// the error that killed an install is still readable on the next run.
+fn install_log(msg: &str) {
+    use std::io::Write;
+    let path = app_dir().join("install.log");
+    if let Some(p) = path.parent() {
+        let _ = std::fs::create_dir_all(p);
+    }
+    if let Ok(mut f) = std::fs::OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open(&path)
+    {
+        let _ = writeln!(
+            f,
+            "[{}] {}",
+            chrono::Utc::now().format("%Y-%m-%dT%H:%M:%SZ"),
+            msg
+        );
+    }
+}
+
 fn install_blocking(handle: tauri::AppHandle, name: String) {
+    install_log(&format!("[start] {} (client v{})", name, APP_VERSION));
     let result = install_inner(&handle, &name);
     match result {
-        Ok(msg) => progress(&handle, &name, 100, &msg, true, None),
+        Ok(msg) => {
+            install_log(&format!("[done] {}: {}", name, msg));
+            progress(&handle, &name, 100, &msg, true, None);
+        }
         Err(e) => {
             let app = handle.state::<AppState>();
             log_msg(&app, &format!("[Install/ERR] {}: {}", name, e));
+            install_log(&format!("[err] {}: {}", name, e));
             progress(&handle, &name, 0, "Install failed", true, Some(e));
         }
     }
@@ -2039,7 +2067,9 @@ fn install_inner(handle: &tauri::AppHandle, name: &str) -> Result<String, String
         .unwrap_or("")
         .to_string();
     if mc.is_empty() {
-        return Err("Instance has no Minecraft version.".into());
+        let e = "Instance has no Minecraft version.".to_string();
+        install_log(&format!("[{}] ERR {}", name, e));
+        return Err(e);
     }
     drop(app);
 
@@ -2048,6 +2078,7 @@ fn install_inner(handle: &tauri::AppHandle, name: &str) -> Result<String, String
 
     // ---- 1. version JSON ------------------------------------------------
     progress(handle, name, 5, "Fetching version manifest", false, None);
+    install_log(&format!("[{}] step manifest", name));
     let manifest = http_get(MOJANG_MANIFEST)?;
     let entry = manifest
         .get("versions")
@@ -2064,11 +2095,14 @@ fn install_inner(handle: &tauri::AppHandle, name: &str) -> Result<String, String
     download_file(&vurl, &vjson_path)?;
     let vjson = load_json(&vjson_path);
     if vjson.is_null() {
-        return Err("Version JSON is invalid.".into());
+        let e = "Version JSON is invalid.".to_string();
+        install_log(&format!("[{}] ERR {}", name, e));
+        return Err(e);
     }
 
     // ---- 2. client jar --------------------------------------------------
     progress(handle, name, 20, "Downloading game jar", false, None);
+    install_log(&format!("[{}] step client.jar", name));
     let client = vjson
         .get("downloads")
         .and_then(|d| d.get("client"))
@@ -2086,6 +2120,7 @@ fn install_inner(handle: &tauri::AppHandle, name: &str) -> Result<String, String
 
     // ---- 3. assets ------------------------------------------------------
     progress(handle, name, 35, "Downloading assets", false, None);
+    install_log(&format!("[{}] step assets", name));
     let mut asset_items: Vec<(String, PathBuf)> = Vec::new();
     if let Some(idx) = vjson.get("assetIndex") {
         let idx_id = idx
@@ -2142,6 +2177,7 @@ fn install_inner(handle: &tauri::AppHandle, name: &str) -> Result<String, String
 
     // ---- 4. libraries + natives ----------------------------------------
     progress(handle, name, 68, "Downloading libraries", false, None);
+    install_log(&format!("[{}] step libraries", name));
     let mut merged_libs: Vec<Value> = Vec::new();
     if let Some(arr) = vjson.get("libraries").and_then(|l| l.as_array()) {
         merged_libs.extend(arr.iter().cloned());
@@ -2246,9 +2282,15 @@ fn install_inner(handle: &tauri::AppHandle, name: &str) -> Result<String, String
         ),
     );
     drop(app);
+    install_log(&format!(
+        "[{}] summary: {} assets, {} libs, {} natives, {} failed",
+        name, total_assets, total_libs, natives_extracted, fails
+    ));
 
     if total_assets == 0 && fails > 0 {
-        return Err(format!("{} downloads failed.", fails));
+        let e = format!("{} downloads failed.", fails);
+        install_log(&format!("[{}] ERR {}", name, e));
+        return Err(e);
     }
     let msg = if fails > 0 {
         format!("Installed with {} failed downloads (will retry on launch)", fails)
@@ -8922,6 +8964,178 @@ fn dismiss_update(version: String) -> Value {
     json!({ "success": true })
 }
 
+// ---------------- Firebase live releases (RTDB) ----------------
+// Public-read RTDB nodes pushed by `scripts/push-release.mjs` (or the
+// release-notify workflow). The client only ever READS these:
+//   releases/latest.json       – latestVersion / forceUpdate / sha256 / …
+//   releases/announcement.json – live announcement (id changes → re-show)
+const RELEASE_FB: &str = "https://isolateclient-default-rtdb.firebaseio.com/releases";
+
+fn firebase_node(path: &str) -> Result<Value, String> {
+    http_get(&format!("{}/{}.json", RELEASE_FB, path))
+}
+
+/// Apply `releases/latest` Firebase fields onto the GitHub-derived info.
+/// Returns `force` (forceUpdate or current < minSupportedVersion).
+fn apply_fb_latest(info: &mut Value, fb: &Value) -> bool {
+    let latest = fb
+        .get("latestVersion")
+        .and_then(|v| v.as_str())
+        .unwrap_or("")
+        .to_string();
+    if latest.is_empty() {
+        return false;
+    }
+    if version_gt(&latest, APP_VERSION) {
+        info["update_available"] = json!(true);
+        info["latest_version"] = json!(latest);
+        if let Some(u) = fb
+            .get("downloadUrl")
+            .and_then(|v| v.as_str())
+            .filter(|s| !s.is_empty())
+        {
+            info["download_url"] = json!(u);
+            if info
+                .get("download_name")
+                .and_then(|v| v.as_str())
+                .unwrap_or("")
+                .is_empty()
+            {
+                info["download_name"] = json!(u.rsplit('/').next().unwrap_or("update.bin"));
+            }
+        }
+        if let Some(s) = fb
+            .get("sha256")
+            .and_then(|v| v.as_str())
+            .filter(|s| !s.is_empty())
+        {
+            info["sha256"] = json!(s);
+        }
+        if let Some(n) = fb.get("size").and_then(|v| v.as_u64()) {
+            info["download_size"] = json!(n);
+        }
+        if let Some(n) = fb
+            .get("releaseNotes")
+            .and_then(|v| v.as_str())
+            .filter(|s| !s.is_empty())
+        {
+            info["release_notes"] = json!(n);
+        }
+        let mut force = fb.get("forceUpdate").and_then(|v| v.as_bool()).unwrap_or(false);
+        if let Some(m) = fb
+            .get("minSupportedVersion")
+            .and_then(|v| v.as_str())
+            .filter(|s| !s.is_empty())
+        {
+            info["min_supported_version"] = json!(m);
+            if version_gt(m, APP_VERSION) {
+                force = true;
+            }
+        }
+        force
+    } else {
+        // Firebase says we're current — but never mask a *newer* GitHub
+        // release (the Firebase push for it may have failed).
+        if !info
+            .get("update_available")
+            .and_then(|v| v.as_bool())
+            .unwrap_or(false)
+        {
+            info["latest_version"] = json!(latest);
+        }
+        false
+    }
+}
+
+/// Full live release state: GitHub asset info ⊕ Firebase overrides +
+/// announcement + anti-loop guards (unless forced).
+fn live_release_payload(app: &AppState) -> Value {
+    let mut info = release_info(app);
+    let mut force = false;
+    if let Ok(fb) = firebase_node("latest") {
+        if fb.is_object() {
+            force = apply_fb_latest(&mut info, &fb);
+        }
+    }
+    match firebase_node("announcement") {
+        Ok(a) if a.is_object() => info["announcement"] = a,
+        _ => info["announcement"] = Value::Null,
+    }
+    if !force
+        && info
+            .get("update_available")
+            .and_then(|v| v.as_bool())
+            .unwrap_or(false)
+    {
+        let remote = info
+            .get("latest_version")
+            .and_then(|v| v.as_str())
+            .unwrap_or("")
+            .to_string();
+        if let Some(reason) = update_guard(&update_state(), &remote) {
+            info["update_available"] = json!(false);
+            info[reason] = json!(true);
+        }
+    }
+    info["force_update"] = json!(force);
+    info
+}
+
+/// Startup / on-demand check used by the boot path and the banner CTA.
+#[tauri::command]
+fn check_release_live(app: tauri::State<AppState>) -> Value {
+    live_release_payload(&app)
+}
+
+/// Real-time listener: polls the two Firebase nodes every 15s (RTDB REST)
+/// and emits `release-update` whenever anything changes, so announcements
+/// and forced updates reach open clients without a restart. Started once.
+#[tauri::command]
+fn start_release_listener(handle: tauri::AppHandle) -> Value {
+    use std::sync::atomic::{AtomicBool, Ordering};
+    static RELEASE_LISTENER: AtomicBool = AtomicBool::new(false);
+    if RELEASE_LISTENER.swap(true, Ordering::SeqCst) {
+        return json!({ "success": true, "started": false });
+    }
+    std::thread::spawn(move || {
+        let mut last_sig = String::new();
+        loop {
+            let sig = format!(
+                "{}|{}",
+                firebase_node("latest")
+                    .map(|v| v.to_string())
+                    .unwrap_or_default(),
+                firebase_node("announcement")
+                    .map(|v| v.to_string())
+                    .unwrap_or_default(),
+            );
+            if !sig.is_empty() && sig != last_sig {
+                let first = last_sig.is_empty();
+                last_sig = sig;
+                if !first {
+                    let payload = {
+                        let app = handle.state::<AppState>();
+                        live_release_payload(&app)
+                    };
+                    let has_update = payload
+                        .get("update_available")
+                        .and_then(|v| v.as_bool())
+                        .unwrap_or(false);
+                    let has_ann = payload
+                        .get("announcement")
+                        .map(|a| a.is_object())
+                        .unwrap_or(false);
+                    if has_update || has_ann {
+                        emit(&handle, "release-update", payload);
+                    }
+                }
+            }
+            std::thread::sleep(Duration::from_secs(15));
+        }
+    });
+    json!({ "success": true, "started": true })
+}
+
 #[tauri::command]
 fn get_latest_release_tag(app: tauri::State<AppState>) -> Value {
     let url = update_api_url(&app);
@@ -9042,7 +9256,12 @@ fn download_update_with_progress(
 }
 
 #[tauri::command]
-fn download_update(handle: tauri::AppHandle, url: String, filename: String) -> Value {
+fn download_update(
+    handle: tauri::AppHandle,
+    url: String,
+    filename: String,
+    sha256: Option<String>,
+) -> Value {
     if url.trim().is_empty() {
         return json!({ "error": "No download URL provided" });
     }
@@ -9062,17 +9281,52 @@ fn download_update(handle: tauri::AppHandle, url: String, filename: String) -> V
     let dest = dir.join(&name);
     let _ = std::fs::remove_file(&dest);
     match download_update_with_progress(&handle, &url, &dest) {
-        Ok(size) => json!({
-            "success": true,
-            "path": dest.to_string_lossy(),
-            "filename": name,
-            "size": size,
-        }),
+        Ok(size) => {
+            // Integrity check (Firebase sha256) — a mismatched/partial file
+            // is discarded so a corrupt package can never reach install.
+            if let Some(expect) = sha256.filter(|s| !s.trim().is_empty()) {
+                emit(&handle, "update-stage", json!({ "stage": "verifying" }));
+                emit_update_log(&handle, "Verifying SHA-256 checksum…");
+                match file_sha256(&dest) {
+                    Ok(actual) if actual.eq_ignore_ascii_case(expect.trim()) => {
+                        emit_update_log(&handle, "Checksum verified.");
+                    }
+                    Ok(actual) => {
+                        let _ = std::fs::remove_file(&dest);
+                        emit_update_log(&handle, "Checksum mismatch — download discarded.");
+                        return json!({ "error": format!(
+                            "SHA-256 mismatch (expected {}, got {}) — corrupted download discarded.",
+                            expect.trim(),
+                            actual
+                        ) });
+                    }
+                    Err(e) => {
+                        let _ = std::fs::remove_file(&dest);
+                        return json!({ "error": format!("Checksum verification failed: {}", e) });
+                    }
+                }
+            }
+            json!({
+                "success": true,
+                "path": dest.to_string_lossy(),
+                "filename": name,
+                "size": size,
+            })
+        }
         Err(e) => {
             emit_update_log(&handle, &format!("Download failed: {}", e));
             json!({ "error": e })
         }
     }
+}
+
+/// SHA-256 of a file as lowercase hex (update integrity verification).
+fn file_sha256(path: &Path) -> Result<String, String> {
+    use sha2::{Digest, Sha256};
+    let mut f = std::fs::File::open(path).map_err(|e| e.to_string())?;
+    let mut hasher = Sha256::new();
+    std::io::copy(&mut f, &mut hasher).map_err(|e| e.to_string())?;
+    Ok(format!("{:x}", hasher.finalize()))
 }
 
 #[tauri::command]
@@ -9111,6 +9365,7 @@ fn install_update_windows(handle: &tauri::AppHandle, path: &Path) -> Value {
     match cmd.spawn() {
         Ok(_) => {
             emit_update_log(handle, "Installer started. Closing Isolate Client...");
+            emit(handle, "update-stage", json!({ "stage": "restarting" }));
             std::thread::sleep(Duration::from_millis(900));
             std::process::exit(0);
         }
@@ -12269,6 +12524,8 @@ pub fn run() {
             download_update,
             install_update,
             startup_update_check,
+            check_release_live,
+            start_release_listener,
             mark_update_attempt,
             dismiss_update,
             // news

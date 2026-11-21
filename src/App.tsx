@@ -15,6 +15,7 @@ import Partnerships from "./components/Partnerships";
 import Admin from "./components/Admin";
 import DiscordChat from "./components/DiscordChat";
 import UpdateModal from "./components/UpdateModal";
+import AnnouncementBanner from "./components/AnnouncementBanner";
 import { useApp } from "./stores/app";
 import { api, onEvent } from "./lib/tauri";
 import type { InstallProgress, UpdateInfo } from "./lib/types";
@@ -55,6 +56,8 @@ export default function App() {
     const unlisteners: Array<() => void> = [];
 
     void boot();
+    // Firebase real-time release feed (announcement + forced update pushes).
+    void api.startReleaseListener().catch(() => undefined);
     Promise.all([
       onEvent<InstallProgress>("install-progress", (p) =>
         useApp.getState().setInstalling(p),
@@ -89,6 +92,17 @@ export default function App() {
         } else if (p.type.startsWith("refresh-")) {
           const what = p.type.slice("refresh-".length);
           if (what === "instances" || what === "mods") void st.refreshInstances();
+        }
+      }),
+      // Live release push from start_release_listener (RTDB poll).
+      onEvent<UpdateInfo>("release-update", (u) => {
+        const st = useApp.getState();
+        if (u && u.announcement && (u.announcement.announcementId || u.announcement.announcementTitle)) {
+          st.setAnnouncement(u.announcement);
+        }
+        if (u && u.update_available && u.download_url) {
+          const cur = st.updateInfo;
+          if (!cur || cur.latest_version !== u.latest_version) st.setUpdateInfo(u);
         }
       }),
     ]).then((fns) => {
@@ -137,10 +151,11 @@ export default function App() {
     }
     const t = window.setTimeout(() => {
       void api
-        .startupUpdateCheck()
+        .checkReleaseLive()
         .then((r) => {
           if (dead) return;
           const u = r as UpdateInfo;
+          if (u && u.announcement) useApp.getState().setAnnouncement(u.announcement);
           if (u && u.update_available && u.download_url) setUpdateInfo(u);
         })
         .catch(() => undefined);
@@ -293,6 +308,7 @@ export default function App() {
         </div>
       )}
       {/* Step 5 — animated auto-update dialog (anti-loop filtered upstream) */}
+      <AnnouncementBanner />
       {updateInfo && (
         <UpdateModal info={updateInfo} onClose={() => setUpdateInfo(null)} />
       )}

@@ -266,6 +266,20 @@ export interface UpdateInfo {
   download_size?: number;
   release_notes?: string;
   published_at?: string;
+  /** Firebase `releases/latest` extras */
+  sha256?: string;
+  min_supported_version?: string;
+  force_update?: boolean;
+  /** Firebase `releases/announcement` (null when absent) */
+  announcement?: Announcement | null;
+}
+
+/** Live announcement pushed to the RTDB `releases/announcement` node. */
+export interface Announcement {
+  announcementId?: string;
+  announcementTitle?: string;
+  announcementMessage?: string;
+  updatedAt?: number | string;
 }
 
 // ---------- Optimizer / boost ----------
