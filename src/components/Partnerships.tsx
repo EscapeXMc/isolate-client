@@ -36,7 +36,7 @@ const EMPTY_SERVER: PartnerServer = {
   countMode: "live",
   players: 0,
   playersTotal: 0,
-  color: "#38BDF8",
+  color: "#34d399",
   order: 0,
   enabled: true,
 };
@@ -368,7 +368,7 @@ export default function Partnerships() {
               <span>Accent color</span>
               <input
                 type="color"
-                value={editing.color || "#38BDF8"}
+                value={editing.color || "#34d399"}
                 onChange={(e) => setField("color", e.target.value)}
                 style={{ height: 38, padding: 4 }}
               />
@@ -439,7 +439,7 @@ export default function Partnerships() {
                 style={
                   p.banner
                     ? { backgroundImage: `url(${p.banner})` }
-                    : { background: `linear-gradient(120deg, ${p.color || "#38BDF8"}66, #38BDF8 60%, #FF5500)` }
+                    : { background: `linear-gradient(120deg, ${p.color || "#34d399"}66, #34d399 60%, #34d399)` }
                 }
               >
                 {p.logo && <img className="ptn-logo" src={p.logo} alt="" />}

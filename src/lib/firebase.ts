@@ -15,11 +15,11 @@ const EXP_KEY = "isolate.fb.exp";
 
 // Built-in list shown while the database is unreachable (offline / rules).
 export const FALLBACK_PARTNERS: PartnerServer[] = [
-  { id: "bananasmp", name: "BananaSMP", ip: "play.bananasmp.net", players: 818, color: "#f5c518" },
-  { id: "fatalmc", name: "FatalMC", ip: "play.fatalmc.org", players: 66, color: "#ef4444" },
-  { id: "potionmc", name: "PotionMC", ip: "play.potionmc.net", players: 56, color: "#e11d48" },
-  { id: "bluemc", name: "BlueMC", ip: "play.bluemc.org", players: 305, color: "#38bdf8" },
-  { id: "oreomc", name: "OreoMC", ip: "oreo.gg", players: 37, color: "#a1a1aa" },
+  { id: "bananasmp", name: "BananaSMP", ip: "play.bananasmp.net", players: 818, color: "#e4e4e7" },
+  { id: "fatalmc", name: "FatalMC", ip: "play.fatalmc.org", players: 66, color: "#ffffff" },
+  { id: "potionmc", name: "PotionMC", ip: "play.potionmc.net", players: 56, color: "#acacac" },
+  { id: "bluemc", name: "BlueMC", ip: "play.bluemc.org", players: 305, color: "#6b6b6b" },
+  { id: "oreomc", name: "OreoMC", ip: "oreo.gg", players: 37, color: "#acacac" },
 ];
 
 function lsGet(k: string): string | null {

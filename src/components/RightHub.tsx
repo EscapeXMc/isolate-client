@@ -178,7 +178,7 @@ export default function RightHub() {
               >
                 <span
                   className="srv-ico"
-                  style={{ background: p.color || "#38BDF8" }}
+                  style={{ background: p.color || "#34d399" }}
                   aria-hidden
                 >
                   {p.logo ? <img src={p.logo} alt="" /> : p.name.slice(0, 1)}

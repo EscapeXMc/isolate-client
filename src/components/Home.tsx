@@ -15,9 +15,9 @@ function greet(): string {
 
 // Profile-icon tint per loader — FastClient-style colored squares.
 const LOADER_TINT: Record<Loader, string> = {
-  vanilla: "#64748b",
-  fabric: "#d9a066",
-  quilt: "#8b5cf6",
+  vanilla: "#6b6b6b",
+  fabric: "#d4d4d4",
+  quilt: "#3f3f46",
 };
 
 export default function Home() {
