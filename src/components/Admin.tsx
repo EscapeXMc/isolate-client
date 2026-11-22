@@ -45,7 +45,7 @@ const EMPTY_CFG: LauncherConfig = {
   name: "Isolate Client",
   logo: "",
   tagline: "",
-  accent: "#3b82f6",
+  accent: "#38BDF8",
   splash: "",
   website: "",
   discord: "",
@@ -715,7 +715,7 @@ export default function Admin() {
               <span>Accent color</span>
               <input
                 type="color"
-                value={cfg.accent || "#3b82f6"}
+                value={cfg.accent || "#38BDF8"}
                 onChange={(e) => setCfg({ ...cfg, accent: e.target.value })}
                 style={{ height: 38, padding: 4 }}
               />

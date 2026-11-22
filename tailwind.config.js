@@ -8,7 +8,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        iso: "#3b82f6", // app accent (blue)
+        iso: "#38BDF8", // app accent (blue)
       },
     },
   },
