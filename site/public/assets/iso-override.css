@@ -1,5 +1,5 @@
 /* Isolate Client — global design layer
-   team.html design system (black #0a0a0a · Isolate blue · Neon Lime #A3FF12)
+   team.html design system (black #0a0a0a · Isolate blue · Neon Lime #FF5500)
    + site base (custom cursors, motion tokens, 44px targets, icon pass)
    Injected by page-fx.js and moved to the END of <head>, so it wins the cascade.
    Family C pages keep their markup; this file restyles it to match team.html. */
@@ -66,9 +66,9 @@ label[for],
   --muted: #a1a1aa;
   --dim: #a1a1aa;
   --dim-deco: #71717a;
-  --brand: #3b82f6;
-  --brand-bright: #60a5fa;
-  --accent: #a3ff12;
+  --brand: #38BDF8;
+  --brand-bright: #7dd3fc;
+  --accent: #FF5500;
   --radius: 6px;
   --font-display: "Russo One", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-body: "Chakra Petch", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -96,8 +96,8 @@ body {
 }
 body {
   background:
-    radial-gradient(1100px 480px at 50% -8%, rgba(59, 130, 246, 0.16), transparent 62%),
-    radial-gradient(760px 420px at 88% 108%, rgba(37, 99, 235, 0.1), transparent 60%),
+    radial-gradient(1100px 480px at 50% -8%, rgba(56,189,248, 0.16), transparent 62%),
+    radial-gradient(760px 420px at 88% 108%, rgba(255,85,0, 0.1), transparent 60%),
     #0a0a0a !important;
   background-color: #0a0a0a !important;
   color: #f4f4f5 !important;
@@ -114,19 +114,19 @@ body {
   --card-foreground: #f2f4f8 !important;
   --popover: #131316 !important;
   --popover-foreground: #f2f4f8 !important;
-  --primary: #3b82f6 !important;
+  --primary: #FF5500 !important;
   --primary-foreground: #0b1220 !important;
   --secondary: rgba(255, 255, 255, 0.08) !important;
   --secondary-foreground: #eef2f8 !important;
   --muted: rgba(255, 255, 255, 0.07) !important;
   --muted-foreground: #a1a1aa !important;
-  --accent: rgba(59, 130, 246, 0.18) !important;
+  --accent: rgba(56,189,248, 0.18) !important;
   --accent-foreground: #e8f0ff !important;
   --border: #26262c !important;
   --input: rgba(255, 255, 255, 0.12) !important;
-  --ring: #60a5fa !important;
-  --brand-ink: #3b82f6 !important;
-  --brand-soft: rgba(59, 130, 246, 0.28) !important;
+  --ring: #7dd3fc !important;
+  --brand-ink: #38BDF8 !important;
+  --brand-soft: rgba(56,189,248, 0.28) !important;
 }
 
 /* ---------- 4 · base typography ---------- */
@@ -135,7 +135,7 @@ a {
   text-decoration: none;
 }
 a:hover {
-  color: #93c5fd;
+  color: #fdba74;
 }
 a:focus-visible,
 button:focus-visible {
@@ -292,7 +292,7 @@ nav.bar a.nav.active::after {
   right: 0;
   bottom: 6px;
   height: 2px;
-  background: #a3ff12;
+  background: #FF5500;
 }
 
 /* ---------- 6 · shadcn header adapter (Family C) ---------- */
@@ -357,7 +357,7 @@ nav[aria-label="Main navigation"] a[aria-current="page"]::after {
   right: 0;
   bottom: 6px;
   height: 2px;
-  background: #a3ff12;
+  background: #FF5500;
 }
 header[data-public-header] button:not([aria-controls]) {
   height: 44px !important;
@@ -399,8 +399,8 @@ header[data-public-header] button[aria-controls]:hover {
   text-align: left;
   border-bottom: 1px solid var(--line);
   background:
-    radial-gradient(900px 420px at 82% -10%, rgba(59, 130, 246, 0.22), transparent 60%),
-    radial-gradient(700px 380px at 8% 110%, rgba(163, 255, 18, 0.1), transparent 65%),
+    radial-gradient(900px 420px at 82% -10%, rgba(56,189,248, 0.22), transparent 60%),
+    radial-gradient(700px 380px at 8% 110%, rgba(255,85,0, 0.1), transparent 65%),
     var(--deep);
 }
 .hero .wrap {
@@ -418,8 +418,8 @@ header[data-public-header] button[aria-controls]:hover {
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--brand-bright);
-  border: 1px solid rgba(96, 165, 250, 0.35);
-  background: rgba(59, 130, 246, 0.08);
+  border: 1px solid rgba(125,211,252, 0.35);
+  background: rgba(56,189,248, 0.08);
   border-radius: 999px;
   padding: 8px 16px;
 }
@@ -427,13 +427,13 @@ header[data-public-header] button[aria-controls]:hover {
   content: "";
   width: 8px;
   height: 8px;
-  background: #a3ff12;
+  background: #FF5500;
   border-radius: 50%;
-  box-shadow: 0 0 10px rgba(163, 255, 18, 0.8);
+  box-shadow: 0 0 10px rgba(255,85,0, 0.8);
 }
 h1 .neon {
-  color: #a3ff12;
-  text-shadow: 0 0 34px rgba(163, 255, 18, 0.35);
+  color: #FF5500;
+  text-shadow: 0 0 34px rgba(255,85,0, 0.35);
 }
 .hero h1 {
   max-width: 16ch;
@@ -449,7 +449,7 @@ h1 .neon {
   height: 3px;
   width: 180px;
   margin-top: 30px;
-  background: linear-gradient(90deg, #a3ff12, var(--brand), transparent);
+  background: linear-gradient(90deg, #FF5500, var(--brand), transparent);
   transform-origin: left center;
 }
 .hero-meta {
@@ -495,7 +495,7 @@ h1 .neon {
   font-weight: 400;
 }
 .marquee-track span i {
-  color: #a3ff12;
+  color: #FF5500;
   font-style: normal;
 }
 @keyframes marq {
@@ -528,7 +528,7 @@ h1 .neon {
   font-size: clamp(56px, 9vw, 116px);
   line-height: 0.9;
   color: transparent;
-  -webkit-text-stroke: 2px rgba(163, 255, 18, 0.75);
+  -webkit-text-stroke: 2px rgba(255,85,0, 0.75);
   user-select: none;
 }
 .chapter h2 {
@@ -543,7 +543,7 @@ h1 .neon {
   border-bottom: 1px solid var(--line-2);
 }
 .chapter h2 .tick {
-  color: #a3ff12;
+  color: #FF5500;
   margin-right: 10px;
 }
 .chapter p {
@@ -593,7 +593,7 @@ h1 .neon {
   transition: border-color 0.2s ease, transform 0.2s ease;
 }
 .creator:hover {
-  border-color: rgba(96, 165, 250, 0.45);
+  border-color: rgba(125,211,252, 0.45);
   transform: translateY(-3px);
 }
 .creator::before {
@@ -605,7 +605,7 @@ h1 .neon {
   background: linear-gradient(90deg, var(--brand), transparent);
 }
 .creator.alt::before {
-  background: linear-gradient(90deg, #a3ff12, transparent);
+  background: linear-gradient(90deg, #FF5500, transparent);
 }
 .creator h3 {
   font-family: var(--font-display);
@@ -627,7 +627,7 @@ h1 .neon {
   margin-bottom: 14px;
 }
 .creator.alt .role {
-  color: #a3ff12;
+  color: #FF5500;
 }
 .creator p {
   color: #a1a1aa;
@@ -687,7 +687,7 @@ h1 .neon {
   position: relative;
   overflow: hidden;
   background:
-    radial-gradient(600px 260px at 50% 0, rgba(59, 130, 246, 0.16), transparent 70%),
+    radial-gradient(600px 260px at 50% 0, rgba(56,189,248, 0.16), transparent 70%),
     var(--bg);
 }
 .cta-sec h2 {
@@ -720,9 +720,9 @@ a.go {
 .cta-sec .go:hover,
 a.go:hover {
   transform: translateY(-2px);
-  background: #93c5fd;
+  background: #fdba74;
   color: #000;
-  box-shadow: 0 12px 34px rgba(59, 130, 246, 0.35);
+  box-shadow: 0 12px 34px rgba(56,189,248, 0.35);
 }
 
 /* ---------- 12 · footer (team + full link set + credit) ---------- */
@@ -804,7 +804,7 @@ main :is(
   [class*="panel"],
   article
 ):hover {
-  border-color: rgba(96, 165, 250, 0.45) !important;
+  border-color: rgba(125,211,252, 0.45) !important;
   box-shadow: 0 14px 34px rgba(0, 0, 0, 0.4) !important;
   transform: translateY(-3px) !important;
 }
@@ -824,7 +824,7 @@ main [class*="border-neutral-800"] {
 #performance > div:hover,
 #screenshots > div:hover,
 #faq > div:hover {
-  border-color: rgba(96, 165, 250, 0.45) !important;
+  border-color: rgba(125,211,252, 0.45) !important;
   box-shadow: 0 14px 34px rgba(0, 0, 0, 0.4) !important;
   transform: translateY(-3px) !important;
 }
@@ -862,28 +862,28 @@ button.primary {
   background: var(--brand-bright) !important;
   color: #0b1220 !important;
   border-color: var(--brand-bright) !important;
-  box-shadow: 0 6px 22px rgba(37, 99, 235, 0.42) !important;
+  box-shadow: 0 6px 22px rgba(255,85,0, 0.42) !important;
 }
 .btn.accent:hover,
 .btn.primary:hover,
 button.primary:hover {
-  background: #93c5fd !important;
+  background: #fdba74 !important;
   color: #000 !important;
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(37, 99, 235, 0.55), 0 0 22px rgba(96, 165, 250, 0.35) !important;
+  box-shadow: 0 10px 30px rgba(255,85,0, 0.55), 0 0 22px rgba(125,211,252, 0.35) !important;
 }
 /* the one neon CTA — "Download for" on the index pages only */
 .magmad-download {
-  background: #a3ff12 !important;
+  background: #FF5500 !important;
   color: #0b1220 !important;
-  border-color: #a3ff12 !important;
-  box-shadow: 0 6px 22px rgba(163, 255, 18, 0.24) !important;
+  border-color: #FF5500 !important;
+  box-shadow: 0 6px 22px rgba(255,85,0, 0.24) !important;
 }
 .magmad-download:hover {
   background: #c4ff5c !important;
   color: #0b1220 !important;
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(163, 255, 18, 0.32), 0 0 22px rgba(163, 255, 18, 0.4) !important;
+  box-shadow: 0 10px 30px rgba(255,85,0, 0.32), 0 0 22px rgba(255,85,0, 0.4) !important;
 }
 .magmad-download:active {
   background: #8fe60e !important;
@@ -920,8 +920,8 @@ main textarea,
 main input:focus,
 main textarea:focus,
 .search-shell input:focus {
-  border-color: rgba(96, 165, 250, 0.55) !important;
-  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.16) !important;
+  border-color: rgba(125,211,252, 0.55) !important;
+  box-shadow: 0 0 0 4px rgba(56,189,248, 0.16) !important;
   outline: none;
 }
 
@@ -932,12 +932,12 @@ main textarea:focus,
   border-radius: var(--radius) !important;
 }
 .qa:hover {
-  border-color: rgba(96, 165, 250, 0.45) !important;
+  border-color: rgba(125,211,252, 0.45) !important;
 }
 .qa[open],
 .qa.open,
 .qa.active {
-  border-color: rgba(59, 130, 246, 0.5) !important;
+  border-color: rgba(56,189,248, 0.5) !important;
 }
 
 /* download page stats + feed */
@@ -968,7 +968,7 @@ body :is(
   color: #ffffff !important;
   -webkit-text-stroke: 1.2px #1a1a1a;
   paint-order: stroke fill;
-  filter: drop-shadow(0 1px 0 rgba(26, 26, 26, 0.9)) drop-shadow(0 2px 10px rgba(96, 165, 250, 0.32)) !important;
+  filter: drop-shadow(0 1px 0 rgba(26, 26, 26, 0.9)) drop-shadow(0 2px 10px rgba(125,211,252, 0.32)) !important;
 }
 body svg:not(.logo):not([class*="cursor"]) {
   filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.45)) !important;
@@ -1116,8 +1116,8 @@ main .btn:not(.primary):not(.accent):not(.magmad-download):hover {
   }
   .links a.nav.active {
     color: var(--text);
-    background: rgba(59, 130, 246, 0.12);
-    border: 1px solid rgba(59, 130, 246, 0.4);
+    background: rgba(56,189,248, 0.12);
+    border: 1px solid rgba(56,189,248, 0.4);
   }
   .links a.nav.active::after {
     display: none;
@@ -1243,8 +1243,8 @@ main .btn:not(.primary):not(.accent):not(.magmad-download):hover {
 /* plans — re-declare tokens iso's shadcn remap would otherwise clobber */
 .plans-hero,
 .checkout {
-  --accent: #3b82f6 !important;
-  --accent-2: #60a5fa !important;
+  --accent: #FF5500 !important;
+  --accent-2: #ff7a33 !important;
 }
 /* plans hero statement keeps its display size under the global h1 cap */
 .plans-hero h1 {
@@ -1259,26 +1259,26 @@ main .rank {
   border-radius: var(--radius) !important;
 }
 main .rank:hover {
-  border-color: rgba(96, 165, 250, 0.45) !important;
+  border-color: rgba(125,211,252, 0.45) !important;
   transform: translateY(-3px) !important;
   box-shadow: 0 14px 34px rgba(0, 0, 0, 0.4) !important;
 }
 main .rank.hot {
-  border-top-color: #a3ff12 !important;
-  background: linear-gradient(180deg, rgba(163, 255, 18, 0.07), rgba(163, 255, 18, 0) 45%), #131316 !important;
-  box-shadow: inset 0 0 0 1px rgba(163, 255, 18, 0.55) !important;
+  border-top-color: #FF5500 !important;
+  background: linear-gradient(180deg, rgba(255,85,0, 0.07), rgba(255,85,0, 0) 45%), #131316 !important;
+  box-shadow: inset 0 0 0 1px rgba(255,85,0, 0.55) !important;
 }
 main .rank.hot:hover {
-  border-top-color: #a3ff12 !important;
-  box-shadow: inset 0 0 0 1px #a3ff12, 0 14px 34px rgba(0, 0, 0, 0.4) !important;
+  border-top-color: #FF5500 !important;
+  box-shadow: inset 0 0 0 1px #FF5500, 0 14px 34px rgba(0, 0, 0, 0.4) !important;
 }
 /* plans — the buy moment is neon lime; blue stays structure, Discord and focus */
 main .btn.buy-neon,
 .checkout .btn.buy-neon {
-  background: #a3ff12 !important;
+  background: #FF5500 !important;
   color: #0b1220 !important;
-  border-color: #a3ff12 !important;
-  box-shadow: 0 6px 22px rgba(163, 255, 18, 0.24) !important;
+  border-color: #FF5500 !important;
+  box-shadow: 0 6px 22px rgba(255,85,0, 0.24) !important;
 }
 main .btn.buy-neon:hover,
 .checkout .btn.buy-neon:hover {
@@ -1286,7 +1286,7 @@ main .btn.buy-neon:hover,
   color: #0b1220 !important;
   border-color: #c4ff5c !important;
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(163, 255, 18, 0.32), 0 0 22px rgba(163, 255, 18, 0.4) !important;
+  box-shadow: 0 10px 30px rgba(255,85,0, 0.32), 0 0 22px rgba(255,85,0, 0.4) !important;
 }
 main .rank .name,
 main .rank .price {

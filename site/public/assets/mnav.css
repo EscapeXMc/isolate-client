@@ -44,8 +44,8 @@
 }
 #public-mobile-navigation a[aria-current] {
   color: #f4f4f5;
-  background: rgba(59, 130, 246, 0.12);
-  border: 1px solid rgba(59, 130, 246, 0.4);
+  background: rgba(56,189,248, 0.12);
+  border: 1px solid rgba(56,189,248, 0.4);
 }
 /* Desktop keeps the React-intended experience: burger is lg:hidden anyway. */
 @media (min-width: 1024px) {

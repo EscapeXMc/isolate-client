@@ -1,11 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-  <!-- fist -->
-  <rect x="7" y="14" width="17" height="13" rx="5"
-        fill="#ffffff" stroke="#1a1a1a" stroke-width="1.6"/>
-  <!-- thumb -->
-  <ellipse cx="7.5" cy="20" rx="3.6" ry="4.6"
-           fill="#ffffff" stroke="#1a1a1a" stroke-width="1.6"/>
-  <!-- index finger -->
-  <path d="M11 17 V7 a3 3 0 0 1 6 0 v10"
-        fill="#ffffff" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+  <g transform="translate(3.6 2) scale(0.0636)">
+    <path fill="#FF5500" stroke="#1a1a1a" stroke-width="25" stroke-linejoin="round" fill-rule="evenodd" clip-rule="evenodd" d="M 195 4 C 265 4, 336 22, 366 56 C 386 78, 388 112, 388 158 L 388 214 C 388 318, 305 398, 218 432 C 202 438, 188 438, 172 432 C 85 398, 2 318, 2 214 L 2 158 C 2 112, 4 78, 24 56 C 54 22, 125 4, 195 4 Z M 166 72 L 224 91 L 224 384 L 166 336 Z"/>
+  </g>
 </svg>

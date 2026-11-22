@@ -1,6 +1,6 @@
 # CONTEXT HANDOFF — Isolate Client site (read fully after compaction)
 
-> This file is the single source of truth for post-compaction memory. Read it before doing anything.
+> ⚠️ **NEWEST: read `CONTEXT-COMPACT.md` FIRST** (2026-11-21) — it supersedes this file for the current active task (20-point site quality pass + GSC submission) and holds fresh audit results. Then read this file for older site context.
 
 ## 1. What this project is
 - Marketing site for **Isolate Client** (free Minecraft launcher, Windows + Linux).

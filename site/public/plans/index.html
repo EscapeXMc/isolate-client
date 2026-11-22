@@ -38,13 +38,13 @@
   .p-eyebrow {
     display: inline-flex; align-items: center; gap: 8px;
     font: 600 12px/1 var(--font-body); letter-spacing: .18em; text-transform: uppercase;
-    color: #dbeafe; background: rgba(59, 130, 246, .14);
-    border: 1px solid rgba(96, 165, 250, .45);
+    color: #dbeafe; background: rgba(56,189,248, .14);
+    border: 1px solid rgba(125,211,252, .45);
     padding: 8px 13px; border-radius: 999px;
   }
   .p-eyebrow::before {
     content: ""; width: 6px; height: 6px; border-radius: 50%;
-    background: #60a5fa; box-shadow: 0 0 8px rgba(96, 165, 250, .9);
+    background: #7dd3fc; box-shadow: 0 0 8px rgba(125,211,252, .9);
   }
   .pay-trust { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 22px 0 0; padding: 0; }
   .pay-trust li {
@@ -53,7 +53,7 @@
     color: var(--ink-3); background: #0f1216; border: 1px solid var(--line-2);
     padding: 9px 13px; border-radius: 999px;
   }
-  .pay-trust li::before { content: "✓"; color: #a3ff12; font-weight: 700; }
+  .pay-trust li::before { content: "✓"; color: #FF5500; font-weight: 700; }
 
   /* hero */
   .hero-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: calc(var(--margin) * 1.5); align-items: center; margin-top: 3vh; }
@@ -78,13 +78,13 @@
   .rank .price small { display: block; font-size: 15px; font-weight: 400; color: var(--ink-3); letter-spacing: 0; margin-top: 5px; }
   .rank ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; flex: 1; }
   .rank li { font-size: 15px; color: var(--ink-2); padding-left: 20px; position: relative; }
-  .rank li::before { content: "•"; position: absolute; left: 0; color: #A3FF12; font-weight: 700; }
+  .rank li::before { content: "•"; position: absolute; left: 0; color: #FF5500; font-weight: 700; }
   .rank li.no::before { content: "×"; color: var(--ink-3); }
   .rank .btn { width: 100%; }
   .rank .tag {
     align-self: flex-start; font-size: 12px; font-weight: 700; letter-spacing: .08em;
-    background: #a3ff12; color: #0b1220; padding: 5px 10px; text-transform: uppercase;
-    border: 0; box-shadow: 0 0 16px rgba(163, 255, 18, 0.4);
+    background: #FF5500; color: #0b1220; padding: 5px 10px; text-transform: uppercase;
+    border: 0; box-shadow: 0 0 16px rgba(255,85,0, 0.4);
   }
 
   /* comparison table — the answer to "what actually differs" */
@@ -95,7 +95,7 @@
     position: relative; /* contains the abspos .vh spans so they can't widen the document */
     border: 1px solid var(--line-2); border-radius: 8px; background: #131316;
   }
-  .tbl-scroll:focus-visible { outline: 2px solid #60a5fa; outline-offset: 2px; }
+  .tbl-scroll:focus-visible { outline: 2px solid #7dd3fc; outline-offset: 2px; }
   .tbl { width: 100%; min-width: 640px; border-collapse: collapse; font-size: 14.5px; }
   .tbl th, .tbl td { padding: 13px 14px; border-bottom: 1px solid var(--line-2); text-align: center; }
   .tbl thead th {
@@ -107,14 +107,14 @@
     text-align: left; color: var(--ink-3);
     position: sticky; left: 0; z-index: 2; background: #0f1216;
   }
-  .tbl thead th.col-hot { color: #a3ff12; box-shadow: inset 0 -2px 0 #a3ff12; }
+  .tbl thead th.col-hot { color: #FF5500; box-shadow: inset 0 -2px 0 #FF5500; }
   .tbl th[scope="row"] {
     text-align: left; font-weight: 500; font-size: 14.5px; color: var(--ink-2);
     background: #131316; position: sticky; left: 0; z-index: 1; min-width: 200px;
   }
   .tbl tbody tr:last-child th, .tbl tbody tr:last-child td { border-bottom: 0; }
-  .tbl td.col-hot { background: rgba(163, 255, 18, .05); }
-  .tbl .yes { color: #a3ff12; font-weight: 700; font-size: 16px; }
+  .tbl td.col-hot { background: rgba(255,85,0, .05); }
+  .tbl .yes { color: #FF5500; font-weight: 700; font-size: 16px; }
   .tbl .no { color: #71717a; }
   .tbl-hint { display: none; font-size: 12.5px; color: var(--ink-3); margin-top: 10px; letter-spacing: .06em; text-transform: uppercase; }
   .vh { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
@@ -129,7 +129,7 @@
   .outside {
     margin-top: 56px; background: #131316; padding: clamp(24px, 4vw, 40px);
     display: flex; gap: 24px; align-items: center; justify-content: space-between; flex-wrap: wrap;
-    border: 1px solid var(--line-2); border-left: 3px solid #3b82f6; border-radius: 8px;
+    border: 1px solid var(--line-2); border-left: 3px solid #38BDF8; border-radius: 8px;
   }
   .outside h2 { font-size: var(--fs-head); letter-spacing: -.02em; }
   .outside p { color: var(--ink-2); margin-top: 8px; max-width: 56ch; }
@@ -145,7 +145,7 @@
   .checkout .panel {
     background: #131316; max-width: 440px; width: 100%;
     padding: clamp(22px, 4vw, 32px); border: 1px solid var(--line-2);
-    border-top: 3px solid #a3ff12; border-radius: 10px;
+    border-top: 3px solid #FF5500; border-radius: 10px;
     box-shadow: 0 30px 80px rgba(0, 0, 0, .65);
   }
   .checkout h3 { font-size: 20px; letter-spacing: .06em; }
@@ -166,15 +166,15 @@
   }
   .checkout input::placeholder { color: #71717a; }
   .checkout input:focus {
-    border-color: rgba(96, 165, 250, .55);
-    box-shadow: 0 0 0 4px rgba(59, 130, 246, .16);
+    border-color: rgba(125,211,252, .55);
+    box-shadow: 0 0 0 4px rgba(56,189,248, .16);
     outline: none;
   }
   .checkout .acts { display: flex; gap: 10px; margin-top: 22px; }
   .checkout .acts .btn { flex: 1; }
   .checkout .msg { font-size: 14px; margin-top: 14px; min-height: 20px; color: var(--ink-2); }
   .checkout .msg.err { color: #f8717a; font-weight: 600; }
-  .checkout .msg.ok { color: #a3ff12; font-weight: 600; }
+  .checkout .msg.ok { color: #FF5500; font-weight: 600; }
 
   @media (max-width: 980px) {
     .hero-grid { grid-template-columns: 1fr; }
@@ -456,7 +456,7 @@
           name: 'Isolate Client',
           description: current.plan,
           prefill: { email: email },
-          theme: { color: '#3b82f6' },
+          theme: { color: '#38BDF8' },
           handler: function (resp) {
             setMsg('Verifying payment…');
             fetch('/api/verify', {

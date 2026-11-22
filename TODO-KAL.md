@@ -1,7 +1,25 @@
 # TODO — Kal ka Plan (21 Nov 2026)
 
+> ⚠️ **READ `CONTEXT-COMPACT.md` FIRST after compaction** — it has the current active task (20-point site pass + GSC) and audit results. Ye file uske baad padho.
+>
 > Ye file kal ke kaam ke liye hai. Har item ke saath: **problem kya hai**, **fix kaise karna hai**.
-> Repo HEAD: `f9882a1` (site + client fixes pushed, tree clean)
+> Repo HEAD: `aeb166e` (homepage v3 deployed 2026-11-21 — centered hero, feature cards, video section, screenshot grid, tagline removed; live suite 184/184)
+
+---
+
+## 🔴 0. USER KA EXPLICIT KAAM (22 Nov 2026) — Razorpay REMOVE from site
+
+> User: *"kal na tereko ek kaam karna hai — humein site se Razorpay ko remove karna hai… actually wait do not do it!"*
+> **Status: NOT STARTED — user ne abhi rukne bola tha. Sirf yaad rakhne ke liye note.**
+> **Kal jab user bole tabhi karna.**
+
+**Problem:** Site se Razorpay integration hatana hai (payment gateway ab nahi chahiye).
+**Kaise karna hai (jab start karo):**
+1. Pehle dhoondho: `grep -ri razorpay site/ src/ --include=*.js --include=*.html --include=*.ts* --include=*.json` (keys, checkout scripts, API routes, env vars, vercel.json)
+2. Hatana hoga: checkout/button markup, `checkout.js`-type scripts, serverless payment routes, env/config entries, plan page ke paid CTA links (agar wahi razorpay bhejte hain)
+3. Plans page: paid flow ab kaise dikhega — user se poochna (disable vs free-only) — **bina poochhe plans page ka copy/structure mat tod**
+4. Suite gate `verify_nav.mjs` 184/184 green rakhna (plans page pe panel tests hain)
+5. Deploy: commit `site: ...` (as EscapeXMc) → `cd site && npx vercel --prod --yes` → live suite — **deploy se pehle user ko dikhao aur OK lo**
 
 ---
 
