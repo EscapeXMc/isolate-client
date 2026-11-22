@@ -34,7 +34,7 @@
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #a1a1aa;
+  color: #acacac;
   text-decoration: none;
 }
 #public-mobile-navigation a:hover {
@@ -44,8 +44,8 @@
 }
 #public-mobile-navigation a[aria-current] {
   color: #f4f4f5;
-  background: rgba(56,189,248, 0.12);
-  border: 1px solid rgba(56,189,248, 0.4);
+  background: rgba(52,211,153,0.12);
+  border: 1px solid rgba(52,211,153,0.4);
 }
 /* Desktop keeps the React-intended experience: burger is lg:hidden anyway. */
 @media (min-width: 1024px) {

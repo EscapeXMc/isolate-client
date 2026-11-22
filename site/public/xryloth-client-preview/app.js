@@ -24,16 +24,16 @@ function applySet(){
 /* ---------- real client themes ---------- */
 const THEMES=[
  ['black','Black (Default)','#f4f4f5','#000'],
- ['cartoon','Blue Cartoon','#1e88e5','#fff'],
- ['godred','God Red','#ff3366','#fff'],
- ['isolateclient','IsolateClient','#ff0022','#fff'],
- ['purple','Purple','#b847ff','#fff'],
- ['sapphire','Sapphire','#00aaff','#000'],
- ['midnight','Midnight','#00c8e8','#000'],
- ['lunar','Lunar','#00e6a0','#000'],
- ['feature','Feature','#ff4030','#fff'],
- ['greengradient','Green Gradient','#00e888','#000'],
- ['orange','Orange','#ff7a18','#000'],
+ ['cartoon','Steel','#6b6b6b','#fff'],
+ ['godred','Graphite','#808080','#fff'],
+ ['isolateclient','IsolateClient','#34d399','#000'],
+ ['purple','Slate','#808080','#fff'],
+ ['sapphire','Frost','#808080','#000'],
+ ['midnight','Midnight','#969696','#000'],
+ ['lunar','Lunar','#34d399','#000'],
+ ['feature','Carbon','#808080','#fff'],
+ ['greengradient','Mint Gradient','#34d399','#000'],
+ ['orange','Stone','#969696','#000'],
 ];
 function hexA(hex,a){return hex+a}
 function applyTheme(id,silent){

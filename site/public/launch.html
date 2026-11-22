@@ -19,7 +19,7 @@
   html, body { height: 100%; }
   body {
     background: #0a0a0a;
-    color: #e8edf7;
+    color: #eeeeee;
     font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
     display: flex;
     align-items: center;
@@ -30,11 +30,11 @@
     background-image:
       radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,.55), transparent),
       radial-gradient(1px 1px at 70% 20%, rgba(255,255,255,.4), transparent),
-      radial-gradient(1.5px 1.5px at 40% 70%, rgba(140,180,255,.5), transparent),
+      radial-gradient(1.5px 1.5px at 40% 70%, rgba(172,172,172,.5), transparent),
       radial-gradient(1px 1px at 85% 65%, rgba(255,255,255,.35), transparent),
       radial-gradient(1.5px 1.5px at 10% 80%, rgba(255,255,255,.4), transparent),
-      radial-gradient(1px 1px at 55% 45%, rgba(120,160,255,.45), transparent),
-      radial-gradient(ellipse 80% 60% at 50% -10%, rgba(56,189,248,.16), transparent);
+      radial-gradient(1px 1px at 55% 45%, rgba(150,150,150,.45), transparent),
+      radial-gradient(ellipse 80% 60% at 50% -10%, rgba(52,211,153,.16), transparent);
     background-repeat: no-repeat;
   }
   .card {
@@ -52,9 +52,9 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    border: 1px solid rgba(56,189,248,.45);
-    background: rgba(56,189,248,.14);
-    color: #bfd6ff;
+    border: 1px solid rgba(52,211,153,.45);
+    background: rgba(52,211,153,.14);
+    color: #d8d8d8;
     font-size: 12px;
     font-weight: 700;
     letter-spacing: .14em;
@@ -65,8 +65,8 @@
   }
   .badge .dot {
     width: 8px; height: 8px; border-radius: 50%;
-    background: #38BDF8;
-    box-shadow: 0 0 10px #38BDF8;
+    background: #34d399;
+    box-shadow: 0 0 10px #34d399;
     animation: pulse 1.6s ease-in-out infinite;
   }
   @keyframes pulse { 50% { opacity: .35; transform: scale(.8); } }
@@ -76,13 +76,13 @@
     line-height: 1.25;
     letter-spacing: -.02em;
     color: #fff;
-    text-shadow: 0 0 26px rgba(120,165,255,.35);
+    text-shadow: 0 0 26px rgba(172,172,172,.35);
   }
-  h1 .hl { color: #7db1ff; }
+  h1 .hl { color: #34d399; }
   .lead {
     margin: 16px auto 0;
     max-width: 560px;
-    color: #9aa7bd;
+    color: #acacac;
     font-size: 15.5px;
     line-height: 1.65;
   }
@@ -105,7 +105,7 @@
     font-weight: 800;
     font-variant-numeric: tabular-nums;
     color: #fff;
-    text-shadow: 0 0 18px rgba(125,177,255,.55);
+    text-shadow: 0 0 18px rgba(172,172,172,.55);
     line-height: 1.1;
   }
   .cell span {
@@ -115,7 +115,7 @@
     font-weight: 700;
     letter-spacing: .16em;
     text-transform: uppercase;
-    color: #6d7a91;
+    color: #808080;
   }
   .gear {
     margin-top: 26px;
@@ -127,7 +127,7 @@
     font-weight: 700;
     letter-spacing: .12em;
     text-transform: uppercase;
-    color: #8b97ad;
+    color: #969696;
     margin-bottom: 14px;
   }
   .links { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
@@ -144,32 +144,32 @@
     transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
   }
   .btn.primary {
-    background: #38BDF8;
+    background: #34d399;
     color: #fff;
-    box-shadow: 0 8px 26px rgba(56,189,248,.35);
+    box-shadow: 0 8px 26px rgba(52,211,153,.35);
   }
-  .btn.primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(56,189,248,.5); }
+  .btn.primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(52,211,153,.5); }
   .btn.ghost {
     background: rgba(255,255,255,.05);
     border: 1px solid rgba(255,255,255,.12);
-    color: #dfe7f5;
+    color: #eeeeee;
   }
   .btn.ghost:hover { background: rgba(255,255,255,.09); transform: translateY(-2px); }
   .server {
     margin-top: 16px;
     font-size: 13.5px;
-    color: #8b97ad;
+    color: #969696;
   }
   .server code {
     font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-    color: #cfe0ff;
-    background: rgba(56,189,248,.12);
-    border: 1px solid rgba(56,189,248,.3);
+    color: #d8d8d8;
+    background: rgba(52,211,153,.12);
+    border: 1px solid rgba(52,211,153,.3);
     padding: 3px 9px;
     border-radius: 7px;
     font-size: 13px;
   }
-  footer { margin-top: 22px; font-size: 12px; color: #55607a; }
+  footer { margin-top: 22px; font-size: 12px; color: #555555; }
   @media (max-width: 520px) {
     .card { padding: 32px 20px 28px; }
     .countdown { gap: 8px; }
