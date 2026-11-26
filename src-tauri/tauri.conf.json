@@ -9,7 +9,7 @@
   },
   "package": {
     "productName": "Isolate Client",
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "tauri": {
     "allowlist": {
@@ -33,9 +33,12 @@
       },
       "protocol": {
         "asset": true,
-        "assetScope": [
-          "**"
-        ]
+        "assetScope": {
+          "allow": [
+            "**"
+          ],
+          "requireLiteralLeadingDot": false
+        }
       }
     },
     "bundle": {
@@ -51,7 +54,14 @@
       ],
       "category": "Game",
       "shortDescription": "A lean Minecraft launcher",
-      "longDescription": "Isolate Client \u2014 a fast, minimal Minecraft launcher."
+      "longDescription": "Isolate Client \u2014 a fast, minimal Minecraft launcher.",
+      "windows": {
+        "nsis": {
+          "template": "installer-custom.nsi",
+          "installMode": "perMachine",
+          "compression": "lzma"
+        }
+      }
     },
     "security": {
       "csp": null

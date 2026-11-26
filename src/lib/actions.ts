@@ -23,8 +23,20 @@ export async function playInstance(inst: Instance) {
     st.setPage("instances");
     return;
   }
-  const r = await api.launchGame(inst.name);
+  // Rocket-launch overlay stays up until the game is actually alive.
+  st.setLaunching(inst.name);
+  let r: { error?: string; message?: string } = {};
+  try {
+    r = await api.launchGame(inst.name);
+  } catch (e) {
+    // IPC rejected (rare, e.g. window reload mid-launch) — never leave the
+    // launch overlay hanging forever.
+    st.setLaunching(null);
+    st.notify("err", String(e));
+    return;
+  }
   if (r.error) {
+    st.setLaunching(null);
     if (r.error === "not_installed") {
       st.notify("err", r.message ?? "Install this instance first.");
       st.setPage("instances");
@@ -40,6 +52,7 @@ export async function playInstance(inst: Instance) {
 
 export async function stopGame() {
   const st = useApp.getState();
+  useApp.getState().setLaunching(null);
   const r = await api.stopGame();
   if (r.error) st.notify("err", r.error);
   else useApp.setState({ gameRunning: false });

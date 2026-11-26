@@ -25,12 +25,16 @@
   --margin: clamp(16px, 4vw, 32px);
   --section-gap: clamp(96px, 16vw, 220px);
 
-  /* custom cursor suite (white fill · charcoal #1a1a1a outline) */
-  --cur-auto: url("/cursors/pointer.svg") 2 2, auto;
-  --cur-hand: url("/cursors/pointer-hand.svg") 10 6, pointer;
-  --cur-text: url("/cursors/text.svg") 16 16, text;
+  /* custom cursor suite — Toony Hand (nopeflv) over the white-fill SVG fallbacks */
+  --cur-auto: url("/cursors/toony-default.png") 10 3, url("/cursors/pointer.svg") 2 2, auto;
+  --cur-hand: url("/cursors/toony-pointer.png") 14 2, url("/cursors/pointer-hand.svg") 10 6, pointer;
+  --cur-text: url("/cursors/toony-text.png") 15 16, url("/cursors/text.svg") 16 16, text;
   --cur-progress: url("/cursors/progress.svg") 4 4, progress;
-  --cur-wait: url("/cursors/wait.svg") 16 16, wait;
+  --cur-wait: url("/cursors/toony-wait.png") 17 17, url("/cursors/wait.svg") 16 16, wait;
+  --cur-ew: url("/cursors/toony-ew.png") 16 17, ew-resize;
+  --cur-ns: url("/cursors/toony-ns.png") 14 16, ns-resize;
+  --cur-nwse: url("/cursors/toony-nwse.png") 15 16, nwse-resize;
+  --cur-nesw: url("/cursors/toony-nesw.png") 17 16, nesw-resize;
   --cur-help: url("/cursors/help.svg") 2 2, help;
   --cur-no: url("/cursors/not-allowed.svg") 16 16, not-allowed;
   --cur-move: url("/cursors/move.svg") 16 16, move;
@@ -61,7 +65,7 @@ input, textarea, [contenteditable="true"] { cursor: var(--cur-text); }
 [disabled], [aria-disabled="true"], .btn[disabled] { cursor: var(--cur-no); }
 .progress, progress, input[type="range"], .bar { cursor: var(--cur-progress); }
 .magn, .search-shell { cursor: var(--cur-cross); }
-.drag, .grip { cursor: var(--move); }
+.drag, .grip { cursor: var(--cur-move); }
 
 ::selection { background: var(--accent); color: #fff; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }

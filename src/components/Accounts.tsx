@@ -1,5 +1,18 @@
+/** mc-heads avatar with a Steve fallback (unknown uuid/name → Steve → hide). */
+function headErr(e: SyntheticEvent<HTMLImageElement>) {
+  const el = e.currentTarget;
+  if (!el.dataset.fb) {
+    el.dataset.fb = "1";
+    el.src = "https://mc-heads.net/avatar/Steve";
+  } else {
+    el.style.display = "none";
+  }
+}
+
 // Accounts — Isolate login, offline, Microsoft, Ely.by, skins.
 import { useEffect, useRef, useState } from "react";
+import type { SyntheticEvent } from "react";
+import { convertFileSrc } from "@tauri-apps/api/tauri";
 import { api, onEvent, pickFile } from "../lib/tauri";
 import { useApp } from "../stores/app";
 import {
@@ -242,77 +255,105 @@ export default function Accounts() {
         Signing in gives you skins, capes and online servers. Tokens stay on this machine.
       </div>
 
-      <div className="settings-grid">
-        {/* active accounts */}
-        <section className="panel">
-          <h2>Active accounts</h2>
-          {msAccount ? (
-            <div className="row between" style={{ marginBottom: 12 }}>
-              <div>
-                <div style={{ fontWeight: 700, fontSize: 15 }}>{msAccount.username}</div>
-                <div className="faint mono" style={{ fontSize: 11 }}>{msAccount.uuid}</div>
-              </div>
-              <div className="row" style={{ gap: 6 }}>
-                <span className="badge ok">Microsoft</span>
-                <button
-                  className="btn sm danger"
-                  onClick={async () => {
-                    await api.signOut();
-                    await refreshSettings();
-                    notify("ok", "Signed out of Microsoft");
-                  }}
-                >
-                  Sign out
-                </button>
-              </div>
-            </div>
-          ) : null}
-          {elyAccount ? (
-            <div className="row between" style={{ marginBottom: 12 }}>
-              <div>
-                <div style={{ fontWeight: 700, fontSize: 15 }}>{elyAccount.username}</div>
-                <div className="faint mono" style={{ fontSize: 11 }}>{elyAccount.uuid}</div>
-              </div>
-              <div className="row" style={{ gap: 6 }}>
-                <span className="badge ok">Ely.by</span>
-                <button
-                  className="btn sm danger"
-                  onClick={async () => {
-                    await api.elySignOut();
-                    await refreshSettings();
-                    notify("ok", "Signed out of Ely.by");
-                  }}
-                >
-                  Sign out
-                </button>
-              </div>
-            </div>
-          ) : null}
-          {!msAccount && !elyAccount && (
-            <div className="faint" style={{ fontSize: 13 }}>
-              No online account signed in — you're playing offline below.
-            </div>
-          )}
-
-          <div className="divider" />
-
-          <label className="field">
-            <span>Offline username</span>
-            <div className="row">
-              <input
-                type="text"
-                value={offlineName}
-                onChange={(e) => setOfflineName(e.target.value)}
-                placeholder="Player"
+      {/* ---------- account cards + dashed add (FastClient structure) ---------- */}
+      <div className="acc-grid">
+        {msAccount ? (
+          <article className="acc-card">
+            <span className="acc-av" aria-hidden>
+              <img
+                src={`https://mc-heads.net/avatar/${msAccount.uuid}`}
+                alt=""
+                onError={headErr}
               />
-              <button className="btn" onClick={() => void saveOffline()}>
-                Use
+            </span>
+            <div className="acc-id">
+              <div className="acc-name">{msAccount.username}</div>
+              <div className="acc-sub mono">{msAccount.uuid}</div>
+            </div>
+            <div className="acc-tags">
+              <span className="badge ok">Microsoft</span>
+              <button
+                className="btn sm"
+                onClick={async () => {
+                  await api.signOut();
+                  await refreshSettings();
+                  notify("ok", "Signed out of Microsoft");
+                }}
+              >
+                Sign out
               </button>
             </div>
-            <div className="hint">Used for offline play. Your UUID is derived from this name.</div>
-          </label>
-        </section>
+          </article>
+        ) : null}
+        {elyAccount ? (
+          <article className="acc-card">
+            <span className="acc-av alt" aria-hidden>
+              <img
+                src={`https://mc-heads.net/avatar/${elyAccount.uuid}`}
+                alt=""
+                onError={headErr}
+              />
+            </span>
+            <div className="acc-id">
+              <div className="acc-name">{elyAccount.username}</div>
+              <div className="acc-sub mono">{elyAccount.uuid}</div>
+            </div>
+            <div className="acc-tags">
+              <span className="badge ok">Ely.by</span>
+              <button
+                className="btn sm"
+                onClick={async () => {
+                  await api.elySignOut();
+                  await refreshSettings();
+                  notify("ok", "Signed out of Ely.by");
+                }}
+              >
+                Sign out
+              </button>
+            </div>
+          </article>
+        ) : null}
+        {/* local / offline card */}
+        <article className="acc-card acc-local">
+          <div className="acc-top">
+            <span className="acc-av local" aria-hidden>
+              <img
+                src={`https://mc-heads.net/avatar/${encodeURIComponent(offlineName || "Steve")}`}
+                alt=""
+                onError={headErr}
+              />
+            </span>
+            <div className="acc-id">
+              <div className="acc-name">{offlineName || "Player"}</div>
+              <div className="acc-sub">Offline · UUID derived from name</div>
+            </div>
+            <span className="badge grey">Local</span>
+          </div>
+          <div className="acc-edit">
+            <input
+              type="text"
+              value={offlineName}
+              onChange={(e) => setOfflineName(e.target.value)}
+              placeholder="Offline username"
+              className="acc-rename"
+            />
+            <button className="btn sm" onClick={() => void saveOffline()}>
+              Use
+            </button>
+          </div>
+        </article>
+        {!msAccount && (
+          <button className="acc-add" disabled={msBusy} onClick={() => void msStart()}>
+            <span className="acc-add-plus" aria-hidden>
+              +
+            </span>
+            <span className="acc-add-t">{msBusy ? "Contacting Microsoft…" : "Add account"}</span>
+            <span className="acc-add-s">Microsoft · Ely.by · Local</span>
+          </button>
+        )}
+      </div>
 
+      <div className="settings-grid">
         {/* Microsoft */}
         <section className="panel">
           <h2>Microsoft</h2>
@@ -394,23 +435,35 @@ export default function Accounts() {
         <section className="panel">
           <h2>Skin</h2>
           <div className="row" style={{ gap: 14, alignItems: "center" }}>
-            {skin.skin_url ? (
-              <img
-                src={skin.skin_url}
-                alt="skin"
-                style={{
-                  width: 64,
-                  height: 64,
-                  imageRendering: "pixelated",
-                  background: "var(--bg-2)",
-                  borderRadius: 8,
-                  border: "1px solid var(--border)",
-                  objectFit: "contain",
-                }}
-              />
-            ) : (
-              <div style={{ width: 64, height: 64, background: "var(--bg-2)", borderRadius: 8 }} />
-            )}
+            {(() => {
+              // Custom skins are raw filesystem paths — must go through
+              // convertFileSrc or the webview blocks them (CSP / file://).
+              const raw = skin.skin_url || "";
+              const src = raw
+                ? raw.startsWith("http") || raw.startsWith("data:")
+                  ? raw
+                  : convertFileSrc(raw)
+                : "https://mc-heads.net/skin/Steve";
+              return (
+                <img
+                  src={src}
+                  alt="skin"
+                  onError={(e) => {
+                    const el = e.currentTarget;
+                    if (!el.src.endsWith("/Steve")) el.src = "https://mc-heads.net/skin/Steve";
+                  }}
+                  style={{
+                    width: 64,
+                    height: 64,
+                    imageRendering: "pixelated",
+                    background: "var(--bg-2)",
+                    borderRadius: 8,
+                    border: "1px solid var(--border)",
+                    objectFit: "contain",
+                  }}
+                />
+              );
+            })()}
             <div style={{ flex: 1 }}>
               <div style={{ fontWeight: 700 }}>{skin.username || settings.offline_username || "Player"}</div>
               <div className="faint" style={{ fontSize: 12 }}>

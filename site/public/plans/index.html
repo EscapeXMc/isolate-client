@@ -20,7 +20,17 @@
     <meta name="twitter:image" content="https://isolateclient.in/og-image.png"/>
 <meta name="description" content="Solute ranks for Isolate Client: voice chat and perks, paid with Razorpay (UPI, cards, netbanking). ₹191 to ₹999 per month.">
 <meta name="theme-color" content="#090b0e">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23090b0e'/%3E%3Crect x='7' y='7' width='18' height='18' fill='%2334d399'/%3E%3C/svg%3E">
+<link rel="shortcut icon" href="/favicon.ico"/>
+<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48 96x96 192x192" type="image/x-icon"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="icon" href="/favicon.png" sizes="512x512" type="image/png"/>
+<link rel="icon" href="/favicon-192.png" sizes="192x192" type="image/png"/>
+<link rel="icon" href="/favicon-96.png" sizes="96x96" type="image/png"/>
+<link rel="icon" href="/favicon-48.png" sizes="48x48" type="image/png"/>
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png"/>
+<link rel="icon" href="/favicon-16.png" sizes="16x16" type="image/png"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" type="image/png"/>
+<link rel="mask-icon" href="/favicon.svg" color="#34d399"/>
 <link rel="stylesheet" href="../assets/site.css">
 <style>
 /* plans page specifics — redesign: neon lime marks the buy moment, blue stays structure */
@@ -198,6 +208,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Chakra+Petch:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="/assets/iso-override.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/assets/fast-override.css"/>
 <link rel="canonical" href="https://isolateclient.in/plans/"/>
   </head>
 <body>
@@ -456,7 +468,7 @@
           name: 'Isolate Client',
           description: current.plan,
           prefill: { email: email },
-          theme: { color: '#34d399' },
+          theme: { color: '#e98a1e' },
           handler: function (resp) {
             setMsg('Verifying payment…');
             fetch('/api/verify', {

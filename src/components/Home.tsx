@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useApp } from "../stores/app";
 import { api } from "../lib/tauri";
 import { formatPlaytime, playInstance, stopGame } from "../lib/actions";
+import { pfSrc } from "../lib/pfIcon";
 import type { Loader, NewsItem } from "../lib/types";
 import { Users } from "lucide-react";
 
@@ -24,6 +25,7 @@ export default function Home() {
   const instances = useApp((s) => s.instances);
   const settings = useApp((s) => s.settings);
   const gameRunning = useApp((s) => s.gameRunning);
+  const launching = useApp((s) => s.launching);
   const playingInstance = useApp((s) => s.playingInstance);
   const setPage = useApp((s) => s.setPage);
   const installed = useMemo(() => instances.filter((i) => i.installed), [instances]);
@@ -58,7 +60,7 @@ export default function Home() {
 
   const launch = () => {
     if (gameRunning) void stopGame();
-    else if (current) void playInstance(current);
+    else if (current && !launching) void playInstance(current);
   };
 
   return (
@@ -98,11 +100,15 @@ export default function Home() {
           <div className="cta-row">
             <button
               className={`launch-cta ${gameRunning ? "stop" : ""}`}
-              disabled={!current && !gameRunning}
+              disabled={(!current && !gameRunning) || (!!launching && !gameRunning)}
               onClick={launch}
             >
               <span className="cta-txt">
-                {gameRunning ? "STOP GAME" : "LAUNCH GAME"}
+                {gameRunning
+                  ? "CLOSE GAME"
+                  : launching
+                    ? "LAUNCHING…"
+                    : "LAUNCH GAME"}
               </span>
               <span className="cta-div" aria-hidden />
               <span className="cta-ver">
@@ -159,10 +165,10 @@ export default function Home() {
             )}
           </div>
         </div>
-      </section>
 
-      {/* ================= PROFILE SELECTOR BAR ================= */}
-      <div className="prof-bar">
+        {/* ===== profile quick-switch strip — sits on the hero's bottom edge
+             (FastClient layout: cards overlap the art, above the fold) ===== */}
+        <div className="prof-bar">
         {installed.slice(0, 6).map((i) => {
           const on = current?.name === i.name;
           return (
@@ -179,6 +185,13 @@ export default function Home() {
                 aria-hidden
               >
                 {i.name.slice(0, 1).toUpperCase()}
+                {pfSrc(i) && (
+                  <img
+                    src={pfSrc(i) as string}
+                    alt=""
+                    onError={(e) => (e.currentTarget.style.display = "none")}
+                  />
+                )}
               </span>
               <span className="pf-meta">
                 <span className="pf-nm">{i.name}</span>
@@ -215,7 +228,8 @@ export default function Home() {
           </span>
           Add a Profile
         </button>
-      </div>
+        </div>
+      </section>
 
       {/* ================= BOTTOM GRID ================= */}
       <div className="home-grid">

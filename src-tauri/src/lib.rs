@@ -671,6 +671,44 @@ fn save_setting(app: tauri::State<AppState>, key: String, value: Value) -> Value
 // COMMANDS — instances
 // ============================================================
 
+/// Real Mojang icon (`icons/icon_32x32.png`) for `mc`, read straight out of
+/// the downloaded asset objects — the exact file the game itself renders with.
+fn version_icon_object(dir: &Path, mc: &str) -> Option<PathBuf> {
+    if mc.is_empty() {
+        return None;
+    }
+    let vjson = load_json(&dir.join(format!("{}.json", mc)));
+    if vjson.is_null() {
+        return None;
+    }
+    let idx_id = vjson.get("assetIndex")?.get("id")?.as_str()?;
+    let idx = load_json(&assets_dir().join("indexes").join(format!("{}.json", idx_id)));
+    let hash = idx
+        .get("objects")?
+        .get("icons/icon_32x32.png")?
+        .get("hash")?
+        .as_str()?;
+    if hash.len() < 2 {
+        return None;
+    }
+    let p = assets_dir().join("objects").join(&hash[..2]).join(hash);
+    p.exists().then_some(p)
+}
+
+/// Materialise `<instance>/icon.png` from the version's real Minecraft icon so
+/// the profile card can show the logo instead of the instance-initial letter.
+/// Returns the path when an icon is available to render.
+fn ensure_instance_icon(dir: &Path, mc: &str) -> Option<PathBuf> {
+    let icon = dir.join("icon.png");
+    if icon.metadata().map(|m| m.len() > 0).unwrap_or(false) {
+        return Some(icon);
+    }
+    let src = version_icon_object(dir, mc)?;
+    let _ = std::fs::create_dir_all(dir);
+    std::fs::copy(&src, &icon).ok()?;
+    Some(icon)
+}
+
 #[tauri::command]
 fn get_instances(app: tauri::State<AppState>) -> Value {
     let mut list = load_instances_raw(&app);
@@ -692,7 +730,16 @@ fn get_instances(app: tauri::State<AppState>) -> Value {
             rec["java_path"] = Value::Null;
         }
         rec["play_seconds"] = json!(playtimes.get(&name).copied().unwrap_or(0));
-        rec["path"] = json!(instance_dir(&name).to_string_lossy());
+        let dir = instance_dir(&name);
+        rec["path"] = json!(dir.to_string_lossy());
+        // Real Minecraft logo for this profile (null → caller falls back).
+        rec["icon"] = match ensure_instance_icon(
+            &dir,
+            rec.get("version").and_then(|v| v.as_str()).unwrap_or(""),
+        ) {
+            Some(p) => json!(p.to_string_lossy()),
+            None => Value::Null,
+        };
     }
     Value::Array(list)
 }
@@ -744,7 +791,7 @@ fn create_instance(
                 Ok(f) => log_msg(&st, &format!("[IsolateMod] '{inst}': Fabric API → {f}")),
                 Err(e) => log_msg(&st, &format!("[IsolateMod] '{inst}': Fabric API failed ({e})")),
             }
-            let v = install_isolate_client_mod_impl(&st, &inst);
+            let v = install_isolate_client_mod_ex(&st, &inst, true);
             if v.get("installed").and_then(|b| b.as_bool()) == Some(true) {
                 log_msg(&st, &format!(
                     "[IsolateMod] '{inst}': IsolateClientMod installed ({})",
@@ -1473,15 +1520,24 @@ fn libraries_base() -> &'static str {
 
 /// Resolve a library's main jar: (relative path, url).
 fn lib_artifact(lib: &Value, loader: &str) -> Option<(String, String)> {
-    if let Some(art) = lib.get("downloads").and_then(|d| d.get("artifact")) {
-        let path = art.get("path").and_then(|p| p.as_str())?.to_string();
-        let url = art
-            .get("url")
-            .and_then(|u| u.as_str())
-            .filter(|u| !u.is_empty())
-            .map(|u| u.to_string())
-            .unwrap_or_else(|| format!("{}{}", libraries_base(), path));
-        return Some((path, url));
+    if let Some(dl) = lib.get("downloads") {
+        if let Some(art) = dl.get("artifact") {
+            let path = art.get("path").and_then(|p| p.as_str())?.to_string();
+            let url = art
+                .get("url")
+                .and_then(|u| u.as_str())
+                .filter(|u| !u.is_empty())
+                .map(|u| u.to_string())
+                .unwrap_or_else(|| format!("{}{}", libraries_base(), path));
+            return Some((path, url));
+        }
+        // `downloads` exists but has no `artifact`: a natives-only platform jar
+        // (jinput/lwjgl/twitch-platform). No main jar is published — deriving
+        // one from the maven name yields a 404 (and a bogus classpath entry).
+        // Its classifier jars are queued separately by native_artifact().
+        if dl.get("classifiers").is_some() {
+            return None;
+        }
     }
     // Some loader libraries omit `downloads` — derive from the maven name.
     let name = lib.get("name").and_then(|n| n.as_str())?;
@@ -2139,7 +2195,7 @@ fn install_inner(handle: &tauri::AppHandle, name: &str) -> Result<String, String
         }
         let index = load_json(&idx_path);
         if let Some(objs) = index.get("objects").and_then(|o| o.as_object()) {
-            for (asset_name, meta) in objs {
+            for (_asset_name, meta) in objs {
                 let hash = meta.get("hash").and_then(|h| h.as_str()).unwrap_or("");
                 if hash.len() < 2 {
                     continue;
@@ -2151,7 +2207,7 @@ fn install_inner(handle: &tauri::AppHandle, name: &str) -> Result<String, String
                 if dest.exists() {
                     continue;
                 }
-                let url = format!("{}/{}/{}/{}", RESOURCES_BASE, &hash[..2], hash, asset_name);
+                let url = format!("{}/{}/{}", RESOURCES_BASE, &hash[..2], hash);
                 asset_items.push((url, dest));
             }
         }
@@ -2174,6 +2230,10 @@ fn install_inner(handle: &tauri::AppHandle, name: &str) -> Result<String, String
             );
         }
     }));
+
+    // Real Minecraft icon for the profile card — copied from the asset objects
+    // we just downloaded, so no extra network round-trip.
+    let _ = ensure_instance_icon(&dir, &mc);
 
     // ---- 4. libraries + natives ----------------------------------------
     progress(handle, name, 68, "Downloading libraries", false, None);
@@ -2538,7 +2598,10 @@ async fn launch_game(handle: tauri::AppHandle, name: String) -> Value {
 
     // ---- libraries + natives -------------------------------------------
     let libs = merged_libraries(&dir, &vjson, &loader);
-    let entries = classpath_entries(&libs, &loader);
+    let mut entries = classpath_entries(&libs, &loader);
+    // The game itself lives in client.jar — without it on the classpath the
+    // JVM dies instantly with ClassNotFoundException for the main class.
+    entries.insert(0, (client_jar.clone(), String::new()));
     // Self-heal: fetch anything missing before launch.
     let missing: Vec<(String, PathBuf)> = entries
         .iter()
@@ -2549,7 +2612,21 @@ async fn launch_game(handle: tauri::AppHandle, name: String) -> Value {
         let h = handle.clone();
         let n = clean.clone();
         progress(&h, &n, 0, &format!("Repairing {} libraries", missing.len()), false, None);
-        download_many(missing, 6, &|_, _| {});
+        let failed = download_many(missing, 6, &|_, _| {});
+        // Close the entry out. A bar left at `done:false` sticks in the bottom
+        // install tray for the rest of the session (it only clears on `done`).
+        if failed > 0 {
+            progress(
+                &h,
+                &n,
+                100,
+                &format!("{failed} libraries could not be repaired — launch may fail"),
+                true,
+                Some(format!("{failed} libraries could not be repaired.")),
+            );
+        } else {
+            progress(&h, &n, 100, "Libraries ready", true, None);
+        }
     }
     let cp = classpath_string(&entries);
 
@@ -2694,7 +2771,10 @@ async fn launch_game(handle: tauri::AppHandle, name: String) -> Value {
     if let Some(arr) = vjson.get("arguments").and_then(|a| a.get("game")).and_then(|a| a.as_array()) {
         game_args.extend(expand_arg_list(arr, &subs));
     } else if let Some(s) = vjson.get("minecraftArguments").and_then(|a| a.as_str()) {
-        game_args.extend(s.split_whitespace().map(|x| x.to_string()));
+        // Legacy format: the ${...} placeholders MUST be substituted here.
+        // Passing them raw makes Minecraft parse "${user_properties}" as JSON
+        // and die with MalformedJsonException → instant exit code 1.
+        game_args.extend(s.split_whitespace().map(|x| substitute(x, &subs)));
     }
     if loader == "fabric" || loader == "quilt" {
         let prof = load_json(&dir.join(format!("{}-profile.json", loader)));
@@ -2712,6 +2792,22 @@ async fn launch_game(handle: tauri::AppHandle, name: String) -> Value {
         game_args.push("--height".into());
         game_args.push(res_h.to_string());
     }
+
+    // Always ship the newest IsolateClientMod — refreshed on every launch so a
+    // profile never boots a stale companion mod. The launch overlay is already
+    // up at this point, so the fetch reads as part of the loading screen;
+    // failures are logged and never block the game.
+    if loader == "fabric" {
+        let v = install_isolate_client_mod_ex(&app, &clean, true);
+        if let Some(err) = v.get("error").and_then(|e| e.as_str()) {
+            log_msg(
+                &app,
+                &format!("[IsolateMod] '{clean}': pre-launch refresh failed ({err})"),
+            );
+        }
+    }
+    // Profile logo self-heal — a stat once the icon already exists.
+    let _ = ensure_instance_icon(&dir, &mc);
 
     // ---- spawn ----------------------------------------------------------
     // Windows optimization suite (Phases 1-5) — background thread so it
@@ -2857,6 +2953,30 @@ async fn launch_game(handle: tauri::AppHandle, name: String) -> Value {
                 json!({ "instance": instance, "code": code, "play_seconds": elapsed }),
             );
             emit(&h, "game-state", json!({ "running": false, "pid": Value::Null }));
+
+            // Game is down (closed by the user, by Stop, or by a crash) → pull
+            // the newest IsolateClientMod for the next run in the background.
+            {
+                let h2 = h.clone();
+                let inst = instance.clone();
+                std::thread::spawn(move || {
+                    let st = h2.state::<AppState>();
+                    let v = install_isolate_client_mod_ex(&st, &inst, true);
+                    // `error` → hard failure; `skipped` with no install → the
+                    // refresh fell back to the jar we already had (offline or
+                    // no build). Log both, otherwise a no-op looks identical to
+                    // a refresh that never ran.
+                    if let Some(err) = v.get("error").and_then(|e| e.as_str()) {
+                        log_msg(&st, &format!("[IsolateMod] '{inst}': post-game refresh failed ({err})"));
+                    } else if v.get("skipped").and_then(|s| s.as_bool()) == Some(true) {
+                        let why = v
+                            .get("message")
+                            .and_then(|m| m.as_str())
+                            .unwrap_or("no change");
+                        log_msg(&st, &format!("[IsolateMod] '{inst}': post-game refresh skipped ({why})"));
+                    }
+                });
+            }
         });
     }
 
@@ -3602,6 +3722,13 @@ fn mod_manifest_path(dir: &Path) -> PathBuf {
 /// Serialises `.isolate_mods.json` read-modify-write — the perf pack installs
 /// through several worker threads at once and each one appends its entry.
 static MOD_MANIFEST_LOCK: Mutex<()> = Mutex::new(());
+/// Serialises IsolateClientMod fetch + install. A game exit, a new launch and
+/// the startup sweep can all force-refresh the *same* MC version at once, and
+/// they share one cache file (`updates/isolateclient-{mc}.part`) plus one
+/// staging file (`mods/{file}.part`). Two writers on either path truncate each
+/// other mid-copy and can rename a half-written jar into place, which Fabric
+/// then fails to load. Held across the network fetch *and* the copy.
+static MOD_INSTALL_LOCK: Mutex<()> = Mutex::new(());
 
 fn read_mod_manifest(dir: &Path) -> serde_json::Map<String, Value> {
     match load_json(&mod_manifest_path(dir)).as_object() {
@@ -4735,24 +4862,42 @@ fn isolate_mod_download_url(mc: &str) -> Result<String, String> {
         Err(e) => Err(format!("IsolateClientMod releases unreachable: {e}")),
     }
 }
-/// One cached jar per MC version in `~/.isolate/updates` (fresh for 30 days),
-/// so provisioning N Fabric profiles downloads the mod only once.
-fn ensure_isolate_mod_cached(mc: &str) -> Result<PathBuf, String> {
+/// How long a forced refresh may reuse the jar it just fetched. Keeps a
+/// multi-profile sweep (startup provision, a full instance list) down to one
+/// download per MC version while still being "always the latest" — a launch
+/// or a game exit minutes later still hits the network again.
+const ISOLATE_MOD_FORCE_AGE: u64 = 120;
+/// Lazy path: 30 days, so provisioning N Fabric profiles downloads once.
+const ISOLATE_MOD_LAZY_AGE: u64 = 30 * 24 * 3600;
+
+/// One cached jar per MC version in `~/.isolate/updates`, younger than
+/// `max_age_secs`. A failed refresh falls back to the last known-good jar
+/// instead of erroring, so going offline never strips a working profile.
+fn ensure_isolate_mod_cached(mc: &str, max_age_secs: u64) -> Result<PathBuf, String> {
     let p = updates_dir().join(isolate_mod_filename(mc));
+    let usable = p.metadata().map(|m| m.len() > 1024).unwrap_or(false);
     let fresh = p
         .metadata()
         .ok()
         .and_then(|m| m.modified().ok())
         .and_then(|t| t.elapsed().ok())
-        .map(|d| d.as_secs() < 30 * 24 * 3600)
+        .map(|d| d.as_secs() < max_age_secs)
         .unwrap_or(false);
-    if fresh && p.metadata().map(|m| m.len() > 1024).unwrap_or(false) {
+    if fresh && usable {
         return Ok(p);
     }
     let url = isolate_mod_download_url(mc)?;
-    download_file(&url, &p)?;
+    if let Err(e) = download_file(&url, &p) {
+        if usable {
+            return Ok(p); // keep the copy we already have
+        }
+        return Err(e);
+    }
     let sz = p.metadata().map(|m| m.len()).unwrap_or(0);
     if sz < 1024 {
+        if usable {
+            return Ok(p);
+        }
         let _ = std::fs::remove_file(&p);
         return Err("IsolateClientMod download looked empty — retry on next launch.".into());
     }
@@ -4762,6 +4907,13 @@ fn ensure_isolate_mod_cached(mc: &str) -> Result<PathBuf, String> {
 /// into `mods/`. Skips cleanly when the jar is already there or the repo has
 /// no build for this MC version.
 fn install_isolate_client_mod_impl(app: &AppState, instance: &str) -> Value {
+    install_isolate_client_mod_ex(app, instance, false)
+}
+
+/// `force = true` always pulls the newest release (2-minute reuse window) and
+/// swaps it in — used on startup, before every launch and after every game
+/// exit so a profile never runs a stale companion mod.
+fn install_isolate_client_mod_ex(app: &AppState, instance: &str, force: bool) -> Value {
     let (mc, loader, dir) = match instance_ctx(app, instance) {
         Ok(x) => x,
         Err(e) => return json!({ "success": false, "error": e }),
@@ -4770,24 +4922,60 @@ fn install_isolate_client_mod_impl(app: &AppState, instance: &str) -> Value {
         return json!({ "success": true, "installed": false, "skipped": true,
             "message": "IsolateClientMod needs a Fabric instance." });
     }
+    // One mod refresh at a time — see MOD_INSTALL_LOCK. Vanilla profiles bail
+    // out above so they never queue behind a download.
+    let _mi = MOD_INSTALL_LOCK
+        .lock()
+        .unwrap_or_else(|e| e.into_inner());
     let mods = dir.join("mods");
     if let Err(e) = std::fs::create_dir_all(&mods) {
         return json!({ "success": false, "error": e.to_string() });
     }
-    if mods_dir_has_prefix(&mods, "isolateclient-") {
+    let existing = mods_dir_has_prefix(&mods, "isolateclient-");
+    if existing && !force {
         return json!({ "success": true, "installed": false, "skipped": true,
             "message": "IsolateClientMod already present." });
     }
-    let cached = match ensure_isolate_mod_cached(&mc) {
+    let max_age = if force {
+        ISOLATE_MOD_FORCE_AGE
+    } else {
+        ISOLATE_MOD_LAZY_AGE
+    };
+    // Resolve (and download) *before* touching mods/ — a network failure must
+    // never trade a working jar for nothing.
+    let cached = match ensure_isolate_mod_cached(&mc, max_age) {
         Ok(p) => p,
-        Err(e) if e.contains("no build for Minecraft") => {
-            return json!({ "success": true, "installed": false, "skipped": true, "message": e });
+        Err(e) => {
+            if existing {
+                return json!({ "success": true, "installed": false, "skipped": true,
+                    "message": format!("Keeping the installed IsolateClientMod ({e}).") });
+            }
+            if e.contains("no build for Minecraft") {
+                return json!({ "success": true, "installed": false, "skipped": true,
+                    "message": e });
+            }
+            return json!({ "success": false, "error": e });
         }
-        Err(e) => return json!({ "success": false, "error": e }),
     };
     let want_file = isolate_mod_filename(&mc);
+    // Drop every other isolateclient-*.jar first: two jars carrying the same
+    // mod id crash Fabric on boot.
+    if let Ok(rd) = std::fs::read_dir(&mods) {
+        for e in rd.flatten() {
+            let n = e.file_name().to_string_lossy().to_lowercase();
+            if n.starts_with("isolateclient-") && n.ends_with(".jar") && n != want_file {
+                let _ = std::fs::remove_file(e.path());
+            }
+        }
+    }
+    // Stage → rename so a half-written jar can never be picked up by the loader.
     let dest = mods.join(&want_file);
-    if let Err(e) = std::fs::copy(&cached, &dest) {
+    let tmp = mods.join(format!("{}.part", want_file));
+    if let Err(e) = std::fs::copy(&cached, &tmp) {
+        return json!({ "success": false, "error": format!("copy failed: {e}") });
+    }
+    if let Err(e) = std::fs::rename(&tmp, &dest) {
+        let _ = std::fs::remove_file(&tmp);
         return json!({ "success": false, "error": format!("copy failed: {e}") });
     }
     let _ml = MOD_MANIFEST_LOCK.lock().unwrap_or_else(|e| e.into_inner());
@@ -4802,12 +4990,25 @@ fn install_isolate_client_mod_impl(app: &AppState, instance: &str) -> Value {
         }),
     );
     write_mod_manifest(&dir, &m);
-    log_msg(app, &format!("[IsolateMod] '{instance}': installed {want_file}"));
-    json!({ "success": true, "installed": true, "file": want_file })
+    log_msg(
+        app,
+        &format!(
+            "[IsolateMod] '{}': {} {want_file}",
+            instance,
+            if existing { "updated" } else { "installed" }
+        ),
+    );
+    json!({ "success": true, "installed": true, "updated": existing, "file": want_file })
 }
 /// Scan every Fabric profile and inject the mod where it's missing — this is
 /// what brings *existing* 1.21.11 instances up to date on startup.
 fn provision_isolate_client_mod_impl(app: &AppState) -> Value {
+    provision_isolate_client_mod_ex(app, false)
+}
+
+/// `force = true` re-checks every Fabric profile against the latest release
+/// instead of treating an existing jar as finished business.
+fn provision_isolate_client_mod_ex(app: &AppState, force: bool) -> Value {
     let instances = load_instances_raw(app);
     let mut installed = 0usize;
     let mut skipped = 0usize;
@@ -4818,7 +5019,7 @@ fn provision_isolate_client_mod_impl(app: &AppState) -> Value {
         if name.is_empty() || loader != "fabric" {
             continue;
         }
-        let v = install_isolate_client_mod_impl(app, name);
+        let v = install_isolate_client_mod_ex(app, name, force);
         if v.get("installed").and_then(|b| b.as_bool()) == Some(true) {
             installed += 1;
         } else if v.get("skipped").and_then(|b| b.as_bool()) == Some(true) {
@@ -4837,10 +5038,10 @@ fn provision_isolate_client_mod_impl(app: &AppState) -> Value {
 fn install_isolate_client_mod(app: tauri::State<AppState>, instance: String) -> Value {
     install_isolate_client_mod_impl(&app, &instance)
 }
-/// Manual scan of all Fabric profiles.
+/// Manual scan of all Fabric profiles — always pulls the newest release.
 #[tauri::command]
 fn provision_isolate_client_mod(app: tauri::State<AppState>) -> Value {
-    provision_isolate_client_mod_impl(&app)
+    provision_isolate_client_mod_ex(&app, true)
 }
 
 // ============================================================
@@ -5735,8 +5936,8 @@ fn get_skin_info(app: tauri::State<AppState>) -> Value {
     } else if !skin_path.is_empty() {
         skin_path.clone()
     } else {
-        // Default Steve/Alex from the player's name hash.
-        String::new()
+        // Default Steve so the Accounts preview is never an empty box.
+        "https://mc-heads.net/skin/Steve".to_string()
     };
     json!({
         "username": username,
@@ -12313,19 +12514,31 @@ pub fn run() {
                 let _ = w.set_title("Isolate Client");
             }
             // Auto-provision IsolateClientMod into every Fabric profile in the
-            // background (4s grace so startup stays snappy; re-runs are no-ops
-            // once the jar is present).
+            // background (2s grace so startup stays snappy; a forced pass pulls
+            // the newest release for every profile while the splash is still up).
             let h = app.handle().clone();
             std::thread::spawn(move || {
-                std::thread::sleep(std::time::Duration::from_secs(4));
+                std::thread::sleep(std::time::Duration::from_secs(2));
                 let st = h.state::<AppState>();
-                let v = provision_isolate_client_mod_impl(&st);
+                let v = provision_isolate_client_mod_ex(&st, true);
                 let inst = v["installed"].as_u64().unwrap_or(0);
                 let errs = v["errors"].as_array().map(|a| a.len()).unwrap_or(0);
                 if inst > 0 || errs > 0 {
                     log_msg(&st, &format!(
                         "[IsolateMod] Auto-provision: {inst} installed, {errs} error(s)"
                     ));
+                }
+                // Same pass: give every profile its real Minecraft logo so the
+                // cards never fall back to the instance-initial letter.
+                for rec in load_instances_raw(&st) {
+                    let n = rec.get("name").and_then(|x| x.as_str()).unwrap_or("");
+                    if n.is_empty() {
+                        continue;
+                    }
+                    let _ = ensure_instance_icon(
+                        &instance_dir(n),
+                        rec.get("version").and_then(|v| v.as_str()).unwrap_or(""),
+                    );
                 }
             });
             Ok(())

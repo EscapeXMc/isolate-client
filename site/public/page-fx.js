@@ -5,16 +5,65 @@
   var reduce = false;
   try { reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {}
 
-  // FastClient-style overhaul: pure-black ground, glass panels, neon accents
-  // and the white SVG cursor suite. Appended early (no FOUC), then moved to
-  // the END of <head> on DOMContentLoaded so it wins the cascade over each
-  // page's own stylesheet.
+  // FastClient-style overhaul. iso-override.css (dark layer) loads on every
+  // page; on NON-index pages we additionally load the Google fonts and
+  // /assets/fast-override.css (index's approved light design + subpage
+  // adapter beats). Both are moved to the END of <head> on DOMContentLoaded
+  // so they win the cascade over each page's own stylesheet.
+  // The index/locale-index pages must NOT get fast-override — they carry
+  // their own approved inline copy of the design.
+  var path = location.pathname || "/";
+  var isIndex =
+    path === "/" ||
+    /^\/index\.html$/.test(path) ||
+    /^\/index-(de|es|fr|nl)\.html$/.test(path);
+
   var isoCss = document.createElement("link");
   isoCss.rel = "stylesheet";
   isoCss.href = "/assets/iso-override.css";
   document.head.appendChild(isoCss);
+
+  var fastCss = null;
+  if (!isIndex) {
+    var fontsCss = document.createElement("link");
+    fontsCss.rel = "stylesheet";
+    fontsCss.href =
+      "https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Oswald:wght@400;500;600;700&family=Russo+One&family=Chakra+Petch:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap";
+    document.head.appendChild(fontsCss);
+
+    fastCss = document.createElement("link");
+    fastCss.rel = "stylesheet";
+    fastCss.href = "/assets/fast-override.css";
+    document.head.appendChild(fastCss);
+  }
+
+  // Light-theme undo: theme-boot.js pins theme="dark" on <html>; repaint the
+  // subpages on index's light ground (mirrors index.html's inline boot).
+  function lightBoot() {
+    try {
+      var r = document.documentElement;
+      r.classList.remove("dark");
+      r.classList.add("light");
+      r.style.colorScheme = "light";
+      var m = document.querySelector('meta[name="color-scheme"]');
+      if (!m) {
+        m = document.createElement("meta");
+        m.setAttribute("name", "color-scheme");
+        document.head.appendChild(m);
+      }
+      m.setAttribute("content", "only light");
+    } catch (e) {}
+  }
+  if (!isIndex) {
+    lightBoot();
+    document.addEventListener("DOMContentLoaded", lightBoot);
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
+    // iso first, fast-override last so equal-specificity ties resolve light.
     if (isoCss.parentNode === document.head) document.head.appendChild(isoCss);
+    if (fastCss && fastCss.parentNode === document.head)
+      document.head.appendChild(fastCss);
   });
 
   // Pose-to-pose staging: reveal each <section> once as it scrolls into view

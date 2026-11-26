@@ -4,7 +4,7 @@
    Injected by page-fx.js and moved to the END of <head>, so it wins the cascade.
    Family C pages keep their markup; this file restyles it to match team.html. */
 
-/* ---------- 1 · custom cursors (white-fill / charcoal outline SVG suite) ---------- */
+/* ---------- 1 · custom cursors (Toony Hand PNGs over white-fill SVG fallbacks) ---------- */
 :root,
 html,
 body,
@@ -20,16 +20,19 @@ label[for],
 .cursor-pointer,
 .cursor-pointer * {
   cursor:
+    url("/cursors/toony-default.png") 10 3,
     url("/cursors/pointer.svg") 2 2,
     auto !important;
 }
 :is(a, button, [role="button"], [role="tab"], summary, label[for], .btn, .nav a, .tab, .chip, .cat-chip, .os-chip, .badge, .magn) {
   cursor:
+    url("/cursors/toony-pointer.png") 14 2,
     url("/cursors/pointer-hand.svg") 10 6,
     pointer !important;
 }
 :is(input:not([type="range"]), textarea, [contenteditable="true"], .search-shell input) {
   cursor:
+    url("/cursors/toony-text.png") 15 16,
     url("/cursors/text.svg") 16 16,
     text !important;
 }
@@ -40,6 +43,7 @@ label[for],
 }
 :is(.loading *, .spinner, [data-busy="true"]) {
   cursor:
+    url("/cursors/toony-wait.png") 17 17,
     url("/cursors/wait.svg") 16 16,
     wait !important;
 }
@@ -52,6 +56,12 @@ label[for],
   cursor:
     url("/cursors/crosshair.svg") 16 16,
     crosshair !important;
+}
+/* Toony resize arrow on textarea grips (per-page resize direction is left alone) */
+textarea::-webkit-resizer {
+  cursor:
+    url("/cursors/toony-nwse.png") 15 16,
+    nwse-resize;
 }
 
 /* ---------- 2 · design tokens (team.html) + motion tokens ---------- */
@@ -95,10 +105,8 @@ body {
   padding: 0;
 }
 body {
-  background:
-    radial-gradient(1100px 480px at 50% -8%, rgba(52,211,153,0.16), transparent 62%),
-    radial-gradient(760px 420px at 88% 108%, rgba(52,211,153,0.1), transparent 60%),
-    #0a0a0a !important;
+  /* unslop: flat ground — the radial mint washes are gone */
+  background: #0a0a0a !important;
   background-color: #0a0a0a !important;
   color: #f4f4f5 !important;
   font-family: var(--font-body) !important;
@@ -149,7 +157,7 @@ h3,
 h4 {
   font-family: var(--font-display) !important;
   font-weight: 400 !important;
-  text-transform: uppercase;
+  /* unslop: sentence-case headings — no forced uppercase */
   letter-spacing: 0.03em;
   color: var(--text) !important;
   text-shadow: none !important;
@@ -316,8 +324,9 @@ header[data-public-header] {
 header[data-public-header] a[aria-label="Isolate Client home"] span {
   font-family: var(--font-display) !important;
   font-weight: 400 !important;
-  letter-spacing: 0.12em !important;
-  font-size: 15px !important;
+  letter-spacing: 0.01em !important;
+  font-size: 17px !important;
+  text-transform: none !important;
   color: var(--text) !important;
 }
 header[data-public-header] a[aria-label="Isolate Client home"] img {
@@ -334,10 +343,10 @@ nav[aria-label="Main navigation"] a {
   min-height: 44px;
   position: relative;
   color: #acacac !important;
-  font-size: 12px !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.14em !important;
-  text-transform: uppercase !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.01em !important;
+  text-transform: none !important;
   padding: 8px 4px !important;
   border: 0 !important;
   background: none !important;
@@ -398,10 +407,8 @@ header[data-public-header] button[aria-controls]:hover {
   overflow: hidden;
   text-align: left;
   border-bottom: 1px solid var(--line);
-  background:
-    radial-gradient(900px 420px at 82% -10%, rgba(52,211,153,0.22), transparent 60%),
-    radial-gradient(700px 380px at 8% 110%, rgba(52,211,153,0.1), transparent 65%),
-    var(--deep);
+  /* unslop: flat ground, no radial mint wash */
+  background: var(--deep);
 }
 .hero .wrap {
   padding-top: 72px;
@@ -429,11 +436,10 @@ header[data-public-header] button[aria-controls]:hover {
   height: 8px;
   background: #34d399;
   border-radius: 50%;
-  box-shadow: 0 0 10px rgba(52,211,153,0.8);
 }
 h1 .neon {
   color: #34d399;
-  text-shadow: 0 0 34px rgba(52,211,153,0.35);
+  text-shadow: none;
 }
 .hero h1 {
   max-width: 16ch;
@@ -593,8 +599,8 @@ h1 .neon {
   transition: border-color 0.2s ease, transform 0.2s ease;
 }
 .creator:hover {
-  border-color: rgba(52,211,153,0.45);
-  transform: translateY(-3px);
+  border-color: rgba(244,244,245,0.22);
+  transform: none;
 }
 .creator::before {
   content: "";
@@ -668,8 +674,8 @@ h1 .neon {
 }
 .socials a:hover {
   color: var(--text);
-  border-color: var(--brand);
-  transform: translateY(-2px);
+  border-color: rgba(244,244,245,0.22);
+  transform: none;
 }
 .handle {
   display: inline-block;
@@ -686,9 +692,8 @@ h1 .neon {
   text-align: center;
   position: relative;
   overflow: hidden;
-  background:
-    radial-gradient(600px 260px at 50% 0, rgba(52,211,153,0.16), transparent 70%),
-    var(--bg);
+  /* unslop: flat ground */
+  background: var(--bg);
 }
 .cta-sec h2 {
   font-family: var(--font-display);
@@ -719,10 +724,10 @@ a.go {
 }
 .cta-sec .go:hover,
 a.go:hover {
-  transform: translateY(-2px);
+  transform: none;
   background: #34d399;
   color: #000;
-  box-shadow: 0 12px 34px rgba(52,211,153,0.35);
+  box-shadow: none;
 }
 
 /* ---------- 12 · footer (team + full link set + credit) ---------- */
@@ -804,9 +809,10 @@ main :is(
   [class*="panel"],
   article
 ):hover {
-  border-color: rgba(52,211,153,0.45) !important;
-  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.4) !important;
-  transform: translateY(-3px) !important;
+  /* unslop: no lift, no mint glow — hairline brightens only */
+  border-color: rgba(244,244,245,0.22) !important;
+  box-shadow: none !important;
+  transform: none !important;
 }
 #features > div,
 #performance > div,
@@ -824,18 +830,18 @@ main [class*="border-neutral-800"] {
 #performance > div:hover,
 #screenshots > div:hover,
 #faq > div:hover {
-  border-color: rgba(52,211,153,0.45) !important;
-  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.4) !important;
-  transform: translateY(-3px) !important;
+  border-color: rgba(244,244,245,0.22) !important;
+  box-shadow: none !important;
+  transform: none !important;
 }
 #features > div,
 #performance > div {
   padding: 24px !important;
 }
-main img[src*="splash"],
-img[src*="splash"] {
-  filter: none !important;
-  -webkit-filter: none !important;
+/* hero background photo — show it; React data-ready never flips (decode works,
+   state stays false), so the img sat at opacity:0 and the hero had no photo */
+.magmad-background img {
+  opacity: 1 !important;
 }
 
 /* buttons — one blue CTA language, quiet secondaries */
@@ -862,28 +868,28 @@ button.primary {
   background: var(--brand-bright) !important;
   color: #0d0d0d !important;
   border-color: var(--brand-bright) !important;
-  box-shadow: 0 6px 22px rgba(52,211,153,0.42) !important;
+  box-shadow: none !important;
 }
 .btn.accent:hover,
 .btn.primary:hover,
 button.primary:hover {
   background: #34d399 !important;
   color: #000 !important;
-  transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(52,211,153,0.55), 0 0 22px rgba(52,211,153,0.35) !important;
+  transform: none !important;
+  box-shadow: none !important;
 }
 /* the one neon CTA — "Download for" on the index pages only */
 .magmad-download {
   background: #34d399 !important;
   color: #0d0d0d !important;
   border-color: #34d399 !important;
-  box-shadow: 0 6px 22px rgba(52,211,153,0.24) !important;
+  box-shadow: none !important;
 }
 .magmad-download:hover {
   background: #34d399 !important;
   color: #0d0d0d !important;
-  transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(52,211,153,0.32), 0 0 22px rgba(52,211,153,0.4) !important;
+  transform: none !important;
+  box-shadow: none !important;
 }
 .magmad-download:active {
   background: #34d399 !important;
@@ -932,12 +938,12 @@ main textarea:focus,
   border-radius: var(--radius) !important;
 }
 .qa:hover {
-  border-color: rgba(52,211,153,0.45) !important;
+  border-color: rgba(244,244,245,0.22) !important;
 }
 .qa[open],
 .qa.open,
 .qa.active {
-  border-color: rgba(52,211,153,0.5) !important;
+  border-color: rgba(244,244,245,0.3) !important;
 }
 
 /* download page stats + feed */
@@ -968,10 +974,12 @@ body :is(
   color: #ffffff !important;
   -webkit-text-stroke: 1.2px #1a1a1a;
   paint-order: stroke fill;
-  filter: drop-shadow(0 1px 0 rgba(26, 26, 26, 0.9)) drop-shadow(0 2px 10px rgba(52,211,153, 0.32)) !important;
+  /* unslop: no mint glow on icons */
+  filter: none !important;
 }
 body svg:not(.logo):not([class*="cursor"]) {
-  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.45)) !important;
+  /* unslop: no drop shadows on inline UI svgs */
+  filter: none !important;
 }
 body svg [fill="#08060d"],
 body svg [fill="#000000"],
@@ -1059,6 +1067,21 @@ main .btn.accent {
   min-height: 52px !important;
   padding-inline: 30px !important;
   font-size: 1.04em;
+}
+/* 360px: the two hero CTAs share one row — 30px padding made "Download for"
+   overflow its 156px box (the D painted outside the mint pill). Trim type +
+   padding on narrow screens so the label always fits inside the button. */
+@media (max-width: 420px) {
+  .magmad-download,
+  main .btn.primary,
+  main .btn.accent {
+    padding-inline: 12px !important;
+    font-size: 12px !important;
+    letter-spacing: 0.06em !important;
+  }
+  .magmad-download {
+    gap: 6px !important;
+  }
 }
 /* Hicks law — one dominant choice per view: quiet the secondaries */
 main .btn.ghost,
@@ -1259,9 +1282,9 @@ main .rank {
   border-radius: var(--radius) !important;
 }
 main .rank:hover {
-  border-color: rgba(52,211,153,0.45) !important;
-  transform: translateY(-3px) !important;
-  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.4) !important;
+  border-color: rgba(244,244,245,0.22) !important;
+  transform: none !important;
+  box-shadow: none !important;
 }
 main .rank.hot {
   border-top-color: #34d399 !important;
@@ -1270,7 +1293,8 @@ main .rank.hot {
 }
 main .rank.hot:hover {
   border-top-color: #34d399 !important;
-  box-shadow: inset 0 0 0 1px #34d399, 0 14px 34px rgba(0, 0, 0, 0.4) !important;
+  box-shadow: inset 0 0 0 1px #34d399 !important;
+  transform: none !important;
 }
 /* plans — the buy moment is neon lime; blue stays structure, Discord and focus */
 main .btn.buy-neon,
@@ -1278,15 +1302,15 @@ main .btn.buy-neon,
   background: #34d399 !important;
   color: #0d0d0d !important;
   border-color: #34d399 !important;
-  box-shadow: 0 6px 22px rgba(52,211,153,0.24) !important;
+  box-shadow: none !important;
 }
 main .btn.buy-neon:hover,
 .checkout .btn.buy-neon:hover {
   background: #34d399 !important;
   color: #0d0d0d !important;
   border-color: #34d399 !important;
-  transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(52,211,153,0.32), 0 0 22px rgba(52,211,153,0.4) !important;
+  transform: none !important;
+  box-shadow: none !important;
 }
 main .rank .name,
 main .rank .price {

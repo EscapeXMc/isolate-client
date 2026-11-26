@@ -27,6 +27,39 @@ export default function RightHub() {
   const partnersLive = useApp((s) => s.partnersLive);
   const partnerList: PartnerServer[] = partnersLive ? partners : FALLBACK_PARTNERS;
 
+  // Partner favicons — mcstatus.io returns base64 data-URLs (CORS `*`).
+  // Only fetched for partners without a logo; letter fallback on failure.
+  const [pIcons, setPIcons] = useState<Record<string, string>>({});
+  useEffect(() => {
+    let alive = true;
+    const need = partnerList.filter((p) => p.ip);
+    if (need.length === 0) return;
+    void (async () => {
+      const out: Record<string, string> = {};
+      await Promise.all(
+        need.map(async (p) => {
+          try {
+            const r = await fetch(
+              `https://api.mcstatus.io/v2/status/java/${encodeURIComponent(p.ip)}`,
+            );
+            if (!r.ok) return;
+            const d = await r.json();
+            const ic = typeof d?.icon === "string" ? d.icon : "";
+            if (ic.startsWith("data:image")) out[p.id] = ic;
+          } catch {
+            /* offline / rate-limited — keep letter fallback */
+          }
+        }),
+      );
+      if (alive && Object.keys(out).length) {
+        setPIcons((prev) => ({ ...prev, ...out }));
+      }
+    })();
+    return () => {
+      alive = false;
+    };
+  }, [partnerList]);
+
   useEffect(() => {
     let alive = true;
     void (async () => {
@@ -178,10 +211,18 @@ export default function RightHub() {
               >
                 <span
                   className="srv-ico"
-                  style={{ background: p.color || "#34d399" }}
+                  style={{ background: "rgba(255, 255, 255, 0.08)" }}
                   aria-hidden
                 >
-                  {p.logo ? <img src={p.logo} alt="" /> : p.name.slice(0, 1)}
+                  {/* letter underneath — covered once a real image loads */}
+                  {p.name.slice(0, 1)}
+                  {(p.logo || pIcons[p.id] || p.banner) && (
+                    <img
+                      src={(p.logo || pIcons[p.id] || p.banner) as string}
+                      alt=""
+                      onError={(e) => (e.currentTarget.style.display = "none")}
+                    />
+                  )}
                 </span>
                 <div className="srv-meta">
                   <div className="nm">{p.name}</div>

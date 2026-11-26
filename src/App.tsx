@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import Sidebar from "./components/Sidebar";
-import HeaderBar, { WindowControls } from "./components/HeaderBar";
+import HeaderBar from "./components/HeaderBar";
 import RightHub from "./components/RightHub";
 import ResizeHandles from "./components/ResizeHandles";
 import Home from "./components/Home";
@@ -16,6 +16,8 @@ import Admin from "./components/Admin";
 import DiscordChat from "./components/DiscordChat";
 import UpdateModal from "./components/UpdateModal";
 import AnnouncementBanner from "./components/AnnouncementBanner";
+import LaunchRocket from "./components/LaunchRocket";
+import Splash from "./components/Splash";
 import { useApp } from "./stores/app";
 import { api, onEvent } from "./lib/tauri";
 import type { InstallProgress, UpdateInfo } from "./lib/types";
@@ -32,7 +34,15 @@ export default function App() {
 
   // Remote launcher config → accent color + window/document title.
   useEffect(() => {
-    if (config.accent && /^#[0-9a-f]{6}$/i.test(config.accent)) {
+    // Palette lock: only approved accents from remote config are applied.
+    // White / Black / mint — anything else (e.g. old blue #3b82f6) is ignored
+    // so the UI can never leave the black-white-mint scheme.
+    const APPROVED = ["#34d399", "#ffffff", "#000000"];
+    if (
+      config.accent &&
+      /^#[0-9a-f]{6}$/i.test(config.accent) &&
+      APPROVED.includes(config.accent.toLowerCase())
+    ) {
       document.documentElement.style.setProperty("--accent", config.accent);
       // soften derived tokens
       document.documentElement.style.setProperty("--accent-soft", `${config.accent}22`);
@@ -71,6 +81,7 @@ export default function App() {
       onEvent<{ code: number | null; instance: string; play_seconds: number }>(
         "game-exit",
         (p) => {
+          useApp.getState().setLaunching(null);
           useApp.setState({ gameRunning: false, playingInstance: null });
           void useApp.getState().refreshInstances();
           useApp
@@ -81,9 +92,10 @@ export default function App() {
             );
         },
       ),
-      onEvent<{ error: string }>("launch-failed", (p) =>
-        useApp.getState().notify("err", p.error),
-      ),
+      onEvent<{ error: string }>("launch-failed", (p) => {
+        useApp.getState().setLaunching(null);
+        useApp.getState().notify("err", p.error);
+      }),
       // Isolate AI → UI: navigate or refresh a page after a tool ran.
       onEvent<{ type: string; page?: string }>("ai-action", (p) => {
         const st = useApp.getState();
@@ -184,22 +196,9 @@ export default function App() {
     return () => document.removeEventListener("mousedown", guard, true);
   }, []);
 
+  // FastClient-style startup card while the store boots.
   if (!booted) {
-    return (
-      <div
-        style={{
-          height: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: 12,
-          color: "var(--muted)",
-        }}
-      >
-        <span className="spin" />
-        Starting Isolate…
-      </div>
-    );
+    return <Splash />;
   }
 
   // Admin-placed ban/timeout on this device — full-screen block.
@@ -246,32 +245,34 @@ export default function App() {
     <div className="app">
       {/* ambient static gradient layer — no blur, no animation */}
       <div className="ambient" aria-hidden />
-      <Sidebar />
-      <div className="center">
-        {config.notice && !ban && (
-          <div className="banner ok" style={{ position: "static", margin: "8px 12px 0", maxWidth: "none", zIndex: 1 }}>
-            <span style={{ marginTop: 1 }}>ℹ</span>
-            <div className="txt">{config.notice}</div>
+      {/* full-width top bar (FastClient shell): brand left · account pill + window controls right */}
+      <HeaderBar />
+      <div className="shell">
+        <Sidebar />
+        <div className="center">
+          {config.notice && !ban && (
+            <div className="banner ok" style={{ position: "static", margin: "8px 12px 0", maxWidth: "none", zIndex: 1 }}>
+              <span style={{ marginTop: 1 }}>ℹ</span>
+              <div className="txt">{config.notice}</div>
+            </div>
+          )}
+          <div className="main">
+            {page === "home" && <Home />}
+            {page === "instances" && <Instances />}
+            {page === "mods" && <Mods />}
+            {page === "servermgr" && <ServerManager />}
+            {page === "partnerships" && <Partnerships />}
+            {page === "admin" && <Admin />}
+            {page === "discord" && <DiscordChat />}
+            {page === "accounts" && <Accounts />}
+            {page === "ai" && <AiChat />}
+            {page === "logs" && <Logs />}
+            {page === "settings" && <Settings />}
           </div>
-        )}
-        <HeaderBar />
-        <div className="main">
-          {page === "home" && <Home />}
-          {page === "instances" && <Instances />}
-          {page === "mods" && <Mods />}
-          {page === "servermgr" && <ServerManager />}
-          {page === "partnerships" && <Partnerships />}
-          {page === "admin" && <Admin />}
-          {page === "discord" && <DiscordChat />}
-          {page === "accounts" && <Accounts />}
-          {page === "ai" && <AiChat />}
-          {page === "logs" && <Logs />}
-          {page === "settings" && <Settings />}
         </div>
+        {/* right hub — home only, Xryloth ServerWidget analog */}
+        {page === "home" && <RightHub />}
       </div>
-      {/* right hub — home only, Xryloth ServerWidget analog */}
-      {page === "home" && <RightHub />}
-      <WindowControls />
       <ResizeHandles />
 
       {active.length > 0 && (
@@ -312,6 +313,8 @@ export default function App() {
       {updateInfo && (
         <UpdateModal info={updateInfo} onClose={() => setUpdateInfo(null)} />
       )}
+      {/* Play → rocket launch sequence while Minecraft spins up */}
+      <LaunchRocket />
     </div>
   );
 }

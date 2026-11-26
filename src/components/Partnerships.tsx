@@ -8,7 +8,9 @@ import {
   LogOut,
   Pencil,
   Plus,
+  Search,
   Trash2,
+  X,
 } from "lucide-react";
 import { useApp } from "../stores/app";
 import { api } from "../lib/tauri";
@@ -36,7 +38,7 @@ const EMPTY_SERVER: PartnerServer = {
   countMode: "live",
   players: 0,
   playersTotal: 0,
-  color: "#34d399",
+  color: "#ffffff",
   order: 0,
   enabled: true,
 };
@@ -84,6 +86,27 @@ export default function Partnerships() {
 
   // Live player counts — ping every live-mode server every 30s.
   const [pings, setPings] = useState<Record<string, { online?: number; max?: number }>>({});
+
+  // public toolbar state — search + sort (FastClient partners layout)
+  const [q, setQ] = useState("");
+  const [sort, setSort] = useState<"default" | "players" | "name">("default");
+  const shown = useMemo(() => {
+    const needle = q.trim().toLowerCase();
+    let out = needle
+      ? list.filter(
+          (p) =>
+            p.name.toLowerCase().includes(needle) ||
+            (p.ip ?? "").toLowerCase().includes(needle),
+        )
+      : list.slice();
+    if (sort === "players") {
+      out = out.slice().sort((a, b) => (pings[b.id]?.online ?? 0) - (pings[a.id]?.online ?? 0));
+    } else if (sort === "name") {
+      out = out.slice().sort((a, b) => a.name.localeCompare(b.name));
+    }
+    return out;
+  }, [list, q, sort, pings]);
+
   useEffect(() => {
     let alive = true;
     const run = async () => {
@@ -197,6 +220,40 @@ export default function Partnerships() {
         {partnersLive
           ? "Synced from Isolate's Firebase — updates automatically every 10 seconds."
           : "Firebase unreachable right now — showing the built-in list. It will reconnect on its own."}
+      </div>
+
+      {/* ---------- public toolbar: search · sort · become a partner ---------- */}
+      <div className="ptn-tools">
+        <div className="md-search ptn-search">
+          <Search aria-hidden />
+          <input
+            type="text"
+            placeholder="Search servers…"
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+          />
+          {q && (
+            <button className="ptn-clear" title="Clear" onClick={() => setQ("")}>
+              <X size={13} />
+            </button>
+          )}
+        </div>
+        <select
+          className="ptn-sort"
+          value={sort}
+          onChange={(e) => setSort(e.target.value as typeof sort)}
+          aria-label="Sort"
+        >
+          <option value="default">Default</option>
+          <option value="players">Most online</option>
+          <option value="name">Name A–Z</option>
+        </select>
+        <button
+          className="btn ptn-become"
+          onClick={() => void api.openUrl("https://discord.gg/TV2ypJF6TF")}
+        >
+          Become a Partner
+        </button>
       </div>
 
       {/* ---------- admin toolbar ---------- */}
@@ -368,7 +425,7 @@ export default function Partnerships() {
               <span>Accent color</span>
               <input
                 type="color"
-                value={editing.color || "#34d399"}
+                value={editing.color || "#ffffff"}
                 onChange={(e) => setField("color", e.target.value)}
                 style={{ height: 38, padding: 4 }}
               />
@@ -426,21 +483,19 @@ export default function Partnerships() {
       )}
 
       {/* ---------- cards ---------- */}
-      {partnersLive && partners.length === 0 && !editing ? (
+      {shown.length === 0 ? (
         <div className="panel faint" style={{ padding: 16 }}>
-          No partnership servers yet{admin ? " — hit “Add server” to create the first one." : "."}
+          {q
+            ? `No servers match “${q}” — try another name or IP.`
+            : `No partnership servers yet${admin ? " — hit “Add server” to create the first one." : "."}`}
         </div>
       ) : (
         <div className="ptn-grid">
-          {list.map((p) => (
+          {shown.map((p) => (
             <article key={p.id} className="ptn-card">
               <div
                 className="ptn-banner"
-                style={
-                  p.banner
-                    ? { backgroundImage: `url(${p.banner})` }
-                    : { background: `linear-gradient(120deg, ${p.color || "#34d399"}66, #34d399 60%, #34d399)` }
-                }
+                style={p.banner ? { backgroundImage: `url(${p.banner})` } : undefined}
               >
                 {p.logo && <img className="ptn-logo" src={p.logo} alt="" />}
                 {(p.countMode ?? "live") === "fixed" ? (

@@ -1,0 +1,1243 @@
+
+/* ════════════════════════════════════════════════════════════════
+   fastclient restyle — isolateclient.in index
+   Direction: fastclient.net · warm daylight-grey ground #ecedf0 ·
+   ink #191817 · orange accent #e98a1e / #bc7422 / tint #fff0dc ·
+   Oswald display (uppercase, tracked) + Nunito Sans body ·
+   flat sections, bare orange outline icons, orange CTA slab.
+   Beats assets/iso-override.css (moved to end of <head> by page-fx.js)
+   with html-prefixed selectors + !important throughout.
+   ════════════════════════════════════════════════════════════════ */
+
+/* — tokens: html:root (0,1,1) beats iso's :root (0,1,0);
+   html body (0,0,2) beats iso's html,body per-selector (0,0,1) — */
+html:root, html body {
+  --bg: #fff;
+  --bg-soft: #f6f5f3;
+  --deep: #191817;
+  --line: #e4e2dd;
+  --line-2: #d8d5cf;
+  --text: #191817;
+  --muted: #6b6a66;
+  --dim: #54524e;
+  --dim-deco: #9a978f;
+  --brand: #e98a1e;
+  --brand-bright: #e98a1e;
+  --accent: #e98a1e;
+  --radius: 10px;
+  --font-display: "Oswald", "Russo One", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-body: "Nunito Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-oswald: "Oswald", "Russo One", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Nunito Sans", ui-sans-serif, system-ui, sans-serif;
+  --background: #fff !important;
+  --foreground: #191817 !important;
+  --card: #fff !important;
+  --card-foreground: #191817 !important;
+  --popover: #fff !important;
+  --popover-foreground: #191817 !important;
+  --primary: #e98a1e !important;
+  --primary-foreground: #160d06 !important;
+  --secondary: #f6f5f3 !important;
+  --secondary-foreground: #191817 !important;
+  --muted: #f1efeb !important;
+  --muted-foreground: #6b6a66 !important;
+  --accent: #fff0dc !important;
+  --accent-foreground: #8a4f10 !important;
+  --border: #e4e2dd !important;
+  --input: #e4e2dd !important;
+  --ring: #e98a1e !important;
+  --brand-ink: #bc7422 !important;
+  --brand-soft: rgba(233, 138, 30, 0.16) !important;
+}
+
+/* — root ground: white canvas, light scheme (theme-boot pins dark — undone
+   by the tiny head script that follows theme-boot.js; this locks CSS too) — */
+html, html.dark, html.light, html:root {
+  background: #fff !important;
+  background-image: none !important;
+  color-scheme: light !important;
+}
+html body { background: #fff !important; background-color: #fff !important; }
+
+html body {
+  font-family: var(--font-body) !important;
+  font-size: 16px;
+  line-height: 1.65;
+  color: #191817;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+html { scroll-behavior: smooth; }
+
+/* — typography: Oswald everywhere display, Nunito for prose — */
+html h1, html h2, html h3, html h4 {
+  font-family: var(--font-display) !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.02em !important;
+  color: #191817 !important;
+  text-transform: none !important;
+  text-shadow: none !important;
+}
+html #main-content h2,
+html #main-content h3,
+html #main-content h4 { border-bottom: 0 !important; padding-bottom: 0 !important; }
+html body main p, html body main li { color: #45433f !important; }
+html body main p a:hover, html .md a:hover, html .fcols a:hover { color: #bc7422 !important; text-decoration: underline; }
+html a { color: #191817; }
+html a:hover { color: #bc7422 !important; }
+html a:focus-visible, html button:focus-visible {
+  outline: 2px solid #e98a1e !important;
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+html main section { scroll-margin-top: 96px; }
+
+/* section heads: uppercase tracked Oswald, final span flips orange */
+html .sec-head {
+  font-family: var(--font-display) !important;
+  font-weight: 600 !important;
+  font-size: clamp(24px, 2.6vw, 34px);
+  line-height: 1.25;
+  letter-spacing: 0.09em !important;
+  text-transform: uppercase !important;
+  margin: 0 0 34px !important;
+  color: #191817 !important;
+  text-wrap: balance;
+}
+html .sec-head span { color: #e98a1e !important; font-style: normal !important; font-family: var(--font-display) !important; letter-spacing: 0.09em !important; }
+html .sec-head.text-center { text-align: center; }
+html .meta { color: #9a978f !important; font-size: 12.5px !important; letter-spacing: 0.02em; }
+html .eyebrow, html .chip-muted { color: #6b6a66 !important; }
+
+/* — utility-class beats (chunk CSS + iso var remap) — */
+html .text-foreground { color: #191817 !important; }
+html .text-foreground-1 { color: #191817 !important; }
+html .text-foreground-2 { color: #54524e !important; }
+html .text-muted { color: #6b6a66 !important; }
+html .text-brand-ink { color: #bc7422 !important; }
+html .bg-background { background-color: #fff !important; }
+html .bg-background-2 { background-color: #eeece8 !important; }
+html .bg-accent-1 { background-color: #e98a1e !important; }
+html .bg-accent-2 { background-color: #bc7422 !important; }
+html .bg-accent-3 { background-color: #f4d7ae !important; }
+html .border-border { border-color: #e4e2dd !important; }
+html .border-\[\#3a3a3a\] { border-color: #e4e2dd !important; }
+
+/* — header / nav: transparent over the grey hero, white on scroll — */
+html .wrap { max-width: 1400px !important; padding: 0 24px !important; }
+html [data-header-bar] { max-width: 1400px !important; padding: 0 24px !important; }
+html header[data-public-header] {
+  position: sticky !important;
+  top: 0;
+  z-index: 50;
+  background: transparent !important;
+  border-bottom: 1px solid transparent !important;
+  transition: background 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+html header[data-public-header].pw-scrolled {
+  background: rgba(255, 255, 255, 0.94) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border-bottom-color: #e4e2dd !important;
+  box-shadow: 0 12px 30px -24px rgba(25, 24, 23, 0.5);
+}
+html header[data-public-header] a[aria-label="Isolate Client home"] span {
+  font-family: var(--font-display) !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  color: #191817 !important;
+}
+html header[data-public-header] nav a {
+  color: #191817 !important;
+  min-height: 40px;
+  font-family: var(--font-display) !important;
+  font-weight: 500 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  font-size: 13.5px !important;
+}
+html header[data-public-header] nav a:hover { color: #bc7422 !important; }
+html nav[aria-label="Main navigation"] a:hover { color: #bc7422 !important; }
+html header nav a.border-border {
+  background: #fff !important;
+  color: #191817 !important;
+  border-color: #d8d5cf !important;
+  border-radius: 10px !important;
+  padding: 11px 22px !important;
+}
+html header nav a.border-border:hover { background: #fff0dc !important; border-color: #e98a1e !important; color: #8a4f10 !important; }
+html header[data-public-header] button:not([aria-controls]),
+html header[data-public-header] button[aria-controls] {
+  background: #fff !important;
+  border: 1px solid #d8d5cf !important;
+  color: #191817 !important;
+  border-radius: 10px !important;
+}
+html header[data-public-header] button:not([aria-controls]):hover,
+html header[data-public-header] button[aria-controls]:hover { border-color: #e98a1e !important; background: #fff0dc !important; }
+html header[data-public-header] button svg { color: #191817; }
+
+/* — scroll scene: quiet warm smoke behind everything — */
+.pw-scene { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+.pw-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.75;
+  will-change: transform;
+}
+.pw-blob.b1 { width: 56vw; height: 56vw; left: -16vw; top: -14vw; background: radial-gradient(circle, #f1efea 0%, rgba(241, 239, 234, 0) 68%); }
+.pw-blob.b2 { width: 52vw; height: 52vw; right: -14vw; top: 24vh; background: radial-gradient(circle, #edf1f4 0%, rgba(237, 241, 244, 0) 68%); }
+.pw-blob.b3 { width: 64vw; height: 64vw; left: 12vw; top: 120vh; background: radial-gradient(circle, #f7efe3 0%, rgba(247, 239, 227, 0) 66%); opacity: 0.6; }
+
+/* scroll progress bar — one orange thread */
+.pw-progress {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 3px; z-index: 90;
+  transform: scaleX(0); transform-origin: 0 50%;
+  background: #e98a1e;
+  pointer-events: none;
+}
+
+/* hero photo layer → replaced by the grey smoke ground */
+html .magmad-background, html .magmad-background img, html .magmad-background picture {
+  opacity: 0 !important;
+  background: transparent !important;
+}
+
+/* — hero: light-grey smoke stage, giant Oswald headline — */
+html #hero { position: relative; }
+html #hero::before {
+  content: "";
+  position: absolute;
+  top: -260px;
+  bottom: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse 55% 45% at 78% 6%, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0) 62%),
+    radial-gradient(ellipse 38% 32% at 18% 88%, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 70%),
+    linear-gradient(180deg, #e9ecef 0%, #f0efed 62%, #ffffff 100%);
+}
+.hero-split { display: grid; gap: 40px; align-items: center; position: relative; }
+.hero-copy { text-align: left; min-width: 0; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 14px; border-radius: 8px; border: 1px solid #f0d9b8 !important;
+  background: #fff0dc; color: #8a4f10;
+  font-family: var(--font-body); font-weight: 600; font-size: 12.5px; letter-spacing: 0.02em;
+}
+.hero-dot { width: 8px; height: 8px; border-radius: 50%; background: #e98a1e; box-shadow: none !important; }
+html .hero-head {
+  margin: 22px 0 0;
+  font-family: var(--font-display) !important;
+  font-size: clamp(40px, 5.4vw, 76px);
+  line-height: 1.07;
+  font-weight: 600 !important;
+  letter-spacing: 0.015em !important;
+  text-transform: uppercase !important;
+  color: #191817 !important;
+  max-width: 14ch;
+  text-wrap: balance;
+  border-bottom: 0 !important; padding-bottom: 0 !important;
+}
+html .hero-head span { font-family: var(--font-display) !important; font-style: normal !important; color: #191817 !important; letter-spacing: 0.015em !important; }
+.home-sub { max-width: 640px; margin-top: 18px; font-family: var(--font-body); font-size: 17.5px; line-height: 28px; text-wrap: pretty; color: #54524e !important; }
+.hero-sub { margin: 16px 0 0; text-align: left; max-width: 54ch; }
+.hero-chips { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin-top: 26px; padding: 0; list-style: none; }
+.hero-chips li {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 0; border-radius: 0;
+  border: 0; background: transparent;
+  color: #191817; font-size: 16.5px; letter-spacing: 0;
+}
+.hero-chips li:hover { transform: none !important; color: #191817; }
+.hero-chips li svg { color: #e98a1e; flex-shrink: 0; }
+.hero-cta { width: 100%; max-width: 520px; margin-top: 30px; }
+.hero-shot { position: relative; width: 100%; min-width: 0; }
+.hero-shot-img {
+  display: block; width: 100%; height: auto;
+  border: 1px solid rgba(25, 24, 23, 0.08);
+  border-radius: 14px;
+  box-shadow: 0 40px 80px -44px rgba(25, 24, 23, 0.45);
+}
+
+/* — buttons: Oswald uppercase, orange solid / white outline — */
+html #main-content .magmad-download, html .dark-download {
+  font-family: var(--font-display) !important;
+  font-weight: 500 !important;
+  font-size: 14px !important;
+  letter-spacing: 0.09em !important;
+  text-transform: uppercase !important;
+  border-radius: 10px !important;
+  min-height: 52px !important;
+  padding-inline: 26px !important;
+  gap: 10px !important;
+  background: #e98a1e !important;
+  color: #160d06 !important;
+  border-color: #e98a1e !important;
+  box-shadow: none !important;
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease !important;
+}
+html #main-content .magmad-download:hover, html .dark-download:hover {
+  background: #d47d14 !important;
+  border-color: #d47d14 !important;
+  color: #160d06 !important;
+  box-shadow: none !important;
+  transform: translateY(-1px) !important;
+}
+html #main-content .magmad-download:active { background: #bc7422 !important; transform: translateY(0) !important; }
+html #main-content .magmad-download:focus-visible { box-shadow: 0 0 0 4px rgba(233, 138, 30, 0.35) !important; outline: none !important; }
+html #main-content .watch-demo {
+  height: 52px; gap: 12px;
+  border-radius: 10px;
+  border-color: #d8d5cf !important;
+  color: #191817 !important;
+  background: #fff !important;
+  font-family: var(--font-display) !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.09em !important;
+  text-transform: uppercase !important;
+  font-size: 14px !important;
+}
+html #main-content .watch-demo:hover { border-color: #e98a1e !important; background: #fff0dc !important; color: #8a4f10 !important; }
+html .btn, html button.primary, html .btn.primary, html .btn.accent {
+  font-family: var(--font-display) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.09em !important;
+  border-radius: 10px !important;
+  font-weight: 500 !important;
+}
+html .btn.primary, html .btn.accent, html button.primary {
+  background: #e98a1e !important; color: #160d06 !important; border-color: #e98a1e !important;
+}
+html .btn.primary:hover, html .btn.accent:hover, html button.primary:hover {
+  background: #d47d14 !important; color: #160d06 !important; border-color: #d47d14 !important;
+}
+html .btn.ghost { border-color: #d8d5cf !important; color: #191817 !important; background: #fff !important; box-shadow: none !important; }
+html .btn.ghost:hover { border-color: #e98a1e !important; background: #fff0dc !important; color: #8a4f10 !important; }
+html body button:active { transform: scale(0.98) !important; }
+
+/* platform line under the CTA — orange links like the reference */
+html .magmad-platforms a {
+  background: transparent !important;
+  border-radius: 6px !important;
+  color: #bc7422 !important;
+  padding: 7px 10px !important;
+  font-size: 15px !important;
+  border: 0;
+}
+html .magmad-platforms a:hover { background: #fff0dc !important; color: #8a4f10 !important; text-decoration: underline !important; }
+
+/* — features: flat on white, bare orange outline icons — */
+html #main-content #features > div, html #main-content .f-card {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  padding: 8px 8px 8px 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+html #main-content #features > div:hover, html #main-content .f-card:hover {
+  border-color: transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+html #main-content .f-icon {
+  display: grid; place-items: center;
+  width: auto; height: auto; border-radius: 0;
+  background: transparent !important; border: 0 !important;
+  color: #e98a1e !important; margin-bottom: 22px;
+}
+html #main-content .f-icon svg { width: 46px !important; height: 46px !important; stroke-width: 1.6 !important; }
+html #main-content .f-title {
+  font-family: var(--font-display) !important;
+  font-weight: 500 !important;
+  font-size: 23px !important;
+  line-height: 1.3 !important;
+  letter-spacing: 0.03em !important;
+  text-transform: none !important;
+  color: #191817 !important;
+  margin: 0 0 10px;
+}
+html #main-content .f-text { font-size: 15.5px; line-height: 25px; color: #54524e !important; max-width: 46ch; }
+
+/* — how it works: warm off-white cards — */
+.how-grid { display: grid; gap: 24px; grid-template-columns: 1fr; }
+html #main-content .how-card {
+  background: #f6f5f3 !important;
+  border: 1px solid #eeece8 !important;
+  border-radius: 14px !important;
+  padding: 26px !important;
+  box-shadow: none !important;
+  transition: border-color 0.25s ease !important;
+}
+html #main-content .how-card:hover {
+  transform: none !important;
+  box-shadow: none !important;
+  border-color: #e0ddd6 !important;
+}
+html #main-content .how-num {
+  display: inline-block; width: auto; height: auto; padding: 0; margin-bottom: 12px;
+  background: none !important; border: 0 !important;
+  font-family: var(--font-display) !important;
+  font-size: 15px !important; font-weight: 600 !important;
+  letter-spacing: 0.1em; color: #e98a1e !important;
+}
+html #main-content .how-title {
+  font-family: var(--font-display) !important;
+  font-weight: 500 !important;
+  font-size: 19px !important;
+  line-height: 1.35 !important;
+  letter-spacing: 0.03em !important;
+  text-transform: none !important;
+  color: #191817 !important;
+  margin: 0 0 8px;
+}
+html #main-content .how-body { font-size: 14.5px; line-height: 22px; color: #54524e !important; }
+
+/* — performance: orange weight hierarchy on warm tracks — */
+html #main-content #performance > div {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+html #main-content #performance > div:hover {
+  transform: none !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+}
+html #main-content #performance .num { font-family: var(--font-display) !important; font-weight: 500 !important; letter-spacing: 0.04em; }
+html #main-content #performance .h-2 { border-radius: 999px !important; }
+
+/* — demo / video: neutral card, orange play, quiet dark label — */
+html #main-content .video-card {
+  border-radius: 16px !important;
+  background: #fff !important;
+  border: 1px solid #e4e2dd !important;
+  box-shadow: 0 40px 80px -50px rgba(25, 24, 23, 0.5) !important;
+  overflow: hidden;
+}
+html #main-content .video-card:hover {
+  border-color: #d8d5cf !important;
+  box-shadow: 0 44px 84px -46px rgba(25, 24, 23, 0.55) !important;
+  transform: translateY(-3px) !important;
+}
+html #main-content .video-card img { opacity: 1 !important; }
+html #main-content .video-play {
+  width: 76px; height: 76px;
+  background: #e98a1e !important;
+  border: 0 !important;
+  color: #160d06 !important;
+  box-shadow: 0 14px 34px -12px rgba(233, 138, 30, 0.7);
+}
+html #main-content .video-card:hover .video-play { transform: scale(1.06) !important; background: #e98a1e !important; color: #160d06 !important; border-color: transparent !important; }
+html #main-content .video-label {
+  font-family: var(--font-display) !important;
+  font-weight: 500 !important;
+  font-size: 12.5px !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  background: rgba(25, 24, 23, 0.88) !important;
+  border: 0 !important;
+  padding: 8px 15px !important;
+  border-radius: 8px !important;
+  color: #fff !important;
+}
+
+/* — screenshots: white hairline cards, orange Oswald captions — */
+html #main-content #screenshots > div { background: transparent !important; border: 0 !important; border-radius: 0 !important; box-shadow: none !important; padding: 0 !important; }
+html #main-content #screenshots > div:hover { transform: none !important; box-shadow: none !important; border-color: transparent !important; }
+.shot-grid { display: grid; gap: 24px; grid-template-columns: 1fr; }
+html #main-content .shot {
+  margin: 0; overflow: hidden;
+  background: #fff !important;
+  border: 1px solid #e4e2dd !important;
+  border-radius: 14px !important;
+  transition: border-color 0.25s ease !important;
+}
+html #main-content .shot:hover {
+  transform: none !important;
+  border-color: #cfccc4 !important;
+  box-shadow: 0 22px 44px -32px rgba(25, 24, 23, 0.4) !important;
+}
+html #main-content .shot img { display: block; width: 100%; height: auto; aspect-ratio: 5/4; object-fit: cover; }
+html #main-content .shot figcaption {
+  font-family: var(--font-display) !important;
+  font-weight: 500 !important;
+  font-size: 15.5px !important;
+  letter-spacing: 0.04em !important;
+  color: #bc7422 !important;
+  border-top: 1px solid #f0eeea !important;
+  padding: 14px 18px;
+}
+
+/* — faq: flat hairline rows — */
+html #main-content #faq > div { background: transparent !important; border: 0 !important; border-radius: 0 !important; box-shadow: none !important; padding: 0 !important; }
+html #main-content #faq > div:hover { transform: none !important; box-shadow: none !important; border-color: transparent !important; }
+html #main-content #faq details { border-bottom: 1px solid #e4e2dd !important; }
+html #main-content #faq summary {
+  font-family: var(--font-body) !important;
+  font-weight: 600 !important;
+  font-size: 16.5px !important;
+  line-height: 1.5;
+  letter-spacing: 0 !important;
+  color: #191817 !important;
+  gap: 12px;
+  padding: 22px 0;
+}
+html #main-content #faq summary:hover { color: #bc7422 !important; }
+html #main-content #faq summary:hover svg { color: #bc7422 !important; }
+html #main-content #faq details[open] summary svg { transform: rotate(180deg) !important; transition: transform 0.25s ease; }
+html #main-content #faq summary svg { color: #9a978f !important; }
+html #main-content #faq p { color: #54524e !important; max-width: 74ch; margin: 4px 0 24px; }
+
+/* — cta band: full-bleed orange slab, black heading, white buttons — */
+html #main-content .cta-band {
+  background: #e98a1e !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+html #main-content .cta-band .sec-head, html #main-content .cta-head {
+  color: #191817 !important;
+  font-size: clamp(34px, 4.6vw, 62px) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.05em !important;
+  margin: 0 !important;
+}
+html #main-content .cta-band .sec-head span, html #main-content .cta-head span { color: #191817 !important; }
+html #main-content .cta-band p { color: rgba(25, 24, 23, 0.78) !important; }
+html #main-content .cta-band .magmad-download, html #main-content .cta-band .dark-download {
+  background: #fff !important;
+  color: #191817 !important;
+  border-color: #fff !important;
+  box-shadow: none !important;
+}
+html #main-content .cta-band .magmad-download:hover, html #main-content .cta-band .dark-download:hover {
+  background: #191817 !important;
+  color: #fff !important;
+  border-color: #191817 !important;
+}
+html #main-content .cta-band .watch-demo { background: #fff !important; border-color: #fff !important; color: #191817 !important; }
+html #main-content .cta-band .watch-demo:hover { border-color: #191817 !important; background: #191817 !important; color: #fff !important; }
+html #main-content .cta-band .magmad-platforms a { background: rgba(255, 255, 255, 0.25) !important; color: #191817 !important; }
+html #main-content .cta-band .magmad-platforms a:hover { background: #fff !important; color: #191817 !important; }
+
+/* — footer: white, hairline, quiet links — */
+html footer.foot {
+  background: #fff !important;
+  border-top: 1px solid #e4e2dd !important;
+  padding: 48px 0 58px !important;
+  color: #6b6a66 !important;
+  font-size: 13.5px !important;
+}
+html footer.foot a { color: #191817 !important; }
+html footer.foot a:hover { color: #bc7422 !important; }
+html footer.foot .foot-meta { max-width: 52ch; line-height: 1.8; color: #9a978f !important; }
+html footer.foot .foot-links { max-width: 760px; text-align: right; line-height: 2.2; }
+html footer.foot .foot-links a { font-family: var(--font-body); font-weight: 600; }
+html .socials a { border-color: #d8d5cf !important; color: #54524e !important; border-radius: 8px !important; }
+html .socials a:hover { color: #bc7422 !important; border-color: #e98a1e !important; }
+
+/* — mobile nav: light panel — */
+#public-mobile-navigation {
+  background: #fff !important;
+  border-right: 1px solid #e4e2dd !important;
+  box-shadow: 0 30px 70px -34px rgba(25, 24, 23, 0.45) !important;
+}
+#public-mobile-navigation a { color: #191817 !important; }
+#public-mobile-navigation a:hover { color: #bc7422 !important; background: #fff0dc !important; }
+#public-mobile-navigation a[aria-current] { color: #bc7422 !important; }
+
+/* — toast — */
+html #xf-toast {
+  background: #191817 !important;
+  color: #fff !important;
+  border: 1px solid rgba(233, 138, 30, 0.5) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 24px 50px -24px rgba(25, 24, 23, 0.7) !important;
+}
+html #xf-toast h4 { color: #fff !important; }
+html #xf-toast p { color: rgba(255, 255, 255, 0.72) !important; }
+html body #xf-toast .ic { background: #e98a1e !important; color: #160d06 !important; }
+
+/* — base layout — */
+@media (min-width: 900px) {
+  .hero-split { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 60px; }
+}
+@media (min-width: 768px) {
+  .how-grid { grid-template-columns: repeat(3, 1fr); gap: 28px; }
+}
+@media (min-width: 640px) { .shot-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .shot-grid { grid-template-columns: repeat(3, 1fr); } }
+html #main-content .video-card { position: relative; display: block; overflow: hidden; }
+html #main-content .video-card img { display: block; width: 100%; height: auto; aspect-ratio: 16/9; object-fit: cover; transition: opacity 0.3s ease; }
+html #main-content .video-play { position: absolute; inset: 0; margin: auto; border-radius: 50%; display: grid; place-items: center; }
+html #main-content .video-label { position: absolute; left: 16px; bottom: 14px; }
+
+@media (max-width: 640px) {
+  html .hero-head { font-size: clamp(34px, 9vw, 44px); }
+  html #hero::before { top: -170px; }
+  .hero-cta { max-width: none; }
+}
+
+/* — reduced motion — */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .pw-blob { transform: none !important; }
+  .pw-progress { transition: none !important; }
+  html #main-content #features > div:hover, html #main-content .f-card:hover,
+  html #main-content .how-card:hover, html #main-content .shot:hover,
+  html #main-content .video-card:hover { transform: none !important; }
+}
+
+/* ================================================================
+   FastClient subpage adapter — APPENDED after fast-base.css (index's
+   own extracted design layer) inside /assets/fast-override.css.
+
+   Job: beat (a) iso-override.css's dark/mint layer and (b) each
+   subpage's inline dark :root + literal mint rules, so every page
+   lands on index's light ground.
+
+   Cascade: this file is linked after iso-override.css on every
+   subpage, so equal-specificity ties resolve here; selectors are
+   additionally html-prefixed and !important to beat page-inline
+   styles and iso's own !important rules.
+
+   Palette: ground #fff · bands #ecedf0/#f6f5f3 · ink #191817 ·
+   muted #6b6a66 · accent #e98a1e · accent-text #bc7422 ·
+   tint #fff0dc · lines #e4e2dd/#d8d5cf · error #c2410c.
+   ================================================================ */
+
+/* — 0 · body text — iso's `body { color:#f4f4f5 !important }` outranks
+   fast-base's non-important body colour; restate it with weight — */
+html body { color: #191817 !important; }
+
+/* — 1 · token beats — each page's inline :root sets these mint/grey for
+   dark, and fast-base's own block re-declares --muted as a shadcn tint
+   (same-block later declaration wins), so re-declare here, last — */
+html:root, html body {
+  --muted: #6b6a66 !important;          /* was shadcn tint — used as TEXT */
+  --brand-soft: #bc7422 !important;     /* pages set mint — used as TEXT */
+  --green: #bc7422 !important;
+  --err: #c2410c !important;
+  --danger: #c2410c !important;
+  --line-soft: #e4e2dd !important;
+  --brand-dim: #d8d5cf !important;
+  --accent-1: #bc7422 !important;       /* undefined anywhere — text-accent-1 */
+  --accent-ink: #160d06 !important;     /* site.css: white-on-mint → ink-on-orange */
+  --bg-2: #f6f5f3 !important;           /* site.css dark tone steps → light */
+  --bg-3: #e4e2dd !important;
+  --ink: #191817 !important;
+  --ink-2: #191817 !important;
+  --ink-3: #6b6a66 !important;
+  --font: "Nunito Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif !important;
+}
+
+/* — 2 · header — Family A `header.top` is painted near-black by iso;
+   Family C's shadcn header is parked transparent by fast-base waiting
+   for a .pw-scrolled state no subpage produces — pin both to a solid
+   white bar like index's scrolled state — */
+html header.top {
+  background: rgba(255, 255, 255, 0.96) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  backdrop-filter: blur(10px) !important;
+  border-bottom: 1px solid #e4e2dd !important;
+}
+html header[data-public-header] {
+  background: rgba(255, 255, 255, 0.96) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  backdrop-filter: blur(10px) !important;
+  border-bottom: 1px solid #e4e2dd !important;
+}
+/* Family A nav links + burger (iso: #acacac links, charcoal button) */
+html nav.bar a.nav { color: #54524e !important; }
+html nav.bar a.nav:hover { color: #bc7422 !important; }
+html nav.bar a.nav.active { color: #e98a1e !important; }
+html nav.bar a.nav.active::after { background: #e98a1e !important; }
+html nav.bar .links a.nav.active { color: #e98a1e !important; }
+html nav.bar .links a.nav.active::after { background: #e98a1e !important; }
+html .menu-btn {
+  background: #fff !important;
+  color: #191817 !important;
+  border-color: #d8d5cf !important;
+}
+html .menu-btn:hover { border-color: #e98a1e !important; }
+
+/* — 3 · hero — iso paints it var(--deep)=#191817; pages add mint radials — */
+html .hero {
+  background: #ecedf0 !important;
+  background-image: none !important;
+  border-bottom: 1px solid #e4e2dd !important;
+}
+html .hero::before {
+  background: radial-gradient(600px 220px at 50% 0, rgba(233, 138, 30, 0.16), transparent 70%) !important;
+}
+html .hero .sub { color: #54524e !important; }
+html .hero .hero-sub { color: #54524e !important; }
+html .hero-meta { color: #54524e !important; }
+html .kicker {
+  color: #8a4f10 !important;
+  border-color: rgba(233, 138, 30, 0.4) !important;
+  background: rgba(233, 138, 30, 0.1) !important;
+}
+html .kicker::before {
+  background: #e98a1e !important;
+  box-shadow: none !important;
+}
+html h1 .neon { color: #e98a1e !important; text-shadow: none !important; }
+html .hero-rule {
+  background: linear-gradient(90deg, #e98a1e, #bc7422, transparent) !important;
+}
+html h1, html h2, html h3 { text-shadow: none !important; }
+
+/* — 4 · Family A literal rules (each page's inline <style>) — */
+html .eyebrow .live {
+  background: #e98a1e !important;
+  box-shadow: none !important;
+}
+html .warn, html .error-box {
+  border-color: rgba(233, 138, 30, 0.35) !important;
+  background: rgba(233, 138, 30, 0.08) !important;
+  color: #8a4f10 !important;
+}
+html .release { background: #fff !important; }
+html .release.latest {
+  border-color: #e98a1e !important;
+  box-shadow: none !important;
+}
+html .badge.green {
+  color: #bc7422 !important;
+  border-color: rgba(233, 138, 30, 0.4) !important;
+}
+html .md { color: #45433f !important; }
+html .md code {
+  background: #f6f5f3 !important;
+  border-color: #e4e2dd !important;
+  color: #8a4f10 !important;
+}
+html .md pre {
+  background: #f6f5f3 !important;
+  border-color: #e4e2dd !important;
+}
+html .md pre code { background: none !important; color: #191817 !important; }
+html #q:focus {
+  border-color: #e98a1e !important;
+  box-shadow: 0 0 0 3px rgba(233, 138, 30, 0.18) !important;
+}
+html .cat-chip.on {
+  background: #fff0dc !important;
+  border-color: #e98a1e !important;
+  color: #8a4f10 !important;
+}
+html mark {
+  background: #fff0dc !important;
+  color: #8a4f10 !important;
+}
+html details.qa[open] { border-color: #e98a1e !important; }
+html details.qa summary:hover { background: #f6f5f3 !important; }
+html details.qa .a { color: #45433f !important; }
+html .load-more {
+  background: #e98a1e !important;
+  border-color: #e98a1e !important;
+  color: #160d06 !important;
+}
+html .load-more:hover {
+  background: #191817 !important;
+  border-color: #191817 !important;
+  color: #fff !important;
+  filter: none !important;
+}
+html .dl-card > a.btn {
+  background: #e98a1e !important;
+  border-color: #e98a1e !important;
+  color: #160d06 !important;
+}
+html .dl-card > a.btn:hover {
+  background: #191817 !important;
+  border-color: #191817 !important;
+  color: #fff !important;
+  filter: none !important;
+}
+html .lnk:hover {
+  background: #fff0dc !important;
+  border-color: #e98a1e !important;
+  color: #191817 !important;
+}
+
+/* — 5 · team sections — */
+html .sec-label { color: #6b6a66 !important; }
+html .creator {
+  background: #fff !important;
+  border-color: #e4e2dd !important;
+}
+html .creator:hover {
+  border-color: #e98a1e !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+html .creator.alt::before {
+  background: linear-gradient(90deg, #e98a1e, transparent) !important;
+}
+html .creator .role { color: #bc7422 !important; }
+html .creator.alt .role { color: #bc7422 !important; }
+html .creator p { color: #54524e !important; }
+html .socials a { color: #54524e !important; }
+html .ch-num {
+  -webkit-text-stroke: 2px rgba(233, 138, 30, 0.55) !important;
+  text-stroke: 2px rgba(233, 138, 30, 0.55) !important;
+}
+html .chapter h2 .tick { color: #e98a1e !important; }
+html .marquee-track span i { color: #191817 !important; }
+html .cta-sec p { color: #54524e !important; }
+html .cta-sec .go:hover, html a.go:hover {
+  background: #191817 !important;
+  border-color: #191817 !important;
+  color: #fff !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* — 6 · iso section 14: dark cards, panels, forms, buttons —
+   unscoped so track.html (no <main>) is covered too — */
+html :is(
+  .card,
+  .panel,
+  .glass,
+  .glass-panel,
+  .dl-card,
+  .stat,
+  .hint,
+  [class*="card"],
+  [class*="panel"],
+  article,
+  aside
+) {
+  background: #fff !important;
+  border-color: #e4e2dd !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  background-image: none !important;
+}
+html :is(
+  .card,
+  .panel,
+  [class*="card"],
+  [class*="panel"],
+  article
+):hover {
+  border-color: #d8d5cf !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+html #features > div,
+html #performance > div,
+html #screenshots > div,
+html #faq > div,
+html [class*="border-neutral-800"] {
+  background: #fff !important;
+  border-color: #e4e2dd !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+html #features > div:hover,
+html #performance > div:hover,
+html #screenshots > div:hover,
+html #faq > div:hover {
+  border-color: #d8d5cf !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+/* focus rings — iso's mint glow → orange */
+html main input:focus,
+html main textarea:focus,
+html .search-shell input:focus,
+html input:focus,
+html select:focus,
+html textarea:focus {
+  border-color: #e98a1e !important;
+  box-shadow: 0 0 0 4px rgba(233, 138, 30, 0.18) !important;
+  outline: none;
+}
+/* buttons — iso's mint hover → ink flip (index's button language) */
+html .btn.accent,
+html .btn.primary,
+html button.primary {
+  background: #e98a1e !important;
+  color: #160d06 !important;
+  border-color: #e98a1e !important;
+}
+html .btn.accent:hover,
+html .btn.primary:hover,
+html button.primary:hover {
+  background: #191817 !important;
+  color: #fff !important;
+  border-color: #191817 !important;
+}
+html .magmad-download,
+html .magmad-download:hover,
+html .magmad-download:active {
+  background: #191817 !important;
+  color: #fff !important;
+  border-color: #191817 !important;
+}
+
+/* — 7 · plans — site.css mint + iso's dark pricing cards — */
+html .p-eyebrow {
+  color: #8a4f10 !important;
+  background: #fff0dc !important;
+  border-color: #e98a1e !important;
+}
+html .p-eyebrow::before {
+  background: #e98a1e !important;
+  box-shadow: none !important;
+}
+html .pay-trust li {
+  background: #fff !important;
+  border-color: #e4e2dd !important;
+  color: #6b6a66 !important;
+}
+html .pay-trust li::before { color: #bc7422 !important; }
+html main .rank {
+  background: #f6f5f3 !important;
+  border-top-color: #e4e2dd !important;
+  border-right-color: #e4e2dd !important;
+  border-bottom-color: #e4e2dd !important;
+  border-left-color: #e4e2dd !important;
+}
+html main .rank:hover {
+  border-color: #d8d5cf !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+html main .rank.hot {
+  background: linear-gradient(180deg, rgba(233, 138, 30, 0.08), rgba(233, 138, 30, 0) 45%), #fff !important;
+  border-top-color: #e98a1e !important;
+  box-shadow: inset 0 0 0 1px rgba(233, 138, 30, 0.5) !important;
+}
+html main .rank.hot:hover {
+  border-top-color: #e98a1e !important;
+  box-shadow: inset 0 0 0 1px #e98a1e !important;
+  transform: none !important;
+}
+html .rank li::before { color: #e98a1e !important; }
+html .rank .tag {
+  background: #e98a1e !important;
+  color: #160d06 !important;
+  box-shadow: none !important;
+}
+html .tbl-scroll {
+  background: #fff !important;
+  border-color: #e4e2dd !important;
+}
+html .tbl-scroll:focus-visible {
+  outline: 2px solid #e98a1e !important;
+  outline-offset: 2px;
+}
+html .tbl thead th {
+  background: #f6f5f3 !important;
+  color: #191817 !important;
+}
+html .tbl thead th:first-child {
+  background: #f6f5f3 !important;
+  color: #6b6a66 !important;
+}
+html .tbl thead th.col-hot {
+  color: #bc7422 !important;
+  box-shadow: inset 0 -2px 0 #e98a1e !important;
+}
+html .tbl th[scope="row"] {
+  background: #fff !important;
+  color: #191817 !important;
+}
+html .tbl td.col-hot { background: rgba(233, 138, 30, 0.07) !important; }
+html .tbl .yes { color: #bc7422 !important; }
+html .outside {
+  background: #fff !important;
+  border-color: #e4e2dd !important;
+  border-left-color: #e98a1e !important;
+}
+html .checkout .panel {
+  background: #fff !important;
+  border-color: #e4e2dd !important;
+  border-top-color: #e98a1e !important;
+  box-shadow: 0 30px 80px rgba(25, 24, 23, 0.3) !important;
+}
+html .checkout .plan-sum {
+  background: #f6f5f3 !important;
+  border-color: #e4e2dd !important;
+}
+html .checkout input {
+  background: #fff !important;
+  color: #191817 !important;
+  border-color: #d8d5cf !important;
+}
+html .checkout input:focus {
+  border-color: #e98a1e !important;
+  box-shadow: 0 0 0 4px rgba(233, 138, 30, 0.18) !important;
+  outline: none;
+}
+html .checkout .msg.err { color: #c2410c !important; }
+html .checkout .msg.ok { color: #bc7422 !important; }
+html main .btn.buy-neon,
+html .checkout .btn.buy-neon {
+  background: #e98a1e !important;
+  color: #160d06 !important;
+  border-color: #e98a1e !important;
+}
+html main .btn.buy-neon:hover,
+html .checkout .btn.buy-neon:hover {
+  background: #bc7422 !important;
+  color: #160d06 !important;
+  border-color: #bc7422 !important;
+}
+/* site.css leftovers */
+html .cmd li.sel button {
+  background: #e98a1e !important;
+  color: #160d06 !important;
+}
+html .cmd li.sel .note {
+  background: #fff0dc !important;
+  color: #160d06 !important;
+}
+html .tier-table td.pick,
+html .tier-table tr:nth-child(even) td.pick {
+  background: #e98a1e !important;
+  color: #160d06 !important;
+}
+html ::selection {
+  background: #fff0dc !important;
+  color: #160d06 !important;
+}
+html :focus-visible {
+  outline: 2px solid #e98a1e !important;
+  outline-offset: 3px;
+}
+html .faq summary::after { color: #e98a1e !important; }
+
+/* — 8 · Family C (shadcn/Next pages) — */
+html .text-accent-1 { color: #bc7422 !important; }
+html .border-accent-1 { border-color: #e98a1e !important; }
+html .decoration-accent-1 { text-decoration-color: #e98a1e !important; }
+html .bg-accent-1 { color: #160d06 !important; }
+html .bg-black { background-color: #fff !important; }
+html .text-white { color: #191817 !important; }
+html [class*="52,211,153"] { box-shadow: none !important; }
+html [style*="34d399"] { color: #e98a1e !important; }
+
+/* contact form (inline dark block) */
+html .cf-section {
+  background: #fff !important;
+  border-color: #e4e2dd !important;
+}
+html .cf-section h2 { color: #191817 !important; }
+html .cf-lead { color: #54524e !important; }
+html .cf-field label { color: #54524e !important; }
+html .cf-field label .req { color: #c2410c !important; }
+html .cf-field input,
+html .cf-field select,
+html .cf-field textarea {
+  background: #fff !important;
+  border-color: #d8d5cf !important;
+  color: #191817 !important;
+}
+html .cf-field input:focus,
+html .cf-field select:focus,
+html .cf-field textarea:focus {
+  border-color: #e98a1e !important;
+  box-shadow: 0 0 0 3px rgba(233, 138, 30, 0.2) !important;
+  outline: none;
+}
+html .cf-field [aria-invalid="true"] {
+  border-color: #c2410c !important;
+  box-shadow: 0 0 0 3px rgba(194, 65, 12, 0.18) !important;
+}
+html .cf-err { color: #c2410c !important; }
+html .cf-submit {
+  background: #e98a1e !important;
+  color: #160d06 !important;
+}
+html .cf-submit:hover {
+  background: #191817 !important;
+  color: #fff !important;
+}
+html .cf-submit:focus-visible { outline-color: #e98a1e !important; }
+html .cf-alt { color: #6b6a66 !important; }
+html .cf-alt a { color: #bc7422 !important; }
+html .cf-status.ok {
+  background: rgba(233, 138, 30, 0.1) !important;
+  border-color: rgba(233, 138, 30, 0.45) !important;
+  color: #8a4f10 !important;
+}
+html .cf-status.bad {
+  background: #fef2f2 !important;
+  border-color: #fecaca !important;
+  color: #b91c1c !important;
+}
+html .cf-status a { color: #bc7422 !important; }
+
+/* — 9 · account / subdomains — */
+html input[readonly] {
+  background: #f6f5f3 !important;
+  color: #6b6a66 !important;
+}
+html .mail {
+  background: #f6f5f3 !important;
+  border-color: #e4e2dd !important;
+  color: #191817 !important;
+}
+html .mail:hover {
+  background: #fff0dc !important;
+  border-color: #e98a1e !important;
+  color: #191817 !important;
+}
+html .suffix {
+  background: #f6f5f3 !important;
+  border-color: #d8d5cf !important;
+  color: #54524e !important;
+}
+html .expiry {
+  background: rgba(233, 138, 30, 0.1) !important;
+  border-color: rgba(233, 138, 30, 0.35) !important;
+}
+html .adbar {
+  background: #e4e2dd !important;
+  border-color: #d8d5cf !important;
+}
+html .ad-slot {
+  background: #f6f5f3 !important;
+  color: #6b6a66 !important;
+}
+
+/* — 10 · header nav panel + 404's in-main CTA grid —
+   iso (and each page's inline copy) hide every .links under 1023px and
+   restyle it as an absolute charcoal panel; that must only ever apply
+   to the burger panel inside nav.bar, never to main's grid. — */
+html main .links {
+  display: grid !important;
+  gap: 12px !important;
+}
+/* — 11 · render-pass 2 stragglers — */
+
+/* .lnk buttons: page-inline dark base #0e0e10 (404, account).
+   html .lnk (0,1,1)+imp beats inline .lnk (0,1,0); fast's own
+   html .lnk:hover (0,2,1) still wins on hover; .lnk.primary is
+   re-declared so its inline var(--green) fill isn't flattened. */
+html .lnk {
+  background: #fff !important;
+  border-color: #e4e2dd !important;
+  color: #191817 !important;
+}
+html .lnk.primary {
+  background: #bc7422 !important;
+  border-color: #bc7422 !important;
+  color: #160d06 !important;
+}
+
+/* FAQ accordions: iso .qa {background:#131316 !important} (0,1,0) —
+   html .qa (0,1,1)+imp wins; [open] orange border already covered. */
+html .qa {
+  background: #fff !important;
+  border-color: #e4e2dd !important;
+  border-radius: var(--radius) !important;
+}
+html .qa:hover {
+  border-color: #d8d5cf !important;
+}
+
+/* Download feed: iso #feed > article (1,0,1)+imp beats every
+   html-prefixed article rule — must carry #feed to win. */
+html #feed > article {
+  background: #fff !important;
+  background-image: none !important;
+  border-color: #e4e2dd !important;
+  box-shadow: none !important;
+}
+html #feed > article.release.latest {
+  border-color: #e98a1e !important;
+}
+
+/* Next.js "skeuomorphism" chunk: :not(.dark) .bg-card etc.
+   (0,2,0)+imp paints white → #151515 gradients + dark bevel shadows.
+   html:root (0,2,1)+imp wins regardless of sheet order. */
+html:root .bg-card,
+html:root .dl-card,
+html:root .cta-button,
+html:root .download-btn,
+html:root .skeuo-shadow {
+  background-color: #fff !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  border-color: #e4e2dd !important;
+}
+html:root .bg-secondary {
+  background-color: #f6f5f3 !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+/* Store banner tiles: 5 of 6 slides carry a textless bg-black/75 +
+   backdrop-blur scrim over the photo → near-black boxes on the light
+   page. Lighten so the image reads; the "Make it yours" slide keeps
+   its from-black/60 gradient for white-text contrast (its class
+   token is "from-black", not "bg-black" — not matched here). */
+html .magmad-banners [class*="bg-black"] {
+  background-color: rgba(0, 0, 0, 0.4) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Active nav: download.html marks it class="active" (no .nav class)
+   + aria-current, so every .nav.active rule misses it and iso's
+   hardcoded mint nav[aria-label] a[aria-current]::after takes over.
+   FAQ's inline mint pill + ::after{display:none} live in a mobile
+   media query (inactive at desktop). Apply the site-standard active
+   treatment — orange text + orange underline, no pill — via the
+   attribute both pages carry. (0,2,3)+imp beats iso's (0,2,2). */
+html nav.bar a[aria-current="page"] {
+  color: #e98a1e !important;
+}
+html nav.bar a[aria-current="page"]::after {
+  background: #e98a1e !important;
+}
+html nav.bar .links a[aria-current="page"] {
+  background: transparent !important;
+  border-color: transparent !important;
+}
+
+@media (max-width: 1023px) {
+  html nav.bar .links {
+    background: rgba(255, 255, 255, 0.98) !important;
+    border-color: #e4e2dd !important;
+    box-shadow: 0 18px 40px rgba(25, 24, 23, 0.16) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    backdrop-filter: blur(10px) !important;
+  }
+  html nav.bar .links a { color: #191817 !important; }
+  html nav.bar .links a:hover {
+    background: #fff0dc !important;
+    color: #bc7422 !important;
+  }
+  html main .links {
+    position: static !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    width: auto !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    z-index: auto !important;
+  }
+}

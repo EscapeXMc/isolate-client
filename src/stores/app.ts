@@ -29,6 +29,8 @@ interface AppStore {
   gameOutput: string[];
   gameRunning: boolean;
   playingInstance: string | null;
+  // Rocket-launch overlay: instance currently being launched (null = hidden).
+  launching: string | null;
   installing: Record<string, InstallProgress>;
   banner: { kind: "ok" | "err"; text: string } | null;
 
@@ -66,6 +68,7 @@ interface AppStore {
   refreshJava: (rescan?: boolean) => Promise<void>;
   patchSettings: (partial: Partial<Settings>) => Promise<boolean>;
   setInstalling: (p: InstallProgress) => void;
+  setLaunching: (n: string | null) => void;
   pushLog: (line: string) => void;
   pushGameLine: (line: string) => void;
   notify: (kind: "ok" | "err", text: string) => void;
@@ -110,6 +113,7 @@ export const useApp = create<AppStore>((set, get) => ({
   gameOutput: [],
   gameRunning: false,
   playingInstance: null,
+  launching: null,
   installing: {},
   banner: null,
   updateInfo: null,
@@ -262,7 +266,7 @@ export const useApp = create<AppStore>((set, get) => ({
     }
   },
 
-  setInstalling: (p) =>
+  setInstalling: (p) => {
     set((s) => {
       const next = { ...s.installing };
       if (p.done) {
@@ -276,7 +280,27 @@ export const useApp = create<AppStore>((set, get) => ({
         next[p.instance] = p;
       }
       return { installing: next };
-    }),
+    });
+    // Install finished cleanly → re-read instances so `installed` flips to
+    // true and the button switches from "Install" to "Play". Without this the
+    // UI kept offering Install and re-ran a no-op install on every click.
+    if (p.done && !p.error) void get().refreshInstances();
+    // Errors are shown for a moment, then dropped — otherwise the entry stays
+    // forever and the button is stuck disabled on "Installing…".
+    if (p.done && p.error) {
+      const key = p.instance;
+      window.setTimeout(() => {
+        const cur = get().installing[key];
+        if (cur && cur.error) {
+          const next = { ...get().installing };
+          delete next[key];
+          set({ installing: next });
+        }
+      }, 6000);
+    }
+  },
+
+  setLaunching: (n) => set({ launching: n }),
 
   pushLog: (line) =>
     set((s) => {

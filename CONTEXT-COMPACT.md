@@ -1,5 +1,7 @@
 # CONTEXT-COMPACT.md — READ THIS FIRST after compaction
 
+> **⚠️ 2026-11-23: The ACTIVE task handoff now lives in `HANDOFF-2026-11-23-fastclient-redesign.md` — read that file FULLY first (it supersedes older task details below; this file's site/infra facts still apply).**
+>
 > **Instruction to future agent:** This file is the single source of truth after context compaction. Read it fully before doing anything. Do NOT redo completed work. Session date: 2026-11-21.
 
 ---

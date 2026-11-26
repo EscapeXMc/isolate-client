@@ -15,6 +15,8 @@ export interface Instance {
   java_path?: string | null;
   play_seconds?: number;
   path?: string;
+  /** Absolute path to the profile's real Minecraft icon (icon.png), if any. */
+  icon?: string | null;
 }
 
 export interface MsAccount {

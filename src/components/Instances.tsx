@@ -6,8 +6,22 @@ import {
   formatPlaytime,
   installInstance,
   playInstance,
+  stopGame,
 } from "../lib/actions";
 import type { Instance, Loader, VersionGroup } from "../lib/types";
+import { pfSrc } from "../lib/pfIcon";
+import {
+  ArrowUp,
+  FolderOpen,
+  MoreHorizontal,
+  Play,
+  Plus,
+  Puzzle,
+  Search,
+  Settings2,
+  Trash2,
+  X,
+} from "lucide-react";
 
 const LOADERS: { id: Loader; label: string }[] = [
   { id: "vanilla", label: "Vanilla" },
@@ -15,122 +29,248 @@ const LOADERS: { id: Loader; label: string }[] = [
   { id: "quilt", label: "Quilt" },
 ];
 
+// Profile-icon tint per loader — grayscale only (white/black palette).
+const LOADER_TINT: Record<Loader, string> = {
+  vanilla: "#6b6b6b",
+  fabric: "#d4d4d4",
+  quilt: "#3f3f46",
+};
+
 export default function Instances() {
   const instances = useApp((s) => s.instances);
   const installing = useApp((s) => s.installing);
   const gameRunning = useApp((s) => s.gameRunning);
+  const playingInstance = useApp((s) => s.playingInstance);
+  const launching = useApp((s) => s.launching);
   const refreshInstances = useApp((s) => s.refreshInstances);
   const notify = useApp((s) => s.notify);
+  const setPage = useApp((s) => s.setPage);
 
   const [creating, setCreating] = useState(false);
   const [editing, setEditing] = useState<Instance | null>(null);
   const [confirming, setConfirming] = useState<string | null>(null);
+  const [q, setQ] = useState("");
+  const [sortAsc, setSortAsc] = useState(true);
+  const [menu, setMenu] = useState<string | null>(null);
 
   useEffect(() => {
     void refreshInstances();
   }, [refreshInstances]);
 
+  // FastClient-style "selected" profile: most recently played (else first ready).
+  const selected = useMemo(() => {
+    const pool = instances.filter((i) => (i.play_seconds ?? 0) > 0 || i.installed);
+    if (!pool.length) return null;
+    return [...pool].sort((a, b) => (b.play_seconds ?? 0) - (a.play_seconds ?? 0))[0]
+      .name;
+  }, [instances]);
+
+  const shown = useMemo(() => {
+    const term = q.trim().toLowerCase();
+    const list = instances.filter(
+      (i) =>
+        !term ||
+        i.name.toLowerCase().includes(term) ||
+        i.version.toLowerCase().includes(term) ||
+        i.loader.toLowerCase().includes(term),
+    );
+    const cmp = (x: string, y: string) =>
+      x.localeCompare(y, undefined, { numeric: true });
+    return [...list].sort((a, b) =>
+      sortAsc ? cmp(a.version, b.version) : cmp(b.version, a.version),
+    );
+  }, [instances, q, sortAsc]);
+
   return (
     <div className="page scroll">
-      <div className="row between" style={{ marginBottom: 18 }}>
+      <div className="row between" style={{ marginBottom: 14 }}>
         <div>
-          <h1>Instances</h1>
-          <div className="faint">{instances.length} total</div>
+          <h1>Your Profiles</h1>
         </div>
-        <button className="btn primary" onClick={() => setCreating(true)}>
-          + New instance
+      </div>
+
+      {/* toolbar — search + version sort (FastClient) */}
+      <div className="pf-toolbar">
+        <div className="pf-search">
+          <Search aria-hidden />
+          <input
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            placeholder="Search profiles..."
+          />
+        </div>
+        <button
+          className="pf-sort"
+          title="Sort by version"
+          onClick={() => setSortAsc((v) => !v)}
+        >
+          <ArrowUp aria-hidden className={sortAsc ? "" : "flip"} />
+          Version
         </button>
       </div>
 
-      {instances.length === 0 ? (
-        <div className="empty">
-          <div className="big">Nothing here yet</div>
-          Create an instance, pick a version, then install it.
-          <div style={{ marginTop: 16 }}>
-            <button className="btn primary" onClick={() => setCreating(true)}>
-              + New instance
-            </button>
-          </div>
-        </div>
-      ) : (
-        <div className="cards">
-          {instances.map((i) => {
-            const prog = installing[i.name];
-            return (
-              <div key={i.name} className="card">
-                <div className="row between">
-                  <div className="title">{i.name}</div>
-                  {i.installed ? (
-                    <span className="badge ok">Ready</span>
-                  ) : (
-                    <span className="badge warn">Not installed</span>
+      <div className="pf-grid">
+        {shown.map((i) => {
+          const prog = installing[i.name];
+          const isSel = selected === i.name;
+          const loaderLabel =
+            LOADERS.find((l) => l.id === i.loader)?.label ?? i.loader;
+          return (
+            <div key={i.name} className={`pf-card${isSel ? " sel" : ""}`}>
+              {isSel && (
+                <span className="pf-check" aria-hidden>
+                  ✓
+                </span>
+              )}
+              <div className="pf-head">
+                <span
+                  className="pf-ico"
+                  style={{ background: LOADER_TINT[i.loader] ?? "#3f3f46" }}
+                  aria-hidden
+                >
+                  {i.name.slice(0, 1).toUpperCase()}
+                  {pfSrc(i) && (
+                    <img
+                      src={pfSrc(i) as string}
+                      alt=""
+                      onError={(e) => (e.currentTarget.style.display = "none")}
+                    />
                   )}
-                </div>
-
-                <div className="meta">
-                  <span className="badge">{i.version}</span>
-                  <span className="badge grey">{i.loader}</span>
-                  {i.loader !== "vanilla" && i.loader_version && (
-                    <span className="badge grey">{i.loader_version}</span>
-                  )}
-                </div>
-
-                {i.ram_mb ? (
-                  <div className="faint">{i.ram_mb} MB allocated</div>
-                ) : (
-                  <div className="faint">Default memory</div>
-                )}
-
-                <div className="playtime">{formatPlaytime(i.play_seconds ?? 0)}</div>
-
-                {prog && (
-                  <div>
-                    <div className="bar">
-                      <i style={{ width: `${Math.max(2, prog.pct)}%` }} />
-                    </div>
-                    <div className="faint" style={{ marginTop: 5 }}>
-                      {prog.error ?? prog.message}
-                    </div>
+                </span>
+                <div className="pf-meta">
+                  <div className="pf-name">{i.name}</div>
+                  <div className="pf-sub">
+                    Isolate + {loaderLabel} {i.version}
                   </div>
-                )}
-
-                <div className="actions">
-                  {i.installed ? (
-                    <button
-                      className="btn primary sm"
-                      style={{ flex: 1, justifyContent: "center" }}
-                      disabled={gameRunning || !!prog}
-                      onClick={() => void playInstance(i)}
-                    >
-                      Play
-                    </button>
-                  ) : (
-                    <button
-                      className="btn sm"
-                      style={{ flex: 1, justifyContent: "center" }}
-                      disabled={!!prog}
-                      onClick={() => void installInstance(i.name)}
-                    >
-                      {prog ? "Installing…" : "Install"}
-                    </button>
-                  )}
-                  <button className="btn sm" title="Open folder" onClick={() => void api.openInstanceFolder(i.name)}>
-                    📁
-                  </button>
-                  <button className="btn sm" title="Settings" onClick={() => setEditing(i)}>
-                    ⚙
-                  </button>
-                  <button
-                    className="btn sm danger"
-                    title="Delete"
-                    onClick={() => setConfirming(i.name)}
-                  >
-                    ✕
-                  </button>
                 </div>
               </div>
-            );
-          })}
+
+              <div className="pf-tags">
+                <span className="badge">{i.version}</span>
+                <span className="badge grey">{loaderLabel}</span>
+                <span className="pf-play">{formatPlaytime(i.play_seconds ?? 0)}</span>
+              </div>
+
+              {prog && (
+                <div className="pf-prog">
+                  <div className="bar">
+                    <i style={{ width: `${Math.max(2, prog.pct)}%` }} />
+                  </div>
+                  <div className="faint" style={{ marginTop: 5 }}>
+                    {prog.error ?? prog.message}
+                  </div>
+                </div>
+              )}
+
+              <div className="pf-actions">
+                {i.installed ? (
+                  (() => {
+                    // This profile is launching or running → the button turns
+                    // into "Close"; any other profile stays locked while a
+                    // game is up.
+                    const active =
+                      launching === i.name ||
+                      (gameRunning && playingInstance === i.name);
+                    return (
+                      <button
+                        className={`pf-act primary${active ? " stop" : ""}`}
+                        disabled={!active && (gameRunning || !!prog)}
+                        onClick={() => {
+                          if (!active) {
+                            void playInstance(i);
+                          } else if (gameRunning) {
+                            void stopGame();
+                          } else {
+                            // still in the launch sequence — dismiss overlay
+                            useApp.getState().setLaunching(null);
+                            void api.stopGame().catch(() => undefined);
+                          }
+                        }}
+                      >
+                        {active ? (
+                          <>
+                            <X aria-hidden /> Close
+                          </>
+                        ) : (
+                          <>
+                            <Play aria-hidden /> Play
+                          </>
+                        )}
+                      </button>
+                    );
+                  })()
+                ) : (
+                  <button
+                    className="pf-act primary"
+                    disabled={!!prog}
+                    onClick={() => void installInstance(i.name)}
+                  >
+                    {prog ? "Installing…" : "Install"}
+                  </button>
+                )}
+                <button
+                  className="pf-act"
+                  title="Mods"
+                  onClick={() => setPage("mods")}
+                >
+                  <Puzzle aria-hidden /> Mods
+                </button>
+                <button
+                  className="pf-act icon"
+                  title="More actions"
+                  onClick={() => setMenu(menu === i.name ? null : i.name)}
+                >
+                  <MoreHorizontal aria-hidden />
+                </button>
+              </div>
+
+              {menu === i.name && (
+                <>
+                  <div className="menu-back" onClick={() => setMenu(null)} />
+                  <div className="pf-menu">
+                    <button
+                      onClick={() => {
+                        setMenu(null);
+                        void api.openInstanceFolder(i.name);
+                      }}
+                    >
+                      <FolderOpen aria-hidden /> Open Folder
+                    </button>
+                    <button
+                      onClick={() => {
+                        setMenu(null);
+                        setEditing(i);
+                      }}
+                    >
+                      <Settings2 aria-hidden /> Profile Settings
+                    </button>
+                    <button
+                      className="danger"
+                      onClick={() => {
+                        setMenu(null);
+                        setConfirming(i.name);
+                      }}
+                    >
+                      <Trash2 aria-hidden /> Delete
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+          );
+        })}
+
+        {/* create profile card (FastClient) */}
+        <button className="pf-create" onClick={() => setCreating(true)}>
+          <Plus aria-hidden />
+          <span>Create Profile</span>
+        </button>
+      </div>
+
+      {instances.length > 0 && shown.length === 0 && (
+        <div className="empty">
+          <div className="big">No profiles match</div>
+          Nothing found for “{q}”.
         </div>
       )}
 

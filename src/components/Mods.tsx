@@ -3,6 +3,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { api } from "../lib/tauri";
 import { useApp } from "../stores/app";
 import type { ModConflict, ModProfile, ModrinthHit, PackFile } from "../lib/types";
+import { RefreshCw, Search, X } from "lucide-react";
 
 type Tab = "browse" | "installed" | "conflicts" | "profiles";
 
@@ -21,6 +22,8 @@ export default function Mods() {
   const [trending, setTrending] = useState(true);
   const [trendReady, setTrendReady] = useState(false);
   const trendingLoaded = useRef(false);
+  // FastClient-style detail drawer
+  const [detail, setDetail] = useState<ModrinthHit | null>(null);
 
   // installed state
   const [installed, setInstalled] = useState<PackFile[]>([]);
@@ -200,13 +203,28 @@ export default function Mods() {
 
   const instanceOptions = useMemo(() => instances, [instances]);
 
+  // loose match: is this Modrinth hit already in the instance's mods folder?
+  const hitInstalled = useCallback(
+    (h: ModrinthHit) => {
+      const title = (h.title ?? h.slug ?? "").toLowerCase();
+      if (!title) return false;
+      return installed.some((f) => f.name.toLowerCase().includes(title));
+    },
+    [installed],
+  );
+
   return (
     <div className="page scroll">
       <div className="row between" style={{ marginBottom: 14, flexWrap: "wrap", gap: 10 }}>
-        <h2 style={{ margin: 0 }}>Mods</h2>
-        <div className="row" style={{ gap: 8 }}>
+        <div className="row" style={{ gap: 12 }}>
+          <h2 style={{ margin: 0 }}>Mods</h2>
+          <span className="tinycaps">Modrinth browser</span>
+        </div>
+        {/* profile context pill (FastClient shows profile icon + name here) */}
+        <div className="md-profile">
+          <span className="md-prof-ico" aria-hidden />
           <select value={instance} onChange={(e) => setInstance(e.target.value)}>
-            <option value="">Select instance…</option>
+            <option value="">Select profile…</option>
             {instanceOptions.map((i) => (
               <option key={i.name} value={i.name}>
                 {i.name} ({i.version})
@@ -233,31 +251,41 @@ export default function Mods() {
 
       {tab === "browse" && (
         <>
-          <div className="row" style={{ gap: 8, marginBottom: 14 }}>
-            <input
-              type="text"
-              placeholder="Search Modrinth… (empty = most downloaded)"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && void doSearch()}
-              style={{ flex: 1 }}
-            />
+          {/* sub-toolbar — FastClient: search · refresh · source toggle */}
+          <div className="md-toolbar">
+            <div className="md-search">
+              <Search aria-hidden />
+              <input
+                type="text"
+                placeholder="Search mods… (empty = most downloaded)"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && void doSearch()}
+              />
+            </div>
             <button className="btn primary" disabled={searching} onClick={() => void doSearch()}>
               {searching ? "Searching…" : "Search"}
             </button>
-            {!trending && (
-              <button
-                className="btn sm"
-                onClick={() => {
-                  setQuery("");
-                  trendingLoaded.current = false;
-                  setHits([]);
-                  void loadTrending();
-                }}
-              >
-                Trending
+            <button
+              className="btn sm md-refresh"
+              title="Back to most downloaded"
+              onClick={() => {
+                setQuery("");
+                trendingLoaded.current = false;
+                setHits([]);
+                void loadTrending();
+              }}
+            >
+              <RefreshCw aria-hidden />
+            </button>
+            <div className="md-source" role="group" aria-label="Source">
+              <button className="on" type="button">
+                Modrinth
               </button>
-            )}
+              <button type="button" disabled title="Coming soon">
+                CurseForge
+              </button>
+            </div>
           </div>
 
           <div className="grid-head" style={{ marginBottom: 10 }}>
@@ -283,15 +311,31 @@ export default function Mods() {
           ) : (
             <div className="cards">
               {hits.map((h) => (
-                <div className="card" key={h.project_id ?? h.slug}>
+                <div
+                  className="card md-card"
+                  key={h.project_id ?? h.slug}
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => setDetail(h)}
+                  onKeyDown={(e) => e.key === "Enter" && setDetail(h)}
+                >
                   <div className="row between">
                     <div className="row" style={{ gap: 10 }}>
-                      {h.icon_url && (
+                      {h.icon_url ? (
                         <img src={h.icon_url} alt="" style={{ width: 34, height: 34, borderRadius: 7, objectFit: "cover" }} />
+                      ) : (
+                        <span className="md-noico" aria-hidden />
                       )}
                       <div className="title">{h.title ?? h.slug}</div>
                     </div>
-                    <span className="badge grey">{(h.downloads ?? 0).toLocaleString()} ↓</span>
+                    {hitInstalled(h) ? (
+                      <span className="badge ok">Installed</span>
+                    ) : (
+                      <span className="badge grey">{(h.downloads ?? 0).toLocaleString()} ↓</span>
+                    )}
+                  </div>
+                  <div className="faint" style={{ fontSize: 11.5, marginTop: 6 }}>
+                    by {h.author ?? "unknown"}
                   </div>
                   <div className="meta">
                     <span className="faint" style={{ fontSize: 12, display: "block", margin: "7px 0" }}>
@@ -304,7 +348,10 @@ export default function Mods() {
                       className="btn primary sm"
                       style={{ flex: 1, justifyContent: "center" }}
                       disabled={busy || !instance}
-                      onClick={() => void install(h.slug ?? "")}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        void install(h.slug ?? "");
+                      }}
                     >
                       Install
                     </button>
@@ -409,6 +456,65 @@ export default function Mods() {
               ))}
             </div>
           )}
+        </>
+      )}
+
+      {/* detail drawer — FastClient right panel */}
+      {detail && (
+        <>
+          <div className="md-drawer-back" onClick={() => setDetail(null)} />
+          <aside className="md-drawer">
+            <div className="md-d-head">
+              {detail.icon_url ? (
+                <img src={detail.icon_url} alt="" className="md-d-ico" />
+              ) : (
+                <span className="md-noico big" aria-hidden />
+              )}
+              <div className="md-d-id">
+                <div className="md-d-title">{detail.title ?? detail.slug}</div>
+                <div className="md-d-author">by {detail.author ?? "unknown"}</div>
+              </div>
+              <button className="md-d-x" title="Close" onClick={() => setDetail(null)}>
+                <X aria-hidden />
+              </button>
+            </div>
+            <div className="md-d-body">
+              <p className="md-d-desc">{detail.description || "No description."}</p>
+              {!!detail.categories?.length && (
+                <div className="md-d-tags">
+                  {detail.categories.map((c) => (
+                    <span key={c}>{c}</span>
+                  ))}
+                </div>
+              )}
+              <div className="md-d-stats">
+                <span>{(detail.downloads ?? 0).toLocaleString()} downloads</span>
+                <span>{(detail.follows ?? 0).toLocaleString()} followers</span>
+              </div>
+              <button
+                className="md-d-link"
+                onClick={() =>
+                  detail.slug && void api.openUrl(`https://modrinth.com/mod/${detail.slug}`)
+                }
+              >
+                View on Modrinth ↗
+              </button>
+            </div>
+            <div className="md-d-foot">
+              <button
+                className="btn primary"
+                disabled={busy || !instance}
+                onClick={() => void install(detail.slug ?? "")}
+              >
+                {busy ? "Installing…" : instance ? `Install into ${instance}` : "Install"}
+              </button>
+              {!instance && (
+                <div className="faint" style={{ fontSize: 11.5, textAlign: "center" }}>
+                  Select a profile first.
+                </div>
+              )}
+            </div>
+          </aside>
         </>
       )}
     </div>
