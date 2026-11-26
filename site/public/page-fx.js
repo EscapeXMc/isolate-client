@@ -37,6 +37,13 @@
     document.head.appendChild(fastCss);
   }
 
+  // Claymorphism skin — always LAST so it wins the cascade over
+  // iso-override + fast-override + each page's own stylesheet.
+  var clayCss = document.createElement("link");
+  clayCss.rel = "stylesheet";
+  clayCss.href = "/assets/clay-override.css";
+  document.head.appendChild(clayCss);
+
   // Light-theme undo: theme-boot.js pins theme="dark" on <html>; repaint the
   // subpages on index's light ground (mirrors index.html's inline boot).
   function lightBoot() {
@@ -60,10 +67,12 @@
   }
 
   document.addEventListener("DOMContentLoaded", function () {
-    // iso first, fast-override last so equal-specificity ties resolve light.
+    // iso first, fast-override next so equal-specificity ties resolve light,
+    // clay-override absolutely last — it must win over all of them.
     if (isoCss.parentNode === document.head) document.head.appendChild(isoCss);
     if (fastCss && fastCss.parentNode === document.head)
       document.head.appendChild(fastCss);
+    if (clayCss.parentNode === document.head) document.head.appendChild(clayCss);
   });
 
   // Pose-to-pose staging: reveal each <section> once as it scrolls into view

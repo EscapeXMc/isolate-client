@@ -1,0 +1,492 @@
+/* ════════════════════════════════════════════════════════════════
+   claymorphism — isolateclient.in global skin
+   (skill: claymorphism — soft 3D volume, double inner shadows,
+    continuous curves, bouncy spring hovers)
+
+   Loaded LAST on every page: page-fx.js appends it after
+   iso-override.css + fast-override.css; launch.html and
+   plans/index.html link it directly at the end of <head>.
+   html-prefixed + !important throughout so it wins the cascade
+   over each page's own stylesheet (same technique as fast-override).
+   ════════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap');
+
+/* — 0 · tokens: clay palette on the warm cream ground — */
+html:root, html body {
+  --bg: #F3EDE6 !important;
+  --bg-soft: #FBF8F4 !important;
+  --bg-2: #F3EDE6 !important;
+  --bg-3: #EADFD4 !important;
+  --line: #E7DCD1 !important;
+  --font-display: "Fredoka", "Nunito Sans", ui-sans-serif, system-ui, sans-serif !important;
+  --font-body: "Nunito Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif !important;
+  --clay-coral: #F8B4A6;
+  --clay-mint: #AEE8CB;
+  --clay-lav: #C9C2F0;
+  --clay-butter: #FFE29A;
+  --clay-sky: #AEDCF5;
+}
+
+/* — 1 · ground: warm cream with soft pastel radials — */
+html body {
+  background-color: #F3EDE6 !important;
+  background-image:
+    radial-gradient(1000px 520px at 10% -8%, #FBF1E9 0%, rgba(251, 241, 233, 0) 62%),
+    radial-gradient(900px 620px at 102% 26%, #ECEAF9 0%, rgba(236, 234, 249, 0) 58%),
+    radial-gradient(820px 560px at 46% 112%, #E4F4EB 0%, rgba(228, 244, 235, 0) 60%) !important;
+  background-repeat: no-repeat !important;
+}
+html .magmad { background: transparent !important; }
+html .bg-background { background: rgba(251, 248, 244, 0.72) !important; }
+html .bg-background-2 { background: rgba(243, 237, 230, 0.6) !important; }
+
+/* — 2 · typography: Fredoka display over Nunito Sans body — */
+html h1, html h2, html h3, html h4, html h5,
+html .sec-head, html .f-title, html .hero-head, html .hero-head span,
+html .btn, html .hero-badge, html .hero-chips li, html .eyebrow,
+html details.qa summary, html .faq summary, html .dl-card h3,
+html .cta-sec h2, html .checkout h2, html .cf-section h2 {
+  font-family: "Fredoka", "Nunito Sans", ui-sans-serif, system-ui, sans-serif !important;
+}
+html h1, html h2, html h3, html .sec-head, html .f-title,
+html .hero-head, html .hero-head span {
+  font-weight: 600 !important;
+  letter-spacing: 0.01em !important;
+  text-transform: none !important;
+}
+html .eyebrow {
+  font-weight: 600 !important;
+  letter-spacing: 0.14em !important;
+}
+html .btn, html button.primary { font-weight: 600 !important; }
+
+/* — 3 · clay surfaces: outer drop shadow + double inner shadow — */
+html .f-card, html .hero-shot, html .video-card, html .dl-card, html .bg-card,
+html .creator, html .checkout .panel, html .cf-section, html .how-grid > *,
+html details.qa, html #faq > div, html #feed > article, html .error-box,
+html .skeuo-shadow, html .cta-button, html .download-btn, html .ad-slot,
+html .adbar, html .cmd li, html .plan-card, html .price-card,
+html [class*="border-neutral-800"] {
+  border-radius: 28px !important;
+  box-shadow:
+    10px 12px 28px rgba(74, 63, 58, 0.15),
+    inset -8px -8px 16px rgba(74, 63, 58, 0.10),
+    inset 8px 8px 16px rgba(255, 255, 255, 0.60) !important;
+}
+html .hero-shot { border-radius: 30px !important; }
+html .hero-shot-img, html .video-card img { border-radius: 22px !important; }
+
+/* feature icon tiles — pastel clay pucks */
+html .f-icon {
+  border-radius: 20px !important;
+  background: #FFF0DC !important;
+  color: #E07B12 !important;
+  box-shadow:
+    6px 7px 16px rgba(74, 63, 58, 0.14),
+    inset -5px -5px 10px rgba(74, 63, 58, 0.10),
+    inset 5px 5px 10px rgba(255, 255, 255, 0.80) !important;
+}
+
+/* video play puck */
+html .video-play {
+  border-radius: 50% !important;
+  box-shadow:
+    7px 8px 18px rgba(74, 63, 58, 0.20),
+    inset -5px -5px 10px rgba(74, 63, 58, 0.12),
+    inset 5px 5px 10px rgba(255, 255, 255, 0.70) !important;
+}
+
+/* chips, badges, pills */
+html .hero-badge, html .hero-chips li, html .badge.green, html .cat-chip,
+html .chip-muted, html .eyebrow .live, html .hero-dot {
+  border-radius: 999px !important;
+  box-shadow:
+    5px 6px 14px rgba(74, 63, 58, 0.12),
+    inset -4px -4px 9px rgba(74, 63, 58, 0.09),
+    inset 4px 4px 9px rgba(255, 255, 255, 0.75) !important;
+}
+
+/* — 4 · buttons: squicle pills with bouncy spring hovers — */
+html .btn, html button.primary, html .hero-cta, html .cf-submit,
+html .dark-download, html .cta-button, html .download-btn,
+html .dl-card > a.btn, html .checkout .btn.buy-neon, html .cta-sec .go,
+html header[data-public-header] button,
+html header[data-public-header] a[class*="btn"] {
+  border-radius: 999px !important;
+  box-shadow:
+    8px 9px 22px rgba(74, 63, 58, 0.17),
+    inset -6px -6px 12px rgba(74, 63, 58, 0.12),
+    inset 6px 6px 12px rgba(255, 255, 255, 0.55) !important;
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.22s ease, filter 0.22s ease,
+              background 0.22s ease !important;
+}
+html body button:active { transform: scale(0.96) !important; transition-duration: 0.08s !important; }
+
+@media (prefers-reduced-motion: no-preference) {
+  html .btn:hover, html button.primary:hover, html .hero-cta:hover,
+  html .cf-submit:hover, html .cta-button:hover, html .download-btn:hover,
+  html .dl-card > a.btn:hover, html .cta-sec .go:hover,
+  html .checkout .btn.buy-neon:hover, html .dark-download:hover {
+    transform: translateY(-4px) scale(1.04) !important;
+  }
+  html .f-card:hover, html .creator:hover, html .dl-card:hover,
+  html #feed > article:hover, html .bg-card:hover,
+  html .checkout .panel:hover, html .cf-section:hover {
+    transform: translateY(-5px) scale(1.02) !important;
+  }
+}
+html .f-card, html .creator, html .dl-card, html #feed > article, html .bg-card,
+html .checkout .panel, html .cf-section, html details.qa, html .video-card {
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.25s ease !important;
+}
+
+/* — 5 · inputs: soft inset wells — */
+html .cf-field textarea, html .checkout input, html input[type="text"],
+html input[type="email"], html input[type="search"], html input[type="url"],
+html select, html textarea {
+  border-radius: 18px !important;
+  background: #FDFBF8 !important;
+  box-shadow:
+    inset 6px 6px 13px rgba(74, 63, 58, 0.13),
+    inset -5px -5px 11px rgba(255, 255, 255, 0.85) !important;
+  transition: box-shadow 0.2s ease !important;
+}
+html textarea:focus, html input:focus, html select:focus {
+  box-shadow:
+    inset 6px 6px 13px rgba(74, 63, 58, 0.13),
+    inset -5px -5px 11px rgba(255, 255, 255, 0.85),
+    0 0 0 3px rgba(233, 138, 30, 0.35) !important;
+}
+
+/* — 6 · header: soft floating bar — */
+html header[data-public-header] { border-bottom: none !important; }
+html header[data-public-header].pw-scrolled {
+  background: rgba(255, 252, 248, 0.92) !important;
+  box-shadow: 0 12px 32px rgba(74, 63, 58, 0.10) !important;
+  border-radius: 0 0 26px 26px !important;
+}
+
+/* — 7 · footer: clay band with rounded shoulders — */
+html footer.foot {
+  background: linear-gradient(180deg, #FBF8F4 0%, #F1EAE2 100%) !important;
+  border-top: none !important;
+  border-radius: 44px 44px 0 0 !important;
+  box-shadow: inset 0 12px 28px rgba(74, 63, 58, 0.07) !important;
+}
+
+/* — 8 · download toast: clay pill — */
+#xf-toast {
+  background: #FDFBF8 !important;
+  color: #4A3F3A !important;
+  border: none !important;
+  border-radius: 24px !important;
+  box-shadow:
+    10px 12px 28px rgba(74, 63, 58, 0.20),
+    inset -6px -6px 12px rgba(74, 63, 58, 0.10),
+    inset 6px 6px 12px rgba(255, 255, 255, 0.65) !important;
+  font-family: "Fredoka", "Nunito Sans", ui-sans-serif, system-ui, sans-serif !important;
+}
+#xf-toast p { color: #8A7D75 !important; }
+#xf-toast .ic {
+  border-radius: 50% !important;
+  background: var(--clay-mint) !important;
+  color: #1F4D3A !important;
+  box-shadow: inset -3px -3px 6px rgba(74, 63, 58, 0.15), inset 3px 3px 6px rgba(255, 255, 255, 0.7) !important;
+}
+#xf-toast h4 { color: #2E2724 !important; }
+
+/* — 9 · accessibility: honor reduced motion — */
+@media (prefers-reduced-motion: reduce) {
+  html .btn, html .f-card, html .creator, html .dl-card, html details.qa,
+  html .video-card, html #xf-toast {
+    transition: none !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   10 · SPECIFICITY BOOST — mirror layer
+
+   fast-override.css, iso-override.css and each page's inline <style>
+   fight the clay skin with html-prefixed ID selectors + !important
+   (e.g. `html #main-content #features > div { border-radius: 0 }`).
+   Plain `html .class` rules lose those fights on specificity no matter
+   where they sit in the cascade.
+
+   Every rule below MIRRORS the opponent's exact selector (same or
+   higher specificity) and re-asserts the clay values. Because
+   clay-override.css is loaded LAST on every page (page-fx.js appends
+   it after iso + fast; launch.html and plans/index.html link it at the
+   end of <head>), every specificity tie is won here.
+
+   Section-by-section opponents beaten:
+     index/…   #features > div, .f-card, .f-icon, .how-card, .how-num,
+               .shot, .video-card, #performance > div, #faq details,
+               .cta-band (+ its inner buttons), .magmad-download,
+               .watch-demo          → fast-override + inline <style>
+     plans/    html .rank / .btn.accent / .rank .tag       → fast + iso
+     store/    html:root .bg-card                          → fast
+     download/ html:root .dl-card                          → fast
+   Deliberately NOT mirrored: `#screenshots > div` and `#faq > div`
+   (the section wrappers stay unboxed — the individual .shot figures
+   and <details> rows carry the clay instead).
+   ═══════════════════════════════════════════════════════════════════ */
+
+html body {
+  /* shared clay values used by the mirrors below */
+  --clay-card: #FFFDFB;
+  --clay-line: #EFE6DC;
+  --clay-line-hi: #EADFD4;
+  --clay-shadow:
+    10px 12px 28px rgba(74, 63, 58, 0.15),
+    inset -8px -8px 16px rgba(74, 63, 58, 0.10),
+    inset 8px 8px 16px rgba(255, 255, 255, 0.60);
+  --clay-shadow-hi:
+    14px 17px 34px rgba(74, 63, 58, 0.20),
+    inset -8px -8px 16px rgba(74, 63, 58, 0.10),
+    inset 8px 8px 16px rgba(255, 255, 255, 0.60);
+  --clay-shadow-sm:
+    6px 7px 16px rgba(74, 63, 58, 0.14),
+    inset -5px -5px 10px rgba(74, 63, 58, 0.10),
+    inset 5px 5px 10px rgba(255, 255, 255, 0.80);
+  --clay-shadow-sm-hi:
+    9px 11px 22px rgba(74, 63, 58, 0.18),
+    inset -5px -5px 10px rgba(74, 63, 58, 0.10),
+    inset 5px 5px 10px rgba(255, 255, 255, 0.80);
+}
+
+/* — 10.1 · index: feature cards (opponent strips them to bare text) — */
+html #main-content #features > div, html #main-content .f-card {
+  background: var(--clay-card) !important;
+  border: 1px solid var(--clay-line) !important;
+  border-radius: 28px !important;
+  padding: 26px 24px !important;
+  box-shadow: var(--clay-shadow) !important;
+  backdrop-filter: none !important;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.25s ease,
+              border-color 0.25s ease !important;
+}
+html #main-content #features > div:hover, html #main-content .f-card:hover {
+  transform: translateY(-5px) scale(1.02) !important;
+  box-shadow: var(--clay-shadow-hi) !important;
+  border-color: var(--clay-line-hi) !important;
+}
+
+/* pastel clay puck behind the feature icon */
+html #main-content .f-icon {
+  border-radius: 20px !important;
+  background: #FFF0DC !important;
+  color: #E07B12 !important;
+  border: 0 !important;
+  box-shadow: var(--clay-shadow-sm) !important;
+}
+
+/* — 10.2 · index: how-it-works cards + number chips — */
+html #main-content .how-card {
+  background: var(--clay-card) !important;
+  border: 1px solid var(--clay-line) !important;
+  border-radius: 28px !important;
+  padding: 26px 24px !important;
+  box-shadow: var(--clay-shadow) !important;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.25s ease,
+              border-color 0.25s ease !important;
+}
+html #main-content .how-card:hover {
+  transform: translateY(-5px) scale(1.02) !important;
+  box-shadow: var(--clay-shadow-hi) !important;
+  border-color: var(--clay-line-hi) !important;
+}
+html #main-content .how-num {
+  display: inline-grid !important;
+  place-items: center !important;
+  min-width: 42px !important;
+  height: 42px !important;
+  padding: 0 8px !important;
+  width: auto !important;
+  border-radius: 999px !important;
+  background: var(--clay-butter) !important;
+  border: 0 !important;
+  color: #7A5A18 !important;
+  box-shadow: var(--clay-shadow-sm) !important;
+}
+
+/* — 10.3 · index: screenshot figures (wrapper stays unboxed) — */
+html #main-content .shot {
+  background: var(--clay-card) !important;
+  border: 1px solid var(--clay-line) !important;
+  border-radius: 24px !important;
+  box-shadow: var(--clay-shadow) !important;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.25s ease,
+              border-color 0.25s ease !important;
+}
+html #main-content .shot:hover {
+  transform: translateY(-5px) scale(1.02) !important;
+  box-shadow: var(--clay-shadow-hi) !important;
+  border-color: var(--clay-line-hi) !important;
+}
+
+/* — 10.4 · index: demo video card — */
+html #main-content .video-card {
+  background: var(--clay-card) !important;
+  border: 1px solid var(--clay-line) !important;
+  border-radius: 28px !important;
+  box-shadow: var(--clay-shadow) !important;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.25s ease,
+              border-color 0.25s ease !important;
+}
+html #main-content .video-card:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: var(--clay-shadow-hi) !important;
+  border-color: var(--clay-line-hi) !important;
+}
+
+/* — 10.5 · index: performance columns become two soft clay panels — */
+html #main-content #performance > div {
+  background: var(--clay-card) !important;
+  border: 1px solid var(--clay-line) !important;
+  border-radius: 28px !important;
+  padding: 30px 28px !important;
+  box-shadow: var(--clay-shadow) !important;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.25s ease,
+              border-color 0.25s ease !important;
+}
+html #main-content #performance > div:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: var(--clay-shadow-hi) !important;
+  border-color: var(--clay-line-hi) !important;
+}
+
+/* — 10.6 · index: FAQ rows become individual clay cards — */
+html #main-content #faq details {
+  background: var(--clay-card) !important;
+  border-bottom: none !important;
+  border-radius: 22px !important;
+  padding: 0 16px !important;
+  box-shadow: var(--clay-shadow) !important;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.25s ease !important;
+}
+html #main-content #faq details:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: var(--clay-shadow-hi) !important;
+}
+html #main-content #faq details[open] {
+  box-shadow: var(--clay-shadow-hi) !important;
+}
+
+/* — 10.7 · index: CTA band gets rounded shoulders + clay volume — */
+html #main-content .cta-band {
+  border-radius: 44px !important;
+  box-shadow: var(--clay-shadow) !important;
+}
+html #main-content .cta-band .magmad-download,
+html #main-content .cta-band .dark-download,
+html #main-content .cta-band .watch-demo {
+  border-radius: 999px !important;
+  box-shadow: var(--clay-shadow-sm) !important;
+}
+
+/* — 10.8 · buttons: pill radius + clay shadow on every accent variant —
+   (fast sets `html .btn.accent { border-radius: 10px !important }`,
+   iso sets `.btn.accent { box-shadow: none; transform: none }` on
+   hover — these mirrors outrank both and restore the bounce) */
+html .btn.accent, html .btn.primary {
+  border-radius: 999px !important;
+  box-shadow: var(--clay-shadow-sm) !important;
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.22s ease, filter 0.22s ease,
+              background 0.22s ease !important;
+}
+html .btn.accent:hover, html .btn.primary:hover {
+  transform: translateY(-4px) scale(1.04) !important;
+  box-shadow: var(--clay-shadow-sm-hi) !important;
+}
+
+/* hero / section download CTAs (magmad-download + watch-demo)
+   the #main-content variant outranks `:not(.dark) .rounded-lg
+   { border-radius: 12px !important }` from the utility sheet — */
+html #main-content .magmad-download, html .magmad-download,
+html #main-content .watch-demo, html .watch-demo {
+  border-radius: 999px !important;
+  box-shadow: var(--clay-shadow-sm) !important;
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.22s ease, filter 0.22s ease,
+              background 0.22s ease !important;
+}
+html #main-content .magmad-download:hover, html .magmad-download:hover,
+html #main-content .watch-demo:hover, html .watch-demo:hover {
+  transform: translateY(-4px) scale(1.04) !important;
+  box-shadow: var(--clay-shadow-sm-hi) !important;
+}
+
+/* platform chips (same utility-sheet outrank) */
+html #main-content .magmad-platforms a, html .magmad-platforms a {
+  border-radius: 999px !important;
+  box-shadow: var(--clay-shadow-sm) !important;
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.22s ease !important;
+}
+html #main-content .magmad-platforms a:hover, html .magmad-platforms a:hover {
+  transform: translateY(-3px) scale(1.05) !important;
+  box-shadow: var(--clay-shadow-sm-hi) !important;
+}
+
+/* — 10.9 · plans: rank cards (iso keeps them dark, fast keeps them
+   flat — both lose to these equal-specificity mirrors) — */
+html main .rank {
+  background: var(--clay-card) !important;
+  border: 1px solid var(--clay-line) !important;
+  border-radius: 28px !important;
+  box-shadow: var(--clay-shadow) !important;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.25s ease,
+              border-color 0.25s ease !important;
+}
+html main .rank:hover {
+  transform: translateY(-5px) scale(1.02) !important;
+  box-shadow: var(--clay-shadow-hi) !important;
+  border-color: var(--clay-line-hi) !important;
+}
+html main .rank.hot {
+  background: linear-gradient(180deg, #FFF7EE 0%, var(--clay-card) 55%) !important;
+  border-top: 2px solid rgb(233, 138, 30) !important;
+  border-radius: 28px !important;
+  box-shadow: var(--clay-shadow),
+              inset 0 0 0 2px rgba(233, 138, 30, 0.50) !important;
+}
+html main .rank.hot:hover {
+  transform: translateY(-5px) scale(1.02) !important;
+  box-shadow: var(--clay-shadow-hi),
+              inset 0 0 0 2px rgba(233, 138, 30, 0.62) !important;
+}
+html .rank .tag {
+  border-radius: 999px !important;
+  box-shadow: var(--clay-shadow-sm) !important;
+}
+
+/* — 10.10 · store / download cards (fast: `html:root .bg-card {
+   box-shadow: none !important }`) — the :not() keeps the product-art
+   area from getting a second box inside its own card — */
+html:root .bg-card:not(.store-product-art),
+html:root .dl-card, html:root .cta-button,
+html:root .download-btn, html:root .skeuo-shadow {
+  border-radius: 28px !important;
+  box-shadow: var(--clay-shadow) !important;
+}
+html:root .bg-card:not(.store-product-art):hover,
+html:root .dl-card:hover {
+  transform: translateY(-5px) scale(1.02) !important;
+  box-shadow: var(--clay-shadow-hi) !important;
+}
+html:root .bg-card:not(.store-product-art),
+html:root .dl-card {
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.25s ease !important;
+}
