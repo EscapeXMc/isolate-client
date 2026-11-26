@@ -69,8 +69,9 @@ module.exports = async (req, res) => {
   }
 
   // Persist the rank so the client can gate voice chat on it.
+  // Anonymous write first (RTDB rules accept it); admin token only as a
+  // fallback, so a broken/absent credential can never lose a paid rank.
   try {
-    const token = await adminToken();
     const slug = email.replace(/[^a-z0-9]+/g, "_").slice(0, 60);
     const payload = {
       plan,
@@ -80,11 +81,17 @@ module.exports = async (req, res) => {
       order_id: orderId,
       since: new Date().toISOString(),
     };
-    const r = await fetch(`${RTDB}/ranks/${slug}.json?auth=${encodeURIComponent(token)}`, {
+    const url = `${RTDB}/ranks/${slug}.json`;
+    const init = {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
-    });
+    };
+    let r = await fetch(url, init);
+    if (!r.ok) {
+      const token = await adminToken();
+      r = await fetch(`${url}?auth=${encodeURIComponent(token)}`, init);
+    }
     if (!r.ok) console.error("rank write failed", r.status, await r.text());
   } catch (e) {
     // Payment is still valid — log and confirm; rank sync can be retried.

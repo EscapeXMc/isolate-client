@@ -70,16 +70,22 @@ async function rtdbNumber(path) {
   }
 }
 
-/** Write a number to RTDB with the admin token. */
+/** Write a number to RTDB — anonymous first (rules allow it), admin token
+ *  as fallback so a future rules tightening does not silently break the
+ *  download counter. */
 async function rtdbSet(path, value) {
+  const headers = { "Content-Type": "application/json" };
+  const body = JSON.stringify(value);
+  try {
+    const r = await fetch(`${RTDB}/${path}.json`, opts({ method: "PUT", headers, body }));
+    if (r.ok) return;
+  } catch {
+    /* fall through to the authenticated attempt */
+  }
   const token = await adminToken();
   const r = await fetch(
     `${RTDB}/${path}.json?auth=${encodeURIComponent(token)}`,
-    opts({
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(value),
-    }),
+    opts({ method: "PUT", headers, body }),
   );
   if (!r.ok) throw new Error(`RTDB write ${r.status}`);
 }

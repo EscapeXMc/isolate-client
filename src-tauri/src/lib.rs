@@ -1202,7 +1202,7 @@ fn get_hardware_info() -> Value {
     }
     #[cfg(target_os = "windows")]
     {
-        if let Ok(out) = Command::new("wmic")
+        if let Ok(out) = hidden_cmd("wmic")
             .args(["cpu", "get", "Name,NumberOfCores", "/format:list"])
             .output()
         {
@@ -1216,7 +1216,7 @@ fn get_hardware_info() -> Value {
                 }
             }
         }
-        if let Ok(out) = Command::new("wmic")
+        if let Ok(out) = hidden_cmd("wmic")
             .args(["os", "get", "TotalVisibleMemorySize", "/format:list"])
             .output()
         {
@@ -1227,7 +1227,7 @@ fn get_hardware_info() -> Value {
                 }
             }
         }
-        if let Ok(out) = Command::new("powershell")
+        if let Ok(out) = hidden_cmd("powershell")
             .args(["-NoProfile", "-Command", "(Get-CimInstance Win32_VideoController | Select-Object -First 1 -ExpandProperty Name)"])
             .output()
         {
@@ -1821,7 +1821,7 @@ fn collect_java_homes() -> Vec<PathBuf> {
     }
     #[cfg(target_os = "windows")]
     {
-        if let Ok(out) = Command::new("where").arg("java").output() {
+        if let Ok(out) = hidden_cmd("where").arg("java").output() {
             if let Some(first) = String::from_utf8_lossy(&out.stdout).lines().next() {
                 if let Some(h) = normalize_java_home(Path::new(first.trim())) {
                     homes.push(h);
@@ -9562,7 +9562,7 @@ fn install_update_windows(handle: &tauri::AppHandle, path: &Path) -> Value {
     use std::os::windows::process::CommandExt;
     emit_update_log(handle, "Launching installer. The launcher will close so files can be replaced...");
     let mut cmd = std::process::Command::new(path);
-    cmd.creation_flags(0x0000_0008); // DETACHED_PROCESS
+    cmd.creation_flags(0x0800_0000); // CREATE_NO_WINDOW (not DETACHED_PROCESS: no visible console)
     match cmd.spawn() {
         Ok(_) => {
             emit_update_log(handle, "Installer started. Closing Isolate Client...");
@@ -10378,7 +10378,7 @@ async fn uninstall_launcher(delete_data: bool) -> Result<Value, String> {
         use std::os::windows::process::CommandExt;
         let mut c = std::process::Command::new("cmd");
         c.arg("/C").arg(&script_path);
-        c.creation_flags(0x0000_0008); // DETACHED_PROCESS
+        c.creation_flags(0x0800_0000); // CREATE_NO_WINDOW (not DETACHED_PROCESS: children would get visible consoles)
         c.spawn()
     };
     #[cfg(not(target_os = "windows"))]

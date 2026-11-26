@@ -16,7 +16,6 @@ use serde_json::{json, Value};
 use std::collections::BTreeSet;
 use std::fs;
 use std::path::{Path, PathBuf};
-use std::process::Command;
 
 const BACKUP_ROOT: &str = r"C:\Minecraft_Optimization_Backup";
 
@@ -58,7 +57,7 @@ fn local_appdata() -> PathBuf {
 
 /// Run a PowerShell snippet, return stdout (stderr merged on failure).
 fn ps(script: &str) -> Result<String, String> {
-    let out = Command::new("powershell")
+    let out = crate::hidden_cmd("powershell")
         .args([
             "-NoProfile",
             "-NonInteractive",
@@ -77,7 +76,7 @@ fn ps(script: &str) -> Result<String, String> {
 }
 
 fn run(program: &str, args: &[&str]) -> Result<String, String> {
-    let out = Command::new(program)
+    let out = crate::hidden_cmd(program)
         .args(args)
         .output()
         .map_err(|e| format!("{program} spawn: {e}"))?;
@@ -428,7 +427,7 @@ fn run_elevated(ps_body: &str, log: LogFn) -> Result<String, String> {
     );
     fs::write(&script, content).map_err(|e| e.to_string())?;
     let wrapper = format!(
-        "Start-Process powershell -Verb RunAs -Wait -ArgumentList \
+        "Start-Process powershell -Verb RunAs -Wait -WindowStyle Hidden -ArgumentList \
          '-NoProfile','-ExecutionPolicy','Bypass','-File','{}'",
         script.display()
     );

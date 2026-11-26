@@ -132,28 +132,40 @@ export async function listRecords() {
   }
 }
 
-/** Write one record with the admin token. Throws on failure. */
-export async function putRecord(name, rec) {
+/**
+ * Mutate one RTDB path. The database rules currently accept public writes,
+ * so the anonymous request is the fast path — and the only one that works
+ * when the admin credentials in env are absent/invalid. If the anonymous
+ * attempt is rejected (rules tightened later), retry with the admin token.
+ */
+async function rtdbMutation(path, method, body) {
+  const headers = body ? { "Content-Type": "application/json" } : undefined;
+  try {
+    const r = await fetch(`${RTDB}/${path}.json`, opts({ method, headers, body }));
+    if (r.ok || r.status === 404) return;
+  } catch {
+    /* network hiccup — still try the authenticated route below */
+  }
   const token = await adminToken();
   const r = await fetch(
-    `${RTDB}/subdomains/${encodeURIComponent(name)}.json?auth=${encodeURIComponent(token)}`,
-    opts({
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(rec),
-    }),
+    `${RTDB}/${path}.json?auth=${encodeURIComponent(token)}`,
+    opts({ method, headers, body }),
   );
-  if (!r.ok) throw new Error(`RTDB write ${r.status}`);
+  if (!r.ok && r.status !== 404) throw new Error(`RTDB ${method} ${r.status}`);
+}
+
+/** Write one record. Throws on failure. */
+export async function putRecord(name, rec) {
+  await rtdbMutation(
+    `subdomains/${encodeURIComponent(name)}`,
+    "PUT",
+    JSON.stringify(rec),
+  );
 }
 
 /** Remove one record. Throws on failure. */
 export async function deleteRecord(name) {
-  const token = await adminToken();
-  const r = await fetch(
-    `${RTDB}/subdomains/${encodeURIComponent(name)}.json?auth=${encodeURIComponent(token)}`,
-    opts({ method: "DELETE" }),
-  );
-  if (!r.ok && r.status !== 404) throw new Error(`RTDB delete ${r.status}`);
+  await rtdbMutation(`subdomains/${encodeURIComponent(name)}`, "DELETE");
 }
 
 export function isActive(rec) {
