@@ -196,4 +196,98 @@
     html.classList.add("xf-hide");
     setTimeout(function () { location.assign(u.href); }, 170);
   });
+
+  /* ═══════════════════════════════════════════════════════════
+     THEME TOGGLE — direct light/dark switch on the Appearance button
+     ═══════════════════════════════════════════════════════════ */
+
+  var THEME_KEY = 'isolate-appearance';
+
+  function getTheme() {
+    var attr = document.documentElement.getAttribute('data-theme');
+    if (attr === 'dark' || attr === 'light') return attr;
+    var stored = localStorage.getItem(THEME_KEY);
+    if (stored === 'dark' || stored === 'light') return stored;
+    return 'light';
+  }
+
+  function setTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    document.documentElement.classList.remove('light', 'dark');
+    document.documentElement.classList.add(theme);
+    localStorage.setItem(THEME_KEY, theme);
+    updateAppearanceButton(theme);
+  }
+
+  function updateAppearanceButton(theme) {
+    var btn = findAppearanceButton();
+    if (!btn) return;
+    var spans = btn.querySelectorAll('span');
+    if (spans.length >= 2) {
+      spans[1].textContent = theme === 'dark' ? 'Dark' : 'Light';
+    }
+    var iconSvg = btn.querySelector('svg');
+    if (iconSvg) {
+      if (theme === 'dark') {
+        iconSvg.innerHTML = '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>';
+      } else {
+        iconSvg.innerHTML = '<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>';
+      }
+    }
+  }
+
+  function findAppearanceButton() {
+    var buttons = document.querySelectorAll('button');
+    for (var i = 0; i < buttons.length; i++) {
+      var btn = buttons[i];
+      var text = btn.textContent || '';
+      if (text.indexOf('Appearance') !== -1 || text.indexOf('System') !== -1 || text.indexOf('Light') !== -1 || text.indexOf('Dark') !== -1) {
+        if (btn.getAttribute('aria-haspopup') === 'menu' || (btn.id && btn.id.indexOf('radix-') === 0)) {
+          return btn;
+        }
+      }
+    }
+    for (var j = 0; j < buttons.length; j++) {
+      var b2 = buttons[j];
+      if (b2.id && b2.id.indexOf('radix-') === 0 && (b2.textContent || '').indexOf('Appearance') !== -1) {
+        return b2;
+      }
+    }
+    return null;
+  }
+
+  function toggleTheme(e) {
+    var btn = findAppearanceButton();
+    if (!btn) return;
+    if (!btn.contains(e.target)) return;
+    e.stopPropagation();
+    e.preventDefault();
+    var current = getTheme();
+    var next = current === 'dark' ? 'light' : 'dark';
+    setTheme(next);
+  }
+
+  document.addEventListener('pointerdown', toggleTheme, true);
+  document.addEventListener('click', toggleTheme, true);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      var btn = findAppearanceButton();
+      if (btn && btn.contains(e.target)) {
+        e.stopPropagation();
+        e.preventDefault();
+        var current = getTheme();
+        var next = current === 'dark' ? 'light' : 'dark';
+        setTheme(next);
+      }
+    }
+  }, true);
+
+  (function initTheme() {
+    var theme = getTheme();
+    document.documentElement.setAttribute('data-theme', theme);
+    document.documentElement.classList.remove('light', 'dark');
+    document.documentElement.classList.add(theme);
+    setTimeout(function () { updateAppearanceButton(theme); }, 100);
+    setTimeout(function () { updateAppearanceButton(theme); }, 500);
+  })();
 })();
