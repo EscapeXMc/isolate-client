@@ -1,6 +1,6 @@
 [package]
 name = "isolate-client"
-version = "0.2.0"
+version = "0.2.1"
 description = "Isolate Client — a lean Minecraft launcher"
 authors = ["Isolate"]
 edition = "2021"

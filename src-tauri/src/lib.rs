@@ -13587,3 +13587,93 @@ mod step6_modprov_tests {
         }
     }
 }
+
+// ------------------------------------------------------------
+// Regression guard: no child of the GUI app may ever own a visible
+// console window on Windows. The launcher has no console of its own
+// (main.rs sets windows_subsystem = "windows"), so an unflagged child
+// mints a fresh console and pops it to the foreground — that is the
+// "wall of PowerShell/CMD windows" bug. DETACHED_PROCESS is NOT a fix:
+// it leaves the child console-less, so every grandchild mints its own
+// visible console instead. CREATE_NO_WINDOW keeps one hidden console
+// that descendants inherit. These tests scan source text because the
+// affected code is cfg(windows)-gated and never compiles in Linux CI.
+// ------------------------------------------------------------
+#[cfg(test)]
+mod windows_no_console_tests {
+    fn src(name: &str) -> String {
+        let raw = std::fs::read_to_string(format!("{}/src/{}", env!("CARGO_MANIFEST_DIR"), name))
+            .unwrap_or_else(|e| panic!("read {name}: {e}"));
+        // This guard module lives inside lib.rs, so its own string literals
+        // ("0x0000_0008", "Command::new(\"wmic\")") would match themselves.
+        // Scan only the source that precedes the guard.
+        match raw.find("// Regression guard: no child of the GUI app") {
+            Some(at) => raw[..at].to_string(),
+            None => raw,
+        }
+    }
+
+    // The optimizer runs powershell/reg/powercfg on EVERY game launch,
+    // so it must spawn exclusively through hidden_cmd.
+    #[test]
+    fn win_opt_spawns_only_via_hidden_cmd() {
+        let s = src("win_opt.rs");
+        assert!(
+            !s.contains("Command::new("),
+            "win_opt.rs must spawn only via crate::hidden_cmd (CREATE_NO_WINDOW)"
+        );
+        assert!(
+            s.contains("crate::hidden_cmd("),
+            "win_opt.rs lost its hidden_cmd wiring"
+        );
+    }
+
+    // DETACHED_PROCESS makes grandchildren pop visible consoles.
+    #[test]
+    fn detached_process_is_gone() {
+        let s = src("lib.rs");
+        assert!(
+            !s.contains("0x0000_0008") && !s.contains("0x00000008"),
+            "DETACHED_PROCESS (0x0000_0008) resurfaces visible consoles — use 0x0800_0000"
+        );
+        assert!(
+            s.contains("creation_flags(0x0800_0000)"),
+            "CREATE_NO_WINDOW flag missing"
+        );
+    }
+
+    // hidden_cmd is the single choke point; it must set the flag.
+    #[test]
+    fn hidden_cmd_sets_create_no_window() {
+        let s = src("lib.rs");
+        let at = s.find("fn hidden_cmd").expect("hidden_cmd helper missing");
+        let body = &s[at..s.len().min(at + 500)];
+        assert!(
+            body.contains("creation_flags(0x0800_0000)"),
+            "hidden_cmd no longer sets CREATE_NO_WINDOW"
+        );
+    }
+
+    // Startup probes (wmic x2, `where java`) run before any UI is up and
+    // must be hidden; every powershell spawn needs the flag in reach.
+    #[test]
+    fn windows_probes_are_hidden() {
+        let s = src("lib.rs");
+        for probe in [r#"Command::new("wmic")"#, r#"Command::new("where")"#] {
+            assert!(!s.contains(probe), "{probe} must go through hidden_cmd");
+        }
+        for (i, line) in s.lines().enumerate() {
+            if !line.contains(r#"Command::new("powershell")"#) {
+                continue;
+            }
+            let window: String = s.lines().skip(i).take(20).collect::<Vec<_>>().join("\n");
+            assert!(
+                line.contains("hidden_cmd")
+                    || window.contains("creation_flags(0x08000000)")
+                    || window.contains("creation_flags(0x0800_0000)"),
+                "powershell spawn at line {} lacks CREATE_NO_WINDOW",
+                i + 1
+            );
+        }
+    }
+}
