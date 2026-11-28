@@ -44,27 +44,11 @@
   clayCss.href = "/assets/clay-override.css";
   document.head.appendChild(clayCss);
 
-  // Light-theme undo: theme-boot.js pins theme="dark" on <html>; repaint the
-  // subpages on index's light ground (mirrors index.html's inline boot).
-  function lightBoot() {
-    try {
-      var r = document.documentElement;
-      r.classList.remove("dark");
-      r.classList.add("light");
-      r.style.colorScheme = "light";
-      var m = document.querySelector('meta[name="color-scheme"]');
-      if (!m) {
-        m = document.createElement("meta");
-        m.setAttribute("name", "color-scheme");
-        document.head.appendChild(m);
-      }
-      m.setAttribute("content", "only light");
-    } catch (e) {}
-  }
-  if (!isIndex) {
-    lightBoot();
-    document.addEventListener("DOMContentLoaded", lightBoot);
-  }
+  // Light-theme forcing removed: theme-boot.js pins "dark" and initTheme()
+  // below restores the visitor's stored isolate-appearance choice. The old
+  // lightBoot() repaint re-applied "light" on DOMContentLoaded, clobbering a
+  // stored "dark" preference and painting light ground under dark-theme text
+  // (white-on-white) — the "light theme in dark mode" bug.
 
   document.addEventListener("DOMContentLoaded", function () {
     // iso first, fast-override next so equal-specificity ties resolve light,

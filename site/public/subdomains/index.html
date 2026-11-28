@@ -41,9 +41,10 @@
 :root{
   --sd-bg:#F3EDE6; --sd-card:#FFFDFB; --sd-card-2:#FFF7EE;
   --sd-line:#E7DCD1; --sd-line-soft:#EFE6DC;
-  --sd-text:#33302C; --sd-muted:#6E655C; --sd-dim:#9A9086;
-  --sd-accent:#D84B7E; --sd-accent-ink:#FFFFFF; --sd-accent-soft:rgba(216,75,126,.10);
-  --sd-ok:#1F8F5F; --sd-ok-soft:rgba(31,143,95,.10);
+  --sd-text:#33302C; --sd-muted:#6E655C; --sd-dim:#6B6259;
+  --sd-accent:#D1376A; --sd-accent-ink:#FFFFFF; --sd-accent-soft:rgba(209,55,106,.10);
+  --sd-accent-text:#B81B54;
+  --sd-ok:#146B47; --sd-ok-soft:rgba(20,107,71,.10);
   --sd-err:#C0392B;
   --sd-input:#FFFDFB;
   --sd-shadow:10px 12px 28px rgba(74,63,58,.15), inset -8px -8px 16px rgba(74,63,58,.10), inset 8px 8px 16px rgba(255,255,255,.60);
@@ -53,8 +54,9 @@
 html[data-theme="dark"]{
   --sd-bg:#0F172A; --sd-card:#1A2744; --sd-card-2:#1E2C4C;
   --sd-line:#334155; --sd-line-soft:#29344D;
-  --sd-text:#E2E8F0; --sd-muted:#94A3B8; --sd-dim:#64748B;
-  --sd-accent:#D84B7E; --sd-accent-ink:#FFFFFF; --sd-accent-soft:rgba(216,75,126,.14);
+  --sd-text:#E2E8F0; --sd-muted:#94A3B8; --sd-dim:#94A3B8;
+  --sd-accent:#F472A6; --sd-accent-ink:#0F172A; --sd-accent-soft:rgba(244,114,166,.14);
+  --sd-accent-text:#F9A8C9;
   --sd-ok:#4ADE80; --sd-ok-soft:rgba(74,222,128,.12);
   --sd-err:#F87171;
   --sd-input:#1A2744;
@@ -69,8 +71,8 @@ body{
   font-family:var(--font-display),"Nunito Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   -webkit-font-smoothing:antialiased; line-height:1.6;
 }
-a{color:var(--sd-accent); text-decoration:none}
-a:hover{color:var(--sd-accent)}
+a{color:var(--sd-accent-text); text-decoration:none}
+a:hover{color:var(--sd-accent-text); text-decoration:underline}
 .wrap{max-width:1080px; margin:0 auto; padding:0 24px}
 
 /* ── header ─────────────────────────────────────────────────── */
@@ -85,7 +87,7 @@ header.top{
 nav.bar{display:flex; align-items:center; gap:16px; height:68px}
 .brand{display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; font-size:14px; color:var(--sd-text)}
 .brand img{width:30px; height:30px; display:block; border-radius:8px}
-nav.bar .nav{color:var(--sd-muted); font-size:12px; font-weight:700; letter-spacing:.1em; text-transform:uppercase}
+nav.bar .nav{display:inline-flex; align-items:center; min-height:30px; padding:0 3px; color:var(--sd-muted); font-size:12px; font-weight:700; letter-spacing:.1em; text-transform:uppercase}
 nav.bar .nav:hover{color:var(--sd-text)}
 nav.bar .nav.active{color:var(--sd-accent)}
 
@@ -141,7 +143,7 @@ input[readonly]{background:var(--sd-card-2); color:var(--sd-muted); cursor:defau
 .suffix{
   display:flex; align-items:center; padding:0 15px; font-size:15px; font-weight:600;
   background:var(--sd-card-2); border:1.5px solid var(--sd-line);
-  border-radius:0 12px 12px 0; color:var(--sd-accent);
+  border-radius:0 12px 12px 0; color:var(--sd-accent-text);
   white-space:nowrap; font-family:inherit;
 }
 @media(max-width:420px){ .suffix{font-size:13px; padding:0 10px} }
@@ -195,7 +197,7 @@ button.primary:disabled{opacity:.5; cursor:not-allowed; filter:none; transform:n
 }
 .step .n{
   display:grid; place-items:center; width:30px; height:30px; border-radius:999px;
-  background:var(--sd-accent-soft); color:var(--sd-accent);
+  background:var(--sd-accent-soft); color:var(--sd-accent-text);
   font-size:13px; font-weight:700; margin-bottom:11px;
 }
 .step b{display:block; font-size:13px; letter-spacing:.04em; color:var(--sd-text); margin-bottom:5px; font-weight:600}
@@ -244,7 +246,7 @@ button.primary:disabled{opacity:.5; cursor:not-allowed; filter:none; transform:n
 .dns-state .dot{width:7px; height:7px; border-radius:50%; background:var(--sd-dim); flex:none}
 .dns-state.ok{color:var(--sd-ok); border-color:color-mix(in srgb,var(--sd-ok) 40%,transparent); background:var(--sd-ok-soft)}
 .dns-state.ok .dot{background:var(--sd-ok)}
-.dns-state.pend{color:var(--sd-accent); background:var(--sd-accent-soft); border-color:color-mix(in srgb,var(--sd-accent) 40%,transparent)}
+.dns-state.pend{color:var(--sd-accent-text); background:var(--sd-accent-soft); border-color:color-mix(in srgb,var(--sd-accent) 40%,transparent)}
 .dns-state.pend .dot{background:var(--sd-accent)}
 .dns-state.err{color:var(--sd-err); border-color:color-mix(in srgb,var(--sd-err) 40%,transparent)}
 .dns-state.err .dot{background:var(--sd-err)}
@@ -265,7 +267,7 @@ button.primary:disabled{opacity:.5; cursor:not-allowed; filter:none; transform:n
   text-decoration:none; display:inline-flex; align-items:center; font-family:inherit;
   box-shadow:var(--sd-shadow-sm); transition:border-color .15s, transform .15s;
 }
-.btn-home:hover{border-color:var(--sd-accent); color:var(--sd-text)}
+.btn-home:hover{border-color:var(--sd-accent); color:var(--sd-text); text-decoration:none}
 .btn-home:active{transform:translateY(1px)}
 
 [hidden]{display:none !important}
@@ -751,5 +753,75 @@ var SUFFIX = ".isolateclient.in";
   });
 })();
 </script>
+
+<style id="sd-shield">
+/* ═══════════════════════════════════════════════════════════════
+   THEME SHIELD — must stay the LAST element in <body>.
+
+   page-fx.js moves iso-override.css, fast-override.css and
+   clay-override.css to the END of <head>. fast-override.css pins its
+   light palette with !important and declares ZERO dark-mode variants,
+   so .hero, footer text, nav links, .hint and main b/strong all stay
+   dark-on-dark once the theme flips. Because this block sits after
+   those sheets in document order and matches at >= their specificity,
+   it re-pins every colour this page owns, per theme.
+
+   Do not rename the hooks it targets (.hero, footer.foot, nav[aria-label],
+   main b|strong, main .hint) without updating this block.
+   ═══════════════════════════════════════════════════════════════ */
+html body .hero{
+  background:var(--sd-bg) !important;
+  background-image:none !important;
+  border-bottom:1px solid var(--sd-line) !important;
+}
+html body .hero .sub{color:var(--sd-muted) !important}
+/* iso/fast force a background onto every `.hint` inside <main>; this
+   page's hint is plain helper text and must stay transparent. */
+html body main .hint{background:transparent !important; color:var(--sd-dim) !important}
+html body footer.foot .foot-meta{color:var(--sd-dim) !important}
+html body footer.foot .foot-meta a{color:var(--sd-text) !important}
+html body footer.foot .foot-links a{color:var(--sd-muted) !important}
+html body footer.foot .foot-links a:hover,
+html body footer.foot .foot-links a:focus{color:var(--sd-text) !important}
+/* — nav — fast-override pins html nav.bar a.nav (0,2,3), a.nav.active
+   (0,3,3) and a[aria-current] (0,2,3) with !important; clay's dark
+   block sets html[data-theme="dark"] nav a (0,1,3). These selectors
+   sit at (0,3,4)+ and win in BOTH themes; the tokens flip with
+   data-theme, so one rule serves light and dark. */
+html body nav.bar[aria-label="Main navigation"] a{color:var(--sd-muted) !important}
+html body nav.bar[aria-label="Main navigation"] a.brand{color:var(--sd-text) !important}
+html body nav.bar[aria-label="Main navigation"] a:hover{color:var(--sd-text) !important}
+html body nav.bar[aria-label="Main navigation"] a.nav.active,
+html body nav.bar[aria-label="Main navigation"] a[aria-current="page"]{color:var(--sd-accent-text) !important}
+html body nav.bar[aria-label="Main navigation"] a.nav.active::after,
+html body nav.bar[aria-label="Main navigation"] a[aria-current="page"]::after{background:var(--sd-accent) !important}
+/* — burger panel (<=1023px): fast pins it white with #191817 text in
+   BOTH themes, so re-pin its surface per theme here. — */
+@media (max-width:1023px){
+  html body nav.bar[aria-label="Main navigation"] .links{background:var(--sd-card) !important; border-color:var(--sd-line) !important}
+  html body nav.bar[aria-label="Main navigation"] .links a{color:var(--sd-text) !important}
+  html body nav.bar[aria-label="Main navigation"] .links a:hover{color:var(--sd-text) !important; background:var(--sd-card-2) !important}
+  html body nav.bar[aria-label="Main navigation"] .links a.nav.active,
+  html body nav.bar[aria-label="Main navigation"] .links a[aria-current="page"]{color:var(--sd-accent-text) !important}
+}
+html body main strong,
+html body main b{color:var(--sd-text) !important}
+html body main .step .n{color:var(--sd-accent-text) !important}
+html body main .suffix{color:var(--sd-accent-text) !important}
+/* fast pins html .suffix to #f6f5f3 in BOTH themes; that light chip
+   under dark-theme pink text collapses to 1.68:1 — re-tint it. */
+html[data-theme="dark"] body main .suffix{
+  background:var(--sd-card-2) !important;
+  border-color:var(--sd-line) !important;
+}
+html body main .dns-state.pend{color:var(--sd-accent-text) !important}
+/* clay paints primary buttons #D84B7E with #fff text in dark (4.02:1)
+   and lightens the hover to #E05A8C (3.5:1); ink restores AA on both
+   states (4.78 / 5.48) — the same ink-on-accent language fast uses
+   for these buttons in light. */
+html[data-theme="dark"] body .clay-btn-primary,
+html[data-theme="dark"] body .cta-button,
+html[data-theme="dark"] body .download-btn{color:#160D06 !important}
+</style>
 </body>
 </html>
